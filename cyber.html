@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberPatriot — Business Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#080e1a; --bg2:#0d1526; --bg3:#131d33;
+  --amber:#f59e0b; --amber2:#fbbf24;
+  --slate:#8b9bb4; --white:#f0f4fa;
+  --line:#1a2740; --green:#10b981;
+  --red:#ef4444; --blue:#3b82f6;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-family:'Fraunces',serif;}
+
+/* ── AUTH SCREEN ── */
+#auth-screen{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;}
+.auth-card{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);padding:48px 40px;position:relative;}
+.auth-card::before{content:"";position:absolute;inset:12px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.auth-logo{font-family:'Fraunces',serif;font-size:26px;font-weight:700;margin-bottom:6px;}
+.auth-logo em{color:var(--amber);font-style:italic;}
+.auth-sub{font-size:13px;color:var(--slate);margin-bottom:36px;}
+.auth-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.auth-input-wrap{position:relative;margin-bottom:10px;}
+.auth-input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--white);padding:14px 48px 14px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;transition:border-color .2s;}
+.auth-input:focus{outline:none;border-color:var(--amber);}
+.auth-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--slate);cursor:pointer;font-size:16px;line-height:1;padding:4px;}
+.auth-toggle:hover{color:var(--white);}
+.auth-btn{width:100%;background:var(--amber);color:#060c18;border:none;padding:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .2s;}
+.auth-btn:hover{background:var(--amber2);}
+.auth-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.auth-error{font-size:13px;color:var(--red);min-height:18px;margin-top:8px;}
+.auth-hint{font-size:12px;color:var(--slate);margin-top:14px;line-height:1.6;text-align:center;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+.auth-card.shake{animation:shake .4s ease;}
+
+/* LAYOUT */
+#app{display:none;height:100vh;overflow:hidden;flex-direction:row;}
+#app.visible{display:flex;}
+.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar-brand{padding:24px 22px 20px;border-bottom:1px solid var(--line);}
+.sidebar-brand .logo{font-family:'Fraunces',serif;font-size:20px;font-weight:700;}
+.sidebar-brand .logo em{color:var(--amber);font-style:italic;}
+.sidebar-brand .sub{font-size:11px;color:var(--slate);margin-top:2px;letter-spacing:0.04em;}
+.sidenav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px;}
+.navitem{display:flex;align-items:center;gap:10px;padding:10px 12px;color:var(--slate);cursor:pointer;border-radius:4px;font-size:13.5px;font-weight:500;transition:all .2s;}
+.navitem:hover{background:var(--bg3);color:var(--white);}
+.navitem.active{background:rgba(245,158,11,0.12);color:var(--amber);}
+.navitem svg{flex-shrink:0;opacity:0.7;}
+.navitem.active svg{opacity:1;}
+.sidebar-foot{padding:16px;border-top:1px solid var(--line);}
+.sidebar-foot p{font-size:11.5px;color:var(--slate);line-height:1.6;}
+.sidebar-foot a{color:var(--amber);}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.topbar{padding:20px 32px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar h1{font-size:22px;font-weight:700;letter-spacing:-0.01em;}
+.topbar-actions{display:flex;gap:10px;}
+.content{padding:32px;flex:1;}
+
+/* BUTTONS */
+.btn{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;padding:9px 18px;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:7px;}
+.btn-amber{background:var(--amber);color:#060c18;}
+.btn-amber:hover{background:var(--amber2);}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--line);}
+.btn-ghost:hover{border-color:var(--slate);}
+.btn-sm{padding:6px 14px;font-size:12px;}
+.btn-green{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);}
+.btn-red{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.25);}
+
+/* CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px;}
+.stat-card{background:var(--bg2);border:1px solid var(--line);padding:24px;}
+.stat-card .label{font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;}
+.stat-card .value{font-family:'Fraunces',serif;font-size:36px;font-weight:700;color:var(--white);line-height:1;}
+.stat-card .delta{font-size:12px;color:var(--green);margin-top:6px;}
+
+/* SECTION HEADERS */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.section-head h2{font-size:18px;font-weight:700;letter-spacing:-0.01em;}
+
+/* LEADS TABLE */
+.leads-table{width:100%;border-collapse:collapse;}
+.leads-table th{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);}
+.leads-table td{padding:14px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle;}
+.leads-table tr:hover td{background:rgba(255,255,255,0.02);}
+.status-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:0.04em;}
+.status-new{background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3);}
+.status-contacted{background:rgba(59,130,246,0.15);color:var(--blue);border:1px solid rgba(59,130,246,0.3);}
+.status-building{background:rgba(139,91,180,0.15);color:#c084fc;border:1px solid rgba(139,91,180,0.3);}
+.status-done{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);}
+.lead-name{font-weight:600;}
+.lead-biz{font-size:12px;color:var(--slate);}
+.action-row{display:flex;gap:6px;}
+
+/* KANBAN */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.kanban-col{background:var(--bg2);border:1px solid var(--line);}
+.kanban-col-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+.kanban-col-head span{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);}
+.kanban-col-head .count{background:var(--bg3);color:var(--slate);font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;}
+.kanban-cards{padding:12px;display:flex;flex-direction:column;gap:10px;min-height:200px;}
+.kcard{background:var(--bg);border:1px solid var(--line);padding:16px;cursor:pointer;transition:border-color .2s;}
+.kcard:hover{border-color:rgba(245,158,11,0.4);}
+.kcard-name{font-size:14px;font-weight:600;margin-bottom:3px;}
+.kcard-pkg{font-size:11.5px;color:var(--amber);font-weight:600;margin-bottom:8px;}
+.kcard-meta{font-size:11.5px;color:var(--slate);}
+.kcard-actions{display:flex;gap:6px;margin-top:10px;}
+.kmove{font-size:11px;font-weight:600;padding:4px 10px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--slate);font-family:'Plus Jakarta Sans',sans-serif;}
+.kmove:hover{border-color:var(--amber);color:var(--amber);}
+
+/* AI CHAT */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 130px);}
+.chat-messages{flex:1;overflow-y:auto;padding:0 0 20px;display:flex;flex-direction:column;gap:16px;}
+.msg{display:flex;gap:12px;align-items:flex-start;max-width:780px;}
+.msg.user{flex-direction:row-reverse;align-self:flex-end;}
+.msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+.msg.assistant .msg-avatar{background:rgba(245,158,11,0.15);color:var(--amber);}
+.msg.user .msg-avatar{background:var(--bg3);color:var(--white);}
+.msg-bubble{background:var(--bg2);border:1px solid var(--line);padding:14px 16px;font-size:14px;line-height:1.7;border-radius:2px;max-width:640px;}
+.msg.user .msg-bubble{background:var(--bg3);}
+.chat-input-row{display:flex;gap:10px;padding-top:16px;border-top:1px solid var(--line);flex-shrink:0;}
+.chat-input{flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--white);padding:13px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;resize:none;height:52px;}
+.chat-input:focus{outline:none;border-color:var(--amber);}
+.chat-send{background:var(--amber);color:#060c18;border:none;padding:0 20px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;height:52px;}
+.chat-send:hover{background:var(--amber2);}
+.chat-send:disabled{opacity:0.5;cursor:not-allowed;}
+.typing{display:flex;gap:5px;align-items:center;padding:8px 0;}
+.typing span{width:6px;height:6px;background:var(--slate);border-radius:50%;animation:bounce .9s infinite;}
+.typing span:nth-child(2){animation-delay:.15s;}
+.typing span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
+
+/* ── MARKETING TAB ── */
+.mktg-intro{font-size:14px;color:var(--slate);line-height:1.75;margin-bottom:28px;max-width:680px;}
+.mktg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px;}
+.mktg-btn{background:var(--bg2);border:1px solid var(--line);padding:18px 16px;cursor:pointer;text-align:left;transition:all .2s;display:flex;flex-direction:column;gap:7px;}
+.mktg-btn:hover{border-color:var(--amber);background:var(--bg3);}
+.mktg-btn.running{border-color:var(--amber);opacity:0.7;pointer-events:none;}
+.mktg-icon{font-size:20px;line-height:1;}
+.mktg-label{font-size:13px;font-weight:700;color:var(--white);}
+.mktg-sub{font-size:11.5px;color:var(--slate);}
+.mktg-output{background:var(--bg2);border:1px solid var(--line);margin-bottom:28px;display:none;}
+.mktg-output.visible{display:block;}
+.mktg-output-head{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--line);}
+.mktg-output-title{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);}
+.mktg-output-acts{display:flex;gap:8px;}
+.mktg-body{padding:22px;font-size:14px;color:var(--white);line-height:1.78;white-space:pre-wrap;min-height:60px;}
+.mktg-loading{display:flex;gap:10px;align-items:center;padding:22px;color:var(--slate);font-size:13.5px;}
+.mktg-spinner{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--amber);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.mktg-divider{height:1px;background:var(--line);margin:28px 0;}
+.saved-wrap{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.saved-item{background:var(--bg2);border:1px solid var(--line);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.saved-info{flex:1;min-width:0;}
+.saved-type{font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:3px;}
+.saved-preview{font-size:13px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.saved-acts{display:flex;gap:6px;flex-shrink:0;}
+.mktg-chat-head{margin-bottom:18px;}
+.mktg-chat-head h2{font-size:18px;font-weight:700;margin-bottom:5px;}
+.mktg-chat-head p{font-size:13.5px;color:var(--slate);}
+
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(8,14,26,0.85);z-index:200;align-items:center;justify-content:center;padding:24px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--line);padding:36px;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto;}
+.modal h3{font-size:22px;font-weight:700;margin-bottom:6px;}
+.modal p{font-size:14px;color:var(--slate);margin-bottom:24px;}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--slate);font-size:22px;cursor:pointer;}
+.modal-close:hover{color:var(--white);}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:7px;}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--white);padding:12px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--amber);}
+.field select option{background:var(--bg);}
+.field textarea{resize:vertical;min-height:80px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--slate);}
+.empty-state p{margin-top:10px;font-size:14px;}
+
+/* TABS */
+.panel{display:none;}
+.panel.active{display:block;}
+.chat-panel{display:none;}
+.chat-panel.active{display:flex;flex-direction:column;}
+</style>
+</head>
+<body>
+
+<!-- ── AUTH SCREEN ── -->
+<div id="auth-screen">
+  <div class="auth-card" id="authCard">
+    <div class="auth-logo">Cyber<em>Patriot</em></div>
+    <p class="auth-sub" id="authSub">Sign in to your dashboard</p>
+    <label class="auth-label" for="authEmail">Email</label>
+    <div class="auth-input-wrap" style="margin-bottom:14px;">
+      <input type="email" id="authEmail" class="auth-input" placeholder="your@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')document.getElementById('authPass').focus()">
+    </div>
+    <label class="auth-label" for="authPass">Password</label>
+    <div class="auth-input-wrap">
+      <input type="password" id="authPass" class="auth-input" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()">
+      <button class="auth-toggle" onclick="toggleAuthVis()" id="authToggle" type="button" title="Show/hide password">👁</button>
+    </div>
+    <p class="auth-error" id="authError"></p>
+    <!-- Remember Me -->
+    <label style="display:flex;align-items:center;gap:9px;margin:14px 0;cursor:pointer;user-select:none;">
+      <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--amber);cursor:pointer;">
+      <span style="font-size:13px;color:var(--slate);">Remember my email</span>
+    </label>
+    <button class="auth-btn" id="authBtn" onclick="submitAuth()">Sign In</button>
+    <p style="text-align:center;margin-top:14px;">
+      <button onclick="showForgot()" style="background:none;border:none;color:var(--slate);font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:'Plus Jakarta Sans',sans-serif;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">Forgot your password?</button>
+    </p>
+  </div>
+
+  <!-- Forgot password sub-card -->
+  <div class="auth-card" id="forgotCard" style="display:none;">
+    <div class="auth-logo">Cyber<em>Patriot</em></div>
+    <p class="auth-sub">Enter your email and we'll send you a reset link.</p>
+    <label class="auth-label" for="forgotEmail">Email Address</label>
+    <div class="auth-input-wrap">
+      <input type="email" id="forgotEmail" class="auth-input" placeholder="your@email.com" onkeydown="if(event.key==='Enter')sendReset()">
+    </div>
+    <p class="auth-error" id="forgotError"></p>
+    <button class="auth-btn" id="forgotBtn" onclick="sendReset()">Send Reset Link</button>
+    <p style="text-align:center;margin-top:14px;">
+      <button onclick="showLogin()" style="background:none;border:none;color:var(--slate);font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:'Plus Jakarta Sans',sans-serif;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">← Back to sign in</button>
+    </p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">Cyber<em>Patriot</em></div>
+      <div class="sub">Business Dashboard</div>
+    </div>
+    <nav class="sidenav">
+      <div class="navitem active" onclick="showTab('overview')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Overview
+      </div>
+      <div class="navitem" onclick="showTab('leads')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Leads
+        <span id="newLeadCount" style="display:none;background:var(--amber);color:#060c18;font-size:10px;font-weight:800;padding:1px 7px;border-radius:100px;margin-left:auto;"></span>
+      </div>
+      <div class="navitem" onclick="showTab('projects')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Projects
+      </div>
+      <div class="navitem" onclick="showTab('ai')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        AI Assistant
+      </div>
+      <div class="navitem" onclick="showTab('marketing')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Marketing
+      </div>
+    </nav>
+    <div class="sidebar-foot">
+      <p>Leads sync from your<br>chat widget automatically.<br><a href="index.html">← Back to storefront</a></p>
+      <button onclick="lockDashboard()" style="margin-top:12px;width:100%;background:transparent;border:1px solid var(--line);color:var(--slate);padding:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--slate)'">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Lock Dashboard
+      </button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h1 id="tabTitle">Overview</h1>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openAddLead()">+ Add Lead</button>
+        <button class="btn btn-amber btn-sm" onclick="showTab('ai')">Ask AI</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <div class="panel active" id="panel-overview">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="label">Total Leads</div>
+            <div class="value" id="stat-leads">0</div>
+            <div class="delta">All time</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Active Projects</div>
+            <div class="value" id="stat-projects">0</div>
+            <div class="delta">In progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Revenue</div>
+            <div class="value" id="stat-revenue">$0</div>
+            <div class="delta">All projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">New Leads</div>
+            <div class="value" id="stat-new">0</div>
+            <div class="delta">Need follow-up</div>
+          </div>
+        </div>
+        <div class="section-head">
+          <h2>Recent Leads</h2>
+          <button class="btn btn-ghost btn-sm" onclick="showTab('leads')">View all →</button>
+        </div>
+        <table class="leads-table">
+          <thead><tr>
+            <th>Name</th><th>Business</th><th>Package</th><th>Status</th><th>Date</th><th></th>
+          </tr></thead>
+          <tbody id="recentLeadsBody"></tbody>
+        </table>
+      </div>
+
+      <!-- LEADS -->
+      <div class="panel" id="panel-leads">
+        <div class="section-head">
+          <h2>All Leads</h2>
+          <button class="btn btn-amber btn-sm" onclick="openAddLead()">+ Add Lead</button>
+        </div>
+        <table class="leads-table">
+          <thead><tr>
+            <th>Name</th><th>Business</th><th>Package</th><th>Status</th><th>Date</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="leadsBody"></tbody>
+        </table>
+        <div class="empty-state" id="leadsEmpty" style="display:none;">
+          <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto;opacity:0.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <p>No leads yet. They'll appear here when customers use the chat widget.</p>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="panel" id="panel-projects">
+        <div class="section-head">
+          <h2>Project Board</h2>
+          <button class="btn btn-amber btn-sm" onclick="openAddProject()">+ Add Project</button>
+        </div>
+        <div class="kanban" id="kanbanBoard"></div>
+      </div>
+
+      <!-- AI ASSISTANT -->
+      <div class="chat-panel" id="panel-ai">
+        <div class="chat-messages" id="aiMessages"></div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="aiInput" placeholder="Ask anything — draft a client email, get advice on pricing, check what to do next…" onkeydown="aiKeydown(event)"></textarea>
+          <button class="btn chat-send" id="aiSend" onclick="sendAiMessage()">Send</button>
+        </div>
+      </div>
+
+      <!-- MARKETING -->
+      <div class="panel" id="panel-marketing">
+        <p class="mktg-intro">Generate ready-to-use marketing content for CyberPatriot — one click produces polished copy you can post, send, or print right away. Everything is written specifically for your service, your location, and your packages.</p>
+
+        <div class="section-head">
+          <h2>Quick Generate</h2>
+          <span style="font-size:12px;color:var(--slate);">Click any card to generate content instantly</span>
+        </div>
+        <div class="mktg-grid">
+          <button class="mktg-btn" onclick="quickGenerate('Facebook Post','Write a Facebook post for CyberPatriot, a done-for-you web design service in Martinsburg WV. Conversational and friendly, not corporate. Mention they handle everything for you, mention the fast turnaround (3-7 days), prices start at $199. CTA to visit patriot-websites.com. Under 150 words. Sound genuine, not like a marketing agency.')"><span class="mktg-icon">📱</span><span class="mktg-label">Facebook Post</span><span class="mktg-sub">Local announcement</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Cold Outreach Email','Write a cold outreach email from CyberPatriot to a local business owner in Martinsburg WV who has no website or an outdated one. Under 120 words. Warm but professional. Benefit-focused — more customers finding them. Mention Done For You (they do nothing, we handle everything). Prices from $199. No pressure CTA. Include a subject line at the top.')"><span class="mktg-icon">📧</span><span class="mktg-label">Cold Outreach Email</span><span class="mktg-sub">For businesses without sites</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Google Ads Copy','Write Google Ads copy for CyberPatriot web design in Martinsburg WV. Give 3 headline options (each UNDER 30 characters — count carefully) and 2 description options (each under 90 characters). Keywords: local, fast delivery, done for you, professional, affordable. Label each clearly and show the character count.')"><span class="mktg-icon">🔍</span><span class="mktg-label">Google Ads</span><span class="mktg-sub">Headlines + descriptions</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Instagram Caption','Write an Instagram caption for CyberPatriot web design in Martinsburg WV. Genuine and slightly behind-the-scenes — show the value of a real website, not just a promo. Under 100 words main caption. Then 12 relevant hashtags on a new line. Focus on helping local businesses get found online.')"><span class="mktg-icon">📸</span><span class="mktg-label">Instagram Caption</span><span class="mktg-sub">With hashtags</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('SMS Pitch','Write an SMS text pitch for CyberPatriot web design in Martinsburg WV. MUST be under 160 characters total. Friendly, not spammy. Introduce the service and include patriot-websites.com. Count characters carefully.')"><span class="mktg-icon">💬</span><span class="mktg-label">SMS Pitch</span><span class="mktg-sub">160-character text</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Follow-Up Email','Write a follow-up email for CyberPatriot to send to a potential client who requested a quote but has not responded in a week. Under 80 words. Warm, friendly, zero pressure — just checking in and keeping the door open. One gentle CTA. Include a subject line.')"><span class="mktg-icon">🔁</span><span class="mktg-label">Follow-Up Email</span><span class="mktg-sub">For quiet leads</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Google Business Profile','Write a Google Business Profile description for CyberPatriot web design in Martinsburg WV. 200-250 words. Describe the Done For You approach, list types of businesses served (restaurants, salons, retail, contractors, fitness, professional services), highlight 3-7 day turnaround, mention prices from $199. Include local keywords naturally. End with a CTA.')"><span class="mktg-icon">📍</span><span class="mktg-label">Google Business Bio</span><span class="mktg-sub">Local search profile</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Flyer Copy','Write print flyer copy for CyberPatriot web design. One bold headline, short subheadline (1 sentence), 3 punchy bullet points (fast delivery, professional, done for you), price range ($199-$599), website URL (patriot-websites.com). Every line short — this is print. Punchy, scannable, easy to read at a glance.')"><span class="mktg-icon">📄</span><span class="mktg-label">Flyer Copy</span><span class="mktg-sub">Print marketing</span></button>
+        </div>
+
+        <div class="mktg-output" id="mktgOutput">
+          <div class="mktg-output-head">
+            <span class="mktg-output-title" id="mktgOutputTitle">Generated Content</span>
+            <div class="mktg-output-acts">
+              <button class="btn btn-ghost btn-sm" onclick="copyMktg()">Copy</button>
+              <button class="btn btn-amber btn-sm" onclick="saveMktg()">Save</button>
+            </div>
+          </div>
+          <div class="mktg-body" id="mktgBody"></div>
+        </div>
+
+        <div class="section-head" style="margin-bottom:16px;">
+          <h2>Saved Content</h2>
+          <button class="btn btn-ghost btn-sm" id="clearSavedBtn" onclick="clearAllSaved()" style="display:none;">Clear all</button>
+        </div>
+        <div class="saved-wrap" id="savedWrap">
+          <div class="empty-state" id="savedEmpty"><p>Nothing saved yet — generate content above and click Save.</p></div>
+        </div>
+
+        <div class="mktg-divider"></div>
+
+        <div class="mktg-chat-head">
+          <h2>Custom Marketing Request</h2>
+          <p>Need something specific? The marketing AI knows your business, your location, and your packages.</p>
+        </div>
+        <div class="chat-messages" id="mktgMessages" style="max-height:360px;overflow-y:auto;margin-bottom:16px;display:flex;flex-direction:column;gap:14px;"></div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="mktgInput" placeholder="e.g. Write 5 subject lines for cold outreach to restaurants that don't have a website…" onkeydown="mktgKeydown(event)"></textarea>
+          <button class="btn chat-send" id="mktgSendBtn" onclick="sendMktgMessage()">Send</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ADD LEAD MODAL -->
+<div class="modal-overlay" id="addLeadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addLeadModal')">×</button>
+    <h3>Add Lead</h3>
+    <p>Manually add a new inquiry or customer contact.</p>
+    <div class="field-row">
+      <div class="field"><label>Name</label><input id="al-name" type="text" placeholder="Customer name"></div>
+      <div class="field"><label>Email</label><input id="al-email" type="email" placeholder="email@example.com"></div>
+    </div>
+    <div class="field"><label>Business Name</label><input id="al-biz" type="text" placeholder="Their business name"></div>
+    <div class="field-row">
+      <div class="field"><label>Business Type</label>
+        <select id="al-type">
+          <option>Restaurant / Café</option><option>Salon / Spa / Barber</option>
+          <option>Retail / Boutique</option><option>Contractor / Trades</option>
+          <option>Fitness / Trainer</option><option>Professional Services</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Package Interest</label>
+        <select id="al-pkg">
+          <option>Free Template</option><option>Pro Template — $49</option>
+          <option>DFY Starter — $199</option><option>DFY Standard — $349</option>
+          <option>DFY Premium — $599</option><option>Not sure yet</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="al-notes" placeholder="What did they say? Any details about their project…"></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn btn-ghost" onclick="closeModal('addLeadModal')">Cancel</button>
+      <button class="btn btn-amber" onclick="saveLead()">Save Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEAD DETAIL MODAL -->
+<div class="modal-overlay" id="leadDetailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('leadDetailModal')">×</button>
+    <h3 id="ld-name"></h3>
+    <p id="ld-meta"></p>
+    <div id="ld-body"></div>
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+      <button class="btn btn-amber btn-sm" onclick="draftEmail()">✦ Draft Email with AI</button>
+      <select id="ld-status-sel" class="btn btn-ghost btn-sm" style="cursor:pointer;" onchange="updateLeadStatus()">
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="building">Building</option>
+        <option value="done">Done</option>
+      </select>
+      <button class="btn btn-red btn-sm" onclick="deleteLead()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="addProjectModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addProjectModal')">×</button>
+    <h3>Add Project</h3>
+    <p>Track a new client project on the board.</p>
+    <div class="field"><label>Client / Business Name</label><input id="ap-name" type="text" placeholder="Client name"></div>
+    <div class="field-row">
+      <div class="field"><label>Package</label>
+        <select id="ap-pkg">
+          <option>DFY Starter — $199</option><option>DFY Standard — $349</option><option>DFY Premium — $599</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Due Date</label><input id="ap-due" type="date"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="ap-notes" placeholder="Template chosen, special requests…"></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn btn-ghost" onclick="closeModal('addProjectModal')">Cancel</button>
+      <button class="btn btn-amber" onclick="saveProject()">Add to Board</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  CYBERPATRIOT DASHBOARD — SUPABASE AUTH
+//  Paste your values from supabase.com → Settings → API
+// ══════════════════════════════════════════════════════
+
+// ── REPLACE THESE TWO VALUES ─────────────────────────
+const SUPABASE_URL      = 'https://ohkhdvcywwqgcxijdoig.supabase.co';      // REPLACE
+const SUPABASE_ANON_KEY = 'sb_publishable_zFSIWw_tffP44hh2_DvuzA_udNqeCKO'; // REPLACE
+// ─────────────────────────────────────────────────────
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 min inactivity lock
+let inactivityTimer = null;
+
+function resetInactivityTimer(){
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(lockDashboard, SESSION_TIMEOUT);
+}
+
+function showLogin(){
+  document.getElementById('authCard').style.display = '';
+  document.getElementById('forgotCard').style.display = 'none';
+  document.getElementById('authError').textContent = '';
+}
+
+function showForgot(){
+  document.getElementById('authCard').style.display = 'none';
+  document.getElementById('forgotCard').style.display = '';
+  document.getElementById('forgotError').textContent = '';
+  setTimeout(() => document.getElementById('forgotEmail').focus(), 80);
+}
+
+function toggleAuthVis(){
+  const inp = document.getElementById('authPass');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  document.getElementById('authToggle').textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+async function submitAuth(){
+  const email = document.getElementById('authEmail').value.trim();
+  const pw    = document.getElementById('authPass').value.trim();
+  const errEl = document.getElementById('authError');
+  const btn   = document.getElementById('authBtn');
+  const remember = document.getElementById('rememberMe').checked;
+  errEl.textContent = '';
+
+  if(!email){ errEl.textContent = 'Please enter your email.'; return; }
+  if(!pw)   { errEl.textContent = 'Please enter your password.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password: pw });
+
+  if(error){
+    btn.disabled = false; btn.textContent = 'Sign In';
+    errEl.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+    const card = document.getElementById('authCard');
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    document.getElementById('authPass').value = '';
+    document.getElementById('authPass').focus();
+    return;
+  }
+
+  // Save or clear remembered email
+  if(remember){
+    localStorage.setItem('cp_remembered_email', email);
+  } else {
+    localStorage.removeItem('cp_remembered_email');
+  }
+
+  btn.textContent = 'Sign In';
+  unlockDashboard();
+}
+
+async function sendReset(){
+  const email = document.getElementById('forgotEmail').value.trim();
+  const errEl = document.getElementById('forgotError');
+  const btn   = document.getElementById('forgotBtn');
+  errEl.textContent = '';
+
+  if(!email){ errEl.textContent = 'Please enter your email address.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Sending…';
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://patriotwebsites.com/reset.html'  // update if your domain changes
+  });
+
+  btn.disabled = false; btn.textContent = 'Send Reset Link';
+
+  if(error){
+    errEl.textContent = error.message || 'Something went wrong — please try again.';
+  } else {
+    errEl.style.color = '#10b981';
+    errEl.textContent = '✓ Reset link sent! Check your email (including spam folder).';
+    setTimeout(() => { errEl.style.color=''; showLogin(); }, 4000);
+  }
+}
+
+function unlockDashboard(){
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  ['mousemove','keydown','click','touchstart'].forEach(ev=>{
+    document.addEventListener(ev, resetInactivityTimer, {passive:true});
+  });
+  resetInactivityTimer();
+  initApp();
+}
+
+async function lockDashboard(){
+  await supabaseClient.auth.signOut();
+  clearTimeout(inactivityTimer);
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('authPass').value = '';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authError').textContent = '';
+  document.getElementById('authBtn').disabled = false;
+  document.getElementById('authBtn').textContent = 'Sign In';
+  showLogin();
+}
+
+// Check for existing session on load
+window.addEventListener('load', async () => {
+  // Pre-fill remembered email
+  const remembered = localStorage.getItem('cp_remembered_email');
+  if(remembered){
+    document.getElementById('authEmail').value = remembered;
+    document.getElementById('rememberMe').checked = true;
+    document.getElementById('authPass').focus();
+  } else {
+    document.getElementById('authEmail').focus();
+  }
+
+  // Check if redirected from storefront with a fresh session
+  const storefrontAuth = sessionStorage.getItem('cp_auth_ts');
+  if(storefrontAuth && (Date.now() - parseInt(storefrontAuth)) < 60000){
+    // Fresh login from storefront — verify Supabase session
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(session){ sessionStorage.removeItem('cp_auth_ts'); unlockDashboard(); return; }
+  }
+  // Normal check
+  const { data:{ session } } = await supabaseClient.auth.getSession();
+  if(session){ unlockDashboard(); }
+  else { document.getElementById('authEmail').focus(); }
+});
+
+// ─── DATA ──────────────────────────────────────
+function getData(key){ try{ return JSON.parse(localStorage.getItem('sf_'+key)||'null'); }catch(e){ return null; } }
+function setData(key,val){ localStorage.setItem('sf_'+key, JSON.stringify(val)); }
+
+function getLeads(){ return getData('leads') || []; }
+function getProjects(){ return getData('projects') || []; }
+function saveLeads(l){ setData('leads', l); }
+function saveProjects(p){ setData('projects', p); }
+
+let currentTab = "overview";
+
+// ─── INIT ──────────────────────────────────────
+function initApp(){
+  // Seed sample data if none exists
+  if(!getData('leads')){
+    saveLeads([
+      {id:'l1',name:'Maria Santos',email:'maria@grilledbistro.com',business:'The Grilled Bistro',type:'Restaurant / Café',package:'DFY Standard — $349',notes:'Wants a reservation system too. Prefers warm tones.',status:'new',date:new Date().toISOString()},
+      {id:'l2',name:'James Holloway',email:'james@cutandcraft.com',business:'Cut & Craft Barbers',type:'Salon / Spa / Barber',package:'DFY Starter — $199',notes:'Needs a simple site fast.',status:'contacted',date:new Date(Date.now()-86400000*2).toISOString()}
+    ]);
+  }
+  if(!getData('projects')){
+    saveProjects([
+      {id:'p1',name:'The Grilled Bistro',package:'DFY Standard — $349',due:'',notes:'Using Ember & Oak template. Waiting on logo.',stage:'contacted'},
+      {id:'p2',name:'Bella Moda Boutique',package:'DFY Premium — $599',due:'',notes:'Custom layout requested. Near completion.',stage:'review'}
+    ]);
+  }
+  renderOverview();
+  updateNewLeadBadge();
+}
+
+// ─── OVERVIEW ─────────────────────────────────
+function renderOverview(){
+  const leads = getLeads();
+  const projects = getProjects();
+  const active = projects.filter(p=>p.stage!=='done').length;
+  const newCount = leads.filter(l=>l.status==='new').length;
+  const pkgMap = {'DFY Starter — $199':199,'DFY Standard — $349':349,'DFY Premium — $599':599,'Pro Template — $49':49};
+  const rev = projects.reduce((s,p)=>s+(pkgMap[p.package]||0),0);
+
+  document.getElementById('stat-leads').textContent = leads.length;
+  document.getElementById('stat-projects').textContent = active;
+  document.getElementById('stat-revenue').textContent = '$'+rev.toLocaleString();
+  document.getElementById('stat-new').textContent = newCount;
+
+  const tbody = document.getElementById('recentLeadsBody');
+  const recent = [...leads].reverse().slice(0,5);
+  tbody.innerHTML = recent.length ? recent.map(l=>leadRow(l)).join('') : '<tr><td colspan="6" class="empty-state"><p>No leads yet.</p></td></tr>';
+}
+
+function updateNewLeadBadge(){
+  const n = getLeads().filter(l=>l.status==='new').length;
+  const el = document.getElementById('newLeadCount');
+  if(n>0){ el.style.display=''; el.textContent=n; } else { el.style.display='none'; }
+}
+
+// ─── LEADS ─────────────────────────────────────
+function leadRow(l){
+  const badges = {new:'status-new',contacted:'status-contacted',building:'status-building',done:'status-done'};
+  const date = new Date(l.date).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `<tr>
+    <td><div class="lead-name">${l.name||'—'}</div><div class="lead-biz">${l.email||''}</div></td>
+    <td><div>${l.business||'—'}</div><div class="lead-biz">${l.type||''}</div></td>
+    <td>${l.package||'—'}</td>
+    <td><span class="status-badge ${badges[l.status]||'status-new'}">${l.status||'new'}</span></td>
+    <td style="color:var(--slate);">${date}</td>
+    <td><div class="action-row">
+      <button class="btn btn-ghost btn-sm" onclick="openLeadDetail('${l.id}')">View</button>
+    </div></td>
+  </tr>`;
+}
+
+function renderLeads(){
+  const leads = getLeads();
+  const tbody = document.getElementById('leadsBody');
+  const empty = document.getElementById('leadsEmpty');
+  if(!leads.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = [...leads].reverse().map(l=>leadRow(l)).join('');
+}
+
+// ─── ADD LEAD ──────────────────────────────────
+function openAddLead(){ document.getElementById('addLeadModal').classList.add('open'); }
+function saveLead(){
+  const leads = getLeads();
+  leads.push({
+    id:'l'+Date.now(),
+    name:document.getElementById('al-name').value,
+    email:document.getElementById('al-email').value,
+    business:document.getElementById('al-biz').value,
+    type:document.getElementById('al-type').value,
+    package:document.getElementById('al-pkg').value,
+    notes:document.getElementById('al-notes').value,
+    status:'new', date:new Date().toISOString()
+  });
+  saveLeads(leads);
+  closeModal('addLeadModal');
+  ['al-name','al-email','al-biz','al-notes'].forEach(id=>document.getElementById(id).value='');
+  updateNewLeadBadge();
+  if(currentTab==='leads') renderLeads();
+  if(currentTab==='overview') renderOverview();
+}
+
+// ─── LEAD DETAIL ───────────────────────────────
+let currentLeadId = null;
+function openLeadDetail(id){
+  const leads = getLeads();
+  const l = leads.find(x=>x.id===id);
+  if(!l) return;
+  currentLeadId = id;
+  document.getElementById('ld-name').textContent = l.name || 'Lead';
+  document.getElementById('ld-meta').textContent = `${l.business||''} · ${l.type||''} · ${l.email||''}`;
+  document.getElementById('ld-status-sel').value = l.status||'new';
+  document.getElementById('ld-body').innerHTML = `
+    <div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:12px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;">Package Interest</div>
+      <div style="font-size:15px;color:var(--amber);font-weight:600;">${l.package||'Not specified'}</div>
+    </div>
+    ${l.notes?`<div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:10px;font-size:14px;color:var(--slate);line-height:1.7;">${l.notes}</div>`:''}
+  `;
+  document.getElementById('leadDetailModal').classList.add('open');
+}
+
+function updateLeadStatus(){
+  const leads = getLeads();
+  const l = leads.find(x=>x.id===currentLeadId);
+  if(l){ l.status = document.getElementById('ld-status-sel').value; saveLeads(leads); updateNewLeadBadge(); }
+}
+
+function deleteLead(){
+  if(!confirm('Delete this lead?')) return;
+  saveLeads(getLeads().filter(l=>l.id!==currentLeadId));
+  closeModal('leadDetailModal');
+  updateNewLeadBadge();
+  if(currentTab==='leads') renderLeads();
+  if(currentTab==='overview') renderOverview();
+}
+
+function draftEmail(){
+  const leads = getLeads();
+  const l = leads.find(x=>x.id===currentLeadId);
+  if(!l) return;
+  closeModal('leadDetailModal');
+  showTab('ai');
+  setTimeout(()=>{
+    const prompt = `Please draft a warm, professional follow-up email to this lead:\n\nName: ${l.name}\nBusiness: ${l.business} (${l.type})\nPackage interest: ${l.package}\nNotes: ${l.notes||'None'}\n\nKeep it short, friendly, and end with a clear next step.`;
+    document.getElementById('aiInput').value = prompt;
+    sendAiMessage();
+  }, 400);
+}
+
+// ─── PROJECTS / KANBAN ─────────────────────────
+const STAGES = [
+  {id:'contacted',label:'New / Contacted'},
+  {id:'building',label:'Building'},
+  {id:'review',label:'In Review'},
+  {id:'done',label:'Done'}
+];
+
+function renderKanban(){
+  const projects = getProjects();
+  const board = document.getElementById('kanbanBoard');
+  board.innerHTML = STAGES.map(s=>{
+    const cards = projects.filter(p=>p.stage===s.id);
+    return `<div class="kanban-col">
+      <div class="kanban-col-head">
+        <span>${s.label}</span>
+        <span class="count">${cards.length}</span>
+      </div>
+      <div class="kanban-cards">
+        ${cards.map(p=>kanbanCard(p, s.id)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function kanbanCard(p, stage){
+  const si = STAGES.findIndex(s=>s.id===stage);
+  const canBack = si > 0;
+  const canFwd = si < STAGES.length-1;
+  return `<div class="kcard">
+    <div class="kcard-name">${p.name}</div>
+    <div class="kcard-pkg">${p.package}</div>
+    <div class="kcard-meta">${p.notes||''}</div>
+    <div class="kcard-actions">
+      ${canBack?`<button class="kmove" onclick="moveProject('${p.id}',-1)">← Back</button>`:''}
+      ${canFwd?`<button class="kmove" onclick="moveProject('${p.id}',1)">Next →</button>`:''}
+      <button class="kmove" style="margin-left:auto;color:var(--red);" onclick="deleteProject('${p.id}')">✕</button>
+    </div>
+  </div>`;
+}
+
+function moveProject(id, dir){
+  const projects = getProjects();
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  const si = STAGES.findIndex(s=>s.id===p.stage);
+  const ni = si + dir;
+  if(ni < 0 || ni >= STAGES.length) return;
+  p.stage = STAGES[ni].id;
+  saveProjects(projects);
+  renderKanban();
+}
+
+function deleteProject(id){
+  if(!confirm('Remove this project from the board?')) return;
+  saveProjects(getProjects().filter(p=>p.id!==id));
+  renderKanban();
+}
+
+function openAddProject(){ document.getElementById('addProjectModal').classList.add('open'); }
+function saveProject(){
+  const projects = getProjects();
+  projects.push({
+    id:'p'+Date.now(),
+    name:document.getElementById('ap-name').value,
+    package:document.getElementById('ap-pkg').value,
+    due:document.getElementById('ap-due').value,
+    notes:document.getElementById('ap-notes').value,
+    stage:'contacted'
+  });
+  saveProjects(projects);
+  closeModal('addProjectModal');
+  ['ap-name','ap-notes'].forEach(id=>document.getElementById(id).value='');
+  renderKanban();
+}
+
+// ─── AI ASSISTANT ──────────────────────────────
+const AI_SYSTEM = `You are a private AI business assistant for the owner of CyberPatriot, a done-for-you web design service for local businesses based in Martinsburg, WV.
+
+ABOUT CYBERPATRIOT:
+- Builds complete custom websites for local businesses — owner handles everything
+- Starter $199 (3 days): industry design, logo & colors, up to 3 sections, contact form
+- Standard $349 (5 days): full content written in, stock photos sourced
+- Premium $599 (7 days): everything + custom layout + hosting + domain setup
+- Industries: Restaurant/Bar, Salon/Spa, Retail/Boutique, Contractors, Fitness, Professional Services
+- Website: patriot-websites.com — Formspree: https://formspree.io/f/xgojngea
+
+YOUR ROLE: Help the owner run their business efficiently.
+- Draft warm, professional emails to leads and clients
+- Advise on pricing, project scoping, and client management
+- Help prioritize leads and plan workload
+- Answer questions about running a freelance web design business
+- Suggest growth strategies for a local service business
+
+Be concise, practical, and direct. Solo business owner — respect their time.`;
+
+let aiHistory = [];
+let aiInitialized = false;
+
+function initAiChat(){
+  if(aiInitialized) return;
+  aiInitialized = true;
+  const leads = getLeads();
+  const newLeads = leads.filter(l=>l.status==='new');
+  let welcome = "Hey! I'm your CyberPatriot AI assistant. I can draft client emails, help scope projects, prioritize leads, or think through any part of running your web design business.\n\nWhat do you need?";
+  if(newLeads.length){
+    welcome += `\n\n📬 You have **${newLeads.length} new lead${newLeads.length>1?'s':''}** waiting for follow-up. Want me to draft a response?`;
+  }
+  appendAiMessage('assistant', welcome);
+}
+
+function appendAiMessage(role, text){
+  const el = document.createElement('div');
+  el.className = `msg ${role}`;
+  const initial = role==='assistant' ? '✦' : 'You';
+  el.innerHTML = `<div class="msg-avatar">${initial}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  document.getElementById('aiMessages').appendChild(el);
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+function showTyping(){
+  const el = document.createElement('div');
+  el.className = 'msg assistant'; el.id = 'typing-indicator';
+  el.innerHTML = `<div class="msg-avatar">✦</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  document.getElementById('aiMessages').appendChild(el);
+  el.scrollIntoView({behavior:'smooth'});
+}
+
+function hideTyping(){ document.getElementById('typing-indicator')?.remove(); }
+
+async function sendAiMessage(){
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  appendAiMessage('user', text);
+  aiHistory.push({role:'user', content:text});
+  document.getElementById('aiSend').disabled = true;
+  showTyping();
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system: AI_SYSTEM,
+        messages: aiHistory
+      })
+    });
+    const data = await res.json();
+    hideTyping();
+    const reply = data.content?.map(c=>c.text||'').join('') || 'Something went wrong — please try again.';
+    appendAiMessage('assistant', reply);
+    aiHistory.push({role:'assistant', content:reply});
+  } catch(e){
+    hideTyping();
+    appendAiMessage('assistant','Connection error. Check your internet and try again.');
+  }
+  document.getElementById('aiSend').disabled = false;
+}
+
+function aiKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendAiMessage(); }
+}
+
+// ─── SHOW TAB (updated to include marketing) ───
+function showTab(t){
+  document.querySelectorAll('.panel,.chat-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
+  const tabs = ['overview','leads','projects','ai','marketing'];
+  document.getElementById('panel-'+t).classList.add('active');
+  document.querySelectorAll('.navitem')[tabs.indexOf(t)].classList.add('active');
+  const titles = {overview:'Overview',leads:'Leads',projects:'Projects',ai:'AI Assistant',marketing:'Marketing'};
+  document.getElementById('tabTitle').textContent = titles[t];
+  currentTab = t;
+  if(t==='overview') renderOverview();
+  if(t==='leads') renderLeads();
+  if(t==='projects') renderKanban();
+  if(t==='ai') initAiChat();
+  if(t==='marketing') renderSaved();
+}
+
+// ─── MARKETING ─────────────────────────────────
+const MKTG_SYSTEM = `You are a marketing AI for CyberPatriot, a done-for-you web design service in Martinsburg, WV.
+
+ABOUT CYBERPATRIOT:
+- Builds complete websites for local businesses — client does nothing, we handle everything
+- Starter $199 (3 days), Standard $349 (5 days), Premium $599 (7 days + hosting/domain)
+- Industries: Restaurant/Bar/Café, Salon/Spa/Barber, Retail/Boutique, Contractors, Fitness, Professional Services
+- Website: patriot-websites.com | Location: Martinsburg, WV
+
+Generate persuasive, professional, ready-to-use marketing copy. No preamble — produce content immediately. Make social posts real and conversational, not corporate. Keep emails short. Always include a clear CTA.`;
+
+let mktgHistory = [];
+let currentMktgContent = '';
+let currentMktgType = '';
+
+async function quickGenerate(type, prompt){
+  currentMktgType = type;
+  const output = document.getElementById('mktgOutput');
+  const body = document.getElementById('mktgBody');
+  const title = document.getElementById('mktgOutputTitle');
+  output.classList.add('visible');
+  title.textContent = type;
+  body.innerHTML = '<div class="mktg-loading"><div class="mktg-spinner"></div>Generating your ' + type.toLowerCase() + '…</div>';
+  document.querySelectorAll('.mktg-btn').forEach(b=>b.classList.remove('running'));
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:MKTG_SYSTEM,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const text = data.content?.map(c=>c.text||'').join('') || 'Something went wrong — please try again.';
+    currentMktgContent = text;
+    body.textContent = text;
+    output.scrollIntoView({behavior:'smooth',block:'nearest'});
+  } catch(e){
+    body.innerHTML = '<span style="color:var(--red);">Connection error — check your internet and try again.</span>';
+  }
+}
+
+function copyMktg(){
+  if(!currentMktgContent) return;
+  navigator.clipboard.writeText(currentMktgContent).then(()=>{
+    const btn = document.querySelector('.mktg-output-acts .btn-ghost');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓'; btn.style.color='var(--green)';
+    setTimeout(()=>{ btn.textContent=orig; btn.style.color=''; },2000);
+  }).catch(()=>alert('Select the text above and copy manually.'));
+}
+
+function saveMktg(){
+  if(!currentMktgContent) return;
+  const saved = JSON.parse(localStorage.getItem('sf_mktg_saved')||'[]');
+  saved.unshift({id:'m'+Date.now(),type:currentMktgType,content:currentMktgContent,date:new Date().toISOString()});
+  localStorage.setItem('sf_mktg_saved',JSON.stringify(saved));
+  renderSaved();
+  const btn = document.querySelector('.mktg-output-acts .btn-amber');
+  const orig = btn.textContent;
+  btn.textContent='Saved ✓';
+  setTimeout(()=>{btn.textContent=orig;},2000);
+}
+
+function renderSaved(){
+  const saved = JSON.parse(localStorage.getItem('sf_mktg_saved')||'[]');
+  const wrap = document.getElementById('savedWrap');
+  const empty = document.getElementById('savedEmpty');
+  const clearBtn = document.getElementById('clearSavedBtn');
+  if(!saved.length){ empty.style.display=''; clearBtn.style.display='none'; return; }
+  empty.style.display='none'; clearBtn.style.display='';
+  wrap.innerHTML = saved.map(s=>`
+    <div class="saved-item">
+      <div class="saved-info">
+        <div class="saved-type">${s.type}</div>
+        <div class="saved-preview">${s.content.substring(0,130).replace(/\n/g,' ')}…</div>
+      </div>
+      <div class="saved-acts">
+        <button class="btn btn-ghost btn-sm" onclick="loadSaved('${s.id}')">Load</button>
+        <button class="btn btn-ghost btn-sm" onclick="copySaved('${s.id}')">Copy</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="deleteSaved('${s.id}')">✕</button>
+      </div>
+    </div>`).join('') + `<div class="empty-state" id="savedEmpty" style="display:none;"><p>Nothing saved yet.</p></div>`;
+}
+
+function loadSaved(id){
+  const item = JSON.parse(localStorage.getItem('sf_mktg_saved')||'[]').find(s=>s.id===id);
+  if(!item) return;
+  currentMktgContent=item.content; currentMktgType=item.type;
+  document.getElementById('mktgOutputTitle').textContent=item.type;
+  document.getElementById('mktgBody').textContent=item.content;
+  document.getElementById('mktgOutput').classList.add('visible');
+  document.getElementById('mktgOutput').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function copySaved(id){
+  const item = JSON.parse(localStorage.getItem('sf_mktg_saved')||'[]').find(s=>s.id===id);
+  if(item) navigator.clipboard.writeText(item.content).then(()=>alert('Copied!')).catch(()=>{});
+}
+
+function deleteSaved(id){
+  localStorage.setItem('sf_mktg_saved',JSON.stringify(JSON.parse(localStorage.getItem('sf_mktg_saved')||'[]').filter(s=>s.id!==id)));
+  renderSaved();
+}
+
+function clearAllSaved(){
+  if(!confirm('Clear all saved marketing content?')) return;
+  localStorage.removeItem('sf_mktg_saved'); renderSaved();
+}
+
+function appendMktgMsg(role,text){
+  const msgs=document.getElementById('mktgMessages');
+  const d=document.createElement('div');
+  d.className=`msg ${role}`;
+  d.innerHTML=`<div class="msg-avatar">${role==='assistant'?'✦':'You'}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}
+
+async function sendMktgMessage(){
+  const inp=document.getElementById('mktgInput');
+  const text=inp.value.trim(); if(!text) return;
+  inp.value=''; appendMktgMsg('user',text);
+  mktgHistory.push({role:'user',content:text});
+  const btn=document.getElementById('mktgSendBtn'); btn.disabled=true;
+  const msgs=document.getElementById('mktgMessages');
+  const t=document.createElement('div'); t.className='msg assistant'; t.id='mktg-typing';
+  t.innerHTML=`<div class="msg-avatar">✦</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(t); msgs.scrollTop=msgs.scrollHeight;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:MKTG_SYSTEM,messages:mktgHistory})});
+    const data=await r.json();
+    document.getElementById('mktg-typing')?.remove();
+    const reply=data.content?.map(c=>c.text||'').join('')||'Something went wrong — try again.';
+    appendMktgMsg('assistant',reply);
+    mktgHistory.push({role:'assistant',content:reply});
+    currentMktgContent=reply; currentMktgType='Custom Request';
+    document.getElementById('mktgOutputTitle').textContent='Custom Request';
+    document.getElementById('mktgBody').textContent=reply;
+    document.getElementById('mktgOutput').classList.add('visible');
+  } catch(e){
+    document.getElementById('mktg-typing')?.remove();
+    appendMktgMsg('assistant','Connection error — check your internet.');
+  }
+  btn.disabled=false;
+}
+
+function mktgKeydown(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMktgMessage();} }
+
+// ─── MODALS ────────────────────────────────────
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+</script>
+</body>
+</html>

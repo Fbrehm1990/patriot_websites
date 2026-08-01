@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberPatriot — Web Design for Local Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#080e1a; --bg2:#0d1526; --bg3:#131d33;
+  --amber:#f59e0b; --amber2:#fbbf24;
+  --slate:#8b9bb4; --white:#f0f4fa;
+  --line:#1a2740; --green:#10b981; --purple:#c084fc;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.65;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1120px;margin:0 auto;padding:0 30px;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;}
+
+/* ── NAV ── */
+header{position:sticky;top:0;z-index:50;background:rgba(8,14,26,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66px;}
+.brand{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
+.brand em{color:var(--amber);font-style:italic;}
+.navlinks{display:flex;gap:30px;list-style:none;}
+.navlinks a{font-size:13.5px;font-weight:500;color:var(--slate);transition:color .2s;}
+.navlinks a:hover{color:var(--white);}
+.nav-cta{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;background:var(--amber);color:#060c18;padding:10px 22px;transition:background .2s;}
+.nav-cta:hover{background:var(--amber2);}
+
+/* ── HERO ── */
+.hero{min-height:90vh;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+.hero::before{content:"";position:absolute;right:0;top:0;width:50%;height:100%;background:var(--bg2);border-left:1px solid var(--line);}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 60px 80px 0;position:relative;z-index:2;}
+.hero-eyebrow{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:26px;}
+.hero h1{font-size:clamp(44px,5.8vw,76px);font-weight:700;line-height:1.06;margin-bottom:26px;}
+.hero h1 em{color:var(--amber);}
+.hero-sub{font-size:17px;color:var(--slate);max-width:440px;margin-bottom:44px;line-height:1.8;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;padding:14px 28px;display:inline-block;transition:all .2s;cursor:pointer;border:none;}
+.btn-amber{background:var(--amber);color:#060c18;}
+.btn-amber:hover{background:var(--amber2);}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--line);}
+.btn-ghost:hover{border-color:var(--slate);}
+.hero-right{display:flex;align-items:center;justify-content:center;padding:60px;position:relative;z-index:2;}
+.hero-right::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.07),transparent 70%);pointer-events:none;}
+
+/* ── STATS ── */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);}
+.stat{padding:30px 24px;text-align:center;border-right:1px solid var(--line);}
+.stat:last-child{border-right:none;}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:34px;font-weight:700;color:var(--amber);margin-bottom:4px;line-height:1;}
+.stat span{font-size:12.5px;color:var(--slate);}
+
+/* ── SECTIONS ── */
+section{padding:90px 0;border-bottom:1px solid var(--line);}
+.sec-ey{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:14px;}
+.sec-h{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-0.01em;margin-bottom:16px;line-height:1.1;}
+.sec-p{font-size:16px;color:var(--slate);max-width:500px;line-height:1.75;}
+
+/* ── WHAT YOU GET ── */
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);margin-top:52px;}
+.benefit{background:var(--bg2);padding:38px 32px;}
+.benefit-icon{width:44px;height:44px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.benefit h3{font-size:19px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;}
+.benefit p{font-size:14.5px;color:var(--slate);line-height:1.75;}
+
+/* ── PORTFOLIO ── */
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:52px;}
+.port-card{background:var(--bg2);border:1px solid var(--line);overflow:hidden;transition:border-color .22s,transform .22s;}
+.port-card:hover{border-color:rgba(245,158,11,0.45);transform:translateY(-4px);}
+.port-img{aspect-ratio:16/9;overflow:hidden;}
+.port-img svg{width:100%;height:100%;display:block;}
+.port-body{padding:22px 24px 26px;border-top:1px solid var(--line);}
+.port-industry{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:8px;}
+.port-body h3{font-size:19px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px;}
+.port-body p{font-size:14px;color:var(--slate);line-height:1.7;margin-bottom:18px;}
+.port-link{font-size:13px;font-weight:700;color:var(--amber);display:inline-flex;align-items:center;gap:6px;transition:gap .2s;}
+.port-link:hover{gap:10px;}
+
+/* ── PRICING ── */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);margin-top:52px;}
+.price-col{padding:36px 30px;border-right:1px solid var(--line);position:relative;}
+.price-col:last-child{border-right:none;}
+.price-col.hot{background:rgba(245,158,11,0.03);}
+.price-col.hot::before{content:"Most Popular";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--amber);color:#060c18;font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;font-weight:800;padding:4px 14px;text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;}
+.price-bar{height:3px;position:absolute;top:0;left:0;right:0;}
+.price-col:nth-child(1) .price-bar{background:#10b981;}
+.price-col:nth-child(2) .price-bar{background:var(--amber);}
+.price-col:nth-child(3) .price-bar{background:var(--purple);}
+.price-name{font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;display:block;}
+.price-amount{font-family:'Fraunces',serif;font-size:52px;font-weight:700;letter-spacing:-0.01em;line-height:1;margin-bottom:4px;}
+.price-days{font-size:12.5px;font-weight:700;color:var(--amber);display:block;margin-bottom:18px;}
+.price-desc{font-size:14px;color:var(--slate);line-height:1.72;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--line);}
+.price-feats{list-style:none;margin-bottom:28px;}
+.price-feats li{font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;color:var(--slate);}
+.price-feats li:last-child{border-bottom:none;}
+.price-feats li::before{content:"✓";color:var(--amber);font-weight:800;font-size:11px;flex-shrink:0;}
+.price-feats li.dim::before{content:"—";color:#3a4a5e;}
+.price-feats li.dim{color:#3a4a5e;}
+.price-btn{display:block;width:100%;text-align:center;padding:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.pb-ghost{background:transparent;color:var(--white);border:1px solid var(--line);}
+.pb-ghost:hover{border-color:var(--slate);}
+.pb-amber{background:var(--amber);color:#060c18;}
+.pb-amber:hover{background:var(--amber2);}
+.pb-purple{background:rgba(192,132,252,0.14);color:var(--purple);border:1px solid rgba(192,132,252,0.32);}
+.pb-purple:hover{background:rgba(192,132,252,0.24);}
+
+/* ── PROCESS ── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin-top:52px;}
+.step{padding:36px 28px;border-right:1px solid var(--line);position:relative;}
+.step:last-child{border-right:none;}
+.step::after{content:"→";position:absolute;right:-12px;top:36px;color:var(--amber);font-size:16px;z-index:2;}
+.step:last-child::after{display:none;}
+.step-n{font-family:'Fraunces',serif;font-size:48px;font-weight:400;font-style:italic;color:rgba(245,158,11,0.14);line-height:1;margin-bottom:18px;}
+.step h3{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
+.step p{font-size:14px;color:var(--slate);line-height:1.72;}
+
+/* ── INQUIRY FORM ── */
+.form-shell{background:var(--bg2);border:1px solid var(--line);padding:52px;max-width:740px;margin:52px auto 0;position:relative;}
+.form-shell::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.form-head{margin-bottom:36px;}
+.form-head h3{font-size:28px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
+.form-head p{font-size:15px;color:var(--slate);line-height:1.7;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--white);padding:13px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;transition:border-color .2s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--amber);}
+.field select option{background:var(--bg);}
+.field textarea{resize:vertical;min-height:100px;}
+
+/* ── FOOTER ── */
+footer{padding:48px 0;}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{font-size:13.5px;color:var(--slate);font-weight:500;transition:color .2s;}
+.foot-links a:hover{color:var(--white);}
+.foot-c{font-size:13px;color:var(--slate);}
+
+/* ── QUOTE BUTTON ── */
+#quote-btn{position:fixed;bottom:28px;right:28px;z-index:500;background:var(--amber);color:#060c18;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(245,158,11,0.35);display:flex;align-items:center;gap:10px;padding:14px 22px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;transition:all .2s;}
+#quote-btn:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 6px 28px rgba(245,158,11,0.45);}
+#quote-btn svg{flex-shrink:0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero::before{display:none;}
+  .hero-left{padding:70px 0;}
+  .hero-right{min-height:280px;border-top:1px solid var(--line);}
+  .stats-strip{grid-template-columns:1fr 1fr;}
+  .benefits,.portfolio-grid{grid-template-columns:1fr;}
+  .price-grid,.steps{grid-template-columns:1fr;}
+  .price-col{border-right:none;border-bottom:1px solid var(--line);}
+  .price-col:last-child{border-bottom:none;}
+  .step{border-right:none;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step::after{display:none;}
+  .form-grid{grid-template-columns:1fr;}
+  .form-shell{padding:32px 22px;}
+  .navlinks{display:none;}
+}
+/* ── ADMIN LOGIN MODAL ── */
+#admin-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(8,14,26,0.85);align-items:center;justify-content:center;padding:24px;}
+#admin-overlay.open{display:flex;}
+.admin-modal{background:var(--bg2);border:1px solid var(--line);padding:44px 40px;width:100%;max-width:400px;position:relative;}
+.admin-modal::before{content:"";position:absolute;inset:12px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.admin-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--slate);font-size:22px;cursor:pointer;line-height:1;}
+.admin-modal-close:hover{color:var(--white);}
+.admin-logo{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-bottom:5px;}
+.admin-logo em{color:var(--amber);font-style:italic;}
+.admin-sub{font-size:13px;color:var(--slate);margin-bottom:30px;}
+.admin-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.admin-input-wrap{position:relative;margin-bottom:8px;}
+.admin-input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--white);padding:14px 46px 14px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;transition:border-color .2s;}
+.admin-input:focus{outline:none;border-color:var(--amber);}
+.admin-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--slate);cursor:pointer;font-size:15px;padding:4px;}
+.admin-eye:hover{color:var(--white);}
+.admin-error{font-size:12.5px;color:#ef4444;min-height:16px;margin-bottom:8px;}
+.admin-btn{width:100%;background:var(--amber);color:#060c18;border:none;padding:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px;}
+.admin-btn:hover{background:var(--amber2);}
+.admin-btn:disabled{opacity:0.55;cursor:not-allowed;}
+@keyframes adm-shake{0%,100%{transform:translateX(0);}25%,75%{transform:translateX(-8px);}50%{transform:translateX(8px);}}
+.admin-modal.shake{animation:adm-shake .35s ease;}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand">Cyber<em>Patriot</em></a>
+    <ul class="navlinks">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+    <button onclick="openAdminLogin()" title="Owner login" style="background:transparent;border:none;cursor:pointer;color:var(--slate);padding:6px;margin-left:4px;display:flex;align-items:center;transition:color .2s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
+  </nav>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="wrap hero-left">
+    <span class="hero-eyebrow">Web Design for Local Businesses</span>
+    <h1>Your business,<br>online and<br>looking <em>its best.</em></h1>
+    <p class="hero-sub">I build custom websites for local businesses — designed for your industry, built to your brand, and delivered within a week. No templates to fumble with. No months of back-and-forth.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn btn-amber">See Packages</a>
+      <a href="#work" class="btn btn-ghost">View My Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg viewBox="0 0 420 320" width="380" xmlns="http://www.w3.org/2000/svg">
+      <!-- browser shell -->
+      <rect x="10" y="10" width="400" height="300" rx="8" fill="#0d1526" stroke="#1a2740" stroke-width="1.5"/>
+      <!-- browser chrome -->
+      <rect x="10" y="10" width="400" height="36" rx="8" fill="#131d33"/>
+      <rect x="10" y="36" width="400" height="10" fill="#131d33"/>
+      <!-- traffic lights -->
+      <circle cx="32" cy="28" r="5" fill="#ef4444" opacity="0.7"/>
+      <circle cx="48" cy="28" r="5" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="64" cy="28" r="5" fill="#10b981" opacity="0.7"/>
+      <!-- url bar -->
+      <rect x="88" y="20" width="230" height="16" rx="8" fill="#0d1526"/>
+      <rect x="96" y="25" width="100" height="6" rx="3" fill="#1a2740"/>
+      <!-- page nav -->
+      <rect x="22" y="58" width="376" height="28" fill="#111d30"/>
+      <rect x="30" y="66" width="48" height="12" rx="2" fill="#f59e0b" opacity="0.8"/>
+      <rect x="100" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
+      <rect x="144" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
+      <rect x="188" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
+      <rect x="346" y="64" width="40" height="16" rx="2" fill="#f59e0b" opacity="0.4"/>
+      <!-- hero area -->
+      <rect x="22" y="98" width="376" height="118" fill="#0d1526"/>
+      <rect x="34" y="112" width="6" height="6" rx="3" fill="#f59e0b" opacity="0.5"/>
+      <rect x="44" y="113" width="60" height="4" rx="2" fill="#f59e0b" opacity="0.35"/>
+      <rect x="34" y="126" width="180" height="14" rx="2" fill="#f0f4fa" opacity="0.8"/>
+      <rect x="34" y="146" width="150" height="14" rx="2" fill="#f0f4fa" opacity="0.75"/>
+      <rect x="34" y="166" width="160" height="14" rx="2" fill="#f59e0b" opacity="0.5"/>
+      <rect x="34" y="190" width="86" height="20" rx="2" fill="#f59e0b" opacity="0.7"/>
+      <rect x="126" y="190" width="72" height="20" rx="2" fill="none" stroke="#1a2740" stroke-width="1.5"/>
+      <!-- photo box -->
+      <rect x="248" y="104" width="144" height="106" rx="4" fill="#131d33"/>
+      <ellipse cx="320" cy="145" rx="40" ry="48" fill="#1a2740"/>
+      <ellipse cx="320" cy="126" rx="17" ry="19" fill="#222e42"/>
+      <!-- content strip -->
+      <rect x="22" y="228" width="376" height="70" fill="#111d30"/>
+      <rect x="34" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
+      <rect x="34" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
+      <rect x="34" y="262" width="90" height="5" rx="1" fill="#1a2740" opacity="0.5"/>
+      <rect x="150" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
+      <rect x="150" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
+      <rect x="266" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
+      <rect x="266" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
+      <!-- amber glow accent -->
+      <rect x="22" y="86" width="376" height="3" fill="none"/>
+      <radialGradient id="hg" cx="30%" cy="50%" r="60%"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></radialGradient>
+      <rect x="22" y="98" width="376" height="118" fill="url(#hg)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ── STATS ── -->
+<div class="stats-strip">
+  <div class="stat"><b>3–7</b><span>Day delivery</span></div>
+  <div class="stat"><b>4</b><span>Industry designs ready</span></div>
+  <div class="stat"><b>100%</b><span>You own the files</span></div>
+  <div class="stat"><b>$0</b><span>Monthly fees — ever</span></div>
+</div>
+
+<!-- ── WHAT YOU GET ── -->
+<section id="about">
+  <div class="wrap">
+    <span class="sec-ey">What You Get</span>
+    <h2 class="sec-h">A real website, built right,<br>handed over to you.</h2>
+    <p class="sec-p">You focus on running your business. I handle the design, the code, the setup — and deliver clean files you own outright, no strings attached.</p>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Fast turnaround</h3>
+        <p>Most sites are delivered within 3–7 business days. You fill out a short brief, I get to work — no drawn-out approval cycles or waiting weeks for a first draft.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Built for your industry</h3>
+        <p>Every site starts from a design built specifically for your type of business — not a generic template. Restaurant, salon, retail, or any local business.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3>Yours to keep forever</h3>
+        <p>You get the complete HTML files — clean, commented, ready to upload anywhere. No subscriptions, no monthly fees, no platform lock-in. Ever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PORTFOLIO ── -->
+<section id="work">
+  <div class="wrap">
+    <span class="sec-ey">Example Work</span>
+    <h2 class="sec-h">Sites I can build for you</h2>
+    <p class="sec-p">Each design is tailored to the industry — the layout, sections, and tone are all built for that type of business from the ground up.</p>
+    <div class="portfolio-grid">
+
+      <div class="port-card">
+        <div class="port-img">
+          <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
+            <rect width="560" height="316" fill="#1b2a1b"/>
+            <radialGradient id="p1g" cx="70%" cy="40%" r="55%"><stop offset="0%" stop-color="#c17f24" stop-opacity="0.14"/><stop offset="100%" stop-color="#c17f24" stop-opacity="0"/></radialGradient>
+            <rect width="560" height="316" fill="url(#p1g)"/>
+            <rect width="560" height="32" fill="#243424"/>
+            <rect x="16" y="10" width="70" height="12" rx="2" fill="#c17f24" opacity="0.9"/>
+            <rect x="300" y="12" width="36" height="8" rx="2" fill="rgba(245,237,214,0.22)"/>
+            <rect x="344" y="12" width="36" height="8" rx="2" fill="rgba(245,237,214,0.22)"/>
+            <rect x="388" y="12" width="36" height="8" rx="2" fill="rgba(245,237,214,0.22)"/>
+            <rect x="438" y="9" width="106" height="14" rx="1" fill="#c17f24"/>
+            <rect x="28" y="54" width="10" height="10" rx="2" fill="#c17f24" opacity="0.55"/>
+            <rect x="44" y="56" width="90" height="6" rx="2" fill="#c17f24" opacity="0.4"/>
+            <rect x="28" y="74" width="240" height="22" rx="2" fill="#f5edd6" opacity="0.88"/>
+            <rect x="28" y="104" width="200" height="22" rx="2" fill="#f5edd6" opacity="0.8"/>
+            <rect x="28" y="134" width="220" height="22" rx="2" fill="#c17f24" opacity="0.55"/>
+            <rect x="28" y="170" width="110" height="26" rx="1" fill="#c17f24"/>
+            <rect x="146" y="170" width="100" height="26" rx="1" fill="none" stroke="rgba(245,237,214,0.3)" stroke-width="1.5"/>
+            <circle cx="440" cy="130" r="88" fill="none" stroke="#c17f24" stroke-width="1" opacity="0.2"/>
+            <circle cx="440" cy="130" r="60" fill="none" stroke="#c17f24" stroke-width="0.8" opacity="0.15"/>
+            <circle cx="440" cy="130" r="30" fill="#c17f24" opacity="0.07"/>
+            <line x1="440" y1="42" x2="440" y2="218" stroke="#c17f24" stroke-width="0.8" opacity="0.2"/>
+            <line x1="352" y1="130" x2="528" y2="130" stroke="#c17f24" stroke-width="0.8" opacity="0.2"/>
+            <rect x="28" y="222" width="504" height="2" fill="#2e3e2e"/>
+            <rect x="28" y="216" width="60" height="8" rx="1" fill="rgba(245,237,214,0.12)"/>
+            <rect x="28" y="224" width="60" height="2.5" fill="#c17f24"/>
+            <rect x="96" y="217" width="54" height="6" rx="1" fill="rgba(245,237,214,0.08)"/>
+            <rect x="158" y="217" width="54" height="6" rx="1" fill="rgba(245,237,214,0.08)"/>
+            <rect x="28" y="240" width="152" height="64" rx="2" fill="#243424" stroke="#2e3e2e" stroke-width="1"/>
+            <rect x="40" y="252" width="100" height="7" rx="1" fill="#c17f24" opacity="0.65"/>
+            <rect x="40" y="264" width="124" height="4" rx="1" fill="rgba(245,237,214,0.18)"/>
+            <rect x="40" y="272" width="110" height="4" rx="1" fill="rgba(245,237,214,0.12)"/>
+            <rect x="40" y="290" width="44" height="8" rx="1" fill="#c17f24" opacity="0.45"/>
+            <rect x="192" y="240" width="152" height="64" rx="2" fill="#243424" stroke="#2e3e2e" stroke-width="1"/>
+            <rect x="204" y="252" width="100" height="7" rx="1" fill="#c17f24" opacity="0.65"/>
+            <rect x="204" y="264" width="124" height="4" rx="1" fill="rgba(245,237,214,0.18)"/>
+            <rect x="204" y="272" width="110" height="4" rx="1" fill="rgba(245,237,214,0.12)"/>
+            <rect x="356" y="240" width="152" height="64" rx="2" fill="#243424" stroke="#2e3e2e" stroke-width="1"/>
+            <rect x="368" y="252" width="100" height="7" rx="1" fill="#c17f24" opacity="0.65"/>
+            <rect x="368" y="264" width="124" height="4" rx="1" fill="rgba(245,237,214,0.18)"/>
+            <rect x="368" y="272" width="110" height="4" rx="1" fill="rgba(245,237,214,0.12)"/>
+          </svg>
+        </div>
+        <div class="port-body">
+          <span class="port-industry">Restaurant / Bar / Café</span>
+          <h3>Ember &amp; Oak</h3>
+          <p>A warm, atmospheric design built for dining. Includes an interactive menu, reservation form, hours, and location — everything a restaurant needs online.</p>
+          <a href="Template_Restaurant.html" target="_blank" class="port-link">View example →</a>
+        </div>
+      </div>
+
+      <div class="port-card">
+        <div class="port-img">
+          <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
+            <rect width="560" height="316" fill="#1a1616"/>
+            <radialGradient id="p2g" cx="65%" cy="35%" r="55%"><stop offset="0%" stop-color="#c9a0b8" stop-opacity="0.1"/><stop offset="100%" stop-color="#c9a0b8" stop-opacity="0"/></radialGradient>
+            <rect width="560" height="316" fill="url(#p2g)"/>
+            <rect width="560" height="32" fill="#241e1e"/>
+            <rect x="16" y="10" width="78" height="12" rx="2" fill="#c9a0b8" opacity="0.9"/>
+            <rect x="298" y="12" width="36" height="8" rx="2" fill="rgba(247,240,236,0.18)"/>
+            <rect x="342" y="12" width="36" height="8" rx="2" fill="rgba(247,240,236,0.18)"/>
+            <rect x="386" y="12" width="36" height="8" rx="2" fill="rgba(247,240,236,0.18)"/>
+            <rect x="440" y="9" width="104" height="14" rx="1" fill="#c9a0b8"/>
+            <rect x="28" y="52" width="10" height="10" rx="2" fill="#c9a0b8" opacity="0.48"/>
+            <rect x="44" y="54" width="78" height="6" rx="2" fill="#c9a0b8" opacity="0.38"/>
+            <rect x="28" y="72" width="220" height="18" rx="2" fill="#f7f0ec" opacity="0.85"/>
+            <rect x="28" y="98" width="188" height="18" rx="2" fill="#f7f0ec" opacity="0.78"/>
+            <rect x="28" y="124" width="206" height="18" rx="2" fill="#c9a0b8" opacity="0.55"/>
+            <rect x="28" y="154" width="130" height="5" rx="1" fill="rgba(247,240,236,0.25)"/>
+            <rect x="28" y="164" width="114" height="5" rx="1" fill="rgba(247,240,236,0.18)"/>
+            <rect x="28" y="184" width="106" height="24" rx="1" fill="#c9a0b8"/>
+            <rect x="142" y="184" width="90" height="24" rx="1" fill="none" stroke="rgba(247,240,236,0.28)" stroke-width="1.5"/>
+            <rect x="314" y="38" width="220" height="168" rx="5" fill="#2e2424"/>
+            <ellipse cx="424" cy="112" rx="62" ry="76" fill="#3a2e2e"/>
+            <ellipse cx="424" cy="82" rx="26" ry="30" fill="#4a3838"/>
+            <path d="M318 42 C334 58 332 78 318 88 C308 78 307 58 318 42Z" fill="#c9a0b8" opacity="0.2"/>
+            <path d="M530 208 C546 192 546 172 530 162 C520 172 519 192 530 208Z" fill="#c9a0b8" opacity="0.15"/>
+            <rect x="28" y="228" width="86" height="76" rx="2" fill="#241e1e" stroke="#2e2424" stroke-width="1"/>
+            <rect x="40" y="240" width="60" height="6" rx="1" fill="#c9a0b8" opacity="0.6"/>
+            <rect x="40" y="252" width="66" height="3.5" rx="1" fill="rgba(247,240,236,0.2)"/>
+            <rect x="40" y="260" width="58" height="3.5" rx="1" fill="rgba(247,240,236,0.14)"/>
+            <rect x="40" y="280" width="48" height="14" rx="1" fill="#c9a0b8" opacity="0.5"/>
+            <rect x="126" y="228" width="86" height="76" rx="2" fill="#241e1e" stroke="#2e2424" stroke-width="1"/>
+            <rect x="138" y="240" width="60" height="6" rx="1" fill="#c9a0b8" opacity="0.6"/>
+            <rect x="138" y="252" width="66" height="3.5" rx="1" fill="rgba(247,240,236,0.2)"/>
+            <rect x="138" y="260" width="58" height="3.5" rx="1" fill="rgba(247,240,236,0.14)"/>
+            <rect x="224" y="228" width="86" height="76" rx="2" fill="#241e1e" stroke="#2e2424" stroke-width="1"/>
+            <rect x="236" y="240" width="60" height="6" rx="1" fill="#c9a0b8" opacity="0.6"/>
+            <rect x="314" y="228" width="220" height="76" rx="2" fill="#241e1e" stroke="#2e2424" stroke-width="1"/>
+            <rect x="330" y="244" width="80" height="8" rx="2" fill="#c9a0b8" opacity="0.5"/>
+            <rect x="330" y="260" width="140" height="5" rx="1" fill="rgba(247,240,236,0.18)"/>
+            <rect x="330" y="270" width="120" height="5" rx="1" fill="rgba(247,240,236,0.12)"/>
+          </svg>
+        </div>
+        <div class="port-body">
+          <span class="port-industry">Salon / Spa / Barber</span>
+          <h3>Lumière Studio</h3>
+          <p>An elegant, intimate design for beauty businesses. Showcases your services with pricing, introduces your team, and makes booking easy.</p>
+          <a href="Template_Salon.html" target="_blank" class="port-link">View example →</a>
+        </div>
+      </div>
+
+      <div class="port-card">
+        <div class="port-img">
+          <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
+            <rect width="560" height="316" fill="#f8f5f2"/>
+            <rect width="560" height="32" fill="#fff"/>
+            <rect x="16" y="10" width="66" height="12" rx="2" fill="#111" opacity="0.85"/>
+            <rect x="270" y="12" width="36" height="8" rx="2" fill="rgba(0,0,0,0.16)"/>
+            <rect x="314" y="12" width="36" height="8" rx="2" fill="rgba(0,0,0,0.16)"/>
+            <rect x="358" y="12" width="36" height="8" rx="2" fill="rgba(0,0,0,0.16)"/>
+            <rect x="438" y="9" width="106" height="14" rx="1" fill="#111"/>
+            <rect x="28" y="50" width="82" height="7" rx="2" fill="#c4603c" opacity="0.65"/>
+            <rect x="28" y="66" width="220" height="20" rx="2" fill="#111" opacity="0.85"/>
+            <rect x="28" y="94" width="190" height="20" rx="2" fill="#111" opacity="0.82"/>
+            <rect x="28" y="124" width="110" height="8" rx="1" fill="rgba(0,0,0,0.24)"/>
+            <rect x="28" y="138" width="96" height="8" rx="1" fill="rgba(0,0,0,0.18)"/>
+            <rect x="28" y="162" width="114" height="26" rx="1" fill="#c4603c"/>
+            <rect x="150" y="162" width="90" height="26" rx="1" fill="transparent" stroke="#ccc" stroke-width="1.5"/>
+            <rect x="294" y="38" width="240" height="162" rx="5" fill="#ede4dd"/>
+            <rect x="320" y="58" width="188" height="124" rx="4" fill="#c4603c" opacity="0.22"/>
+            <rect x="350" y="74" width="128" height="92" rx="3" fill="#c4603c" opacity="0.38"/>
+            <rect x="28" y="210" width="88" height="70" rx="2" fill="#ede4dd"/>
+            <rect x="124" y="210" width="88" height="70" rx="2" fill="#ede4dd"/>
+            <rect x="220" y="210" width="88" height="70" rx="2" fill="#ede4dd"/>
+            <rect x="316" y="210" width="88" height="70" rx="2" fill="#ede4dd"/>
+            <rect x="412" y="210" width="120" height="70" rx="2" fill="#ede4dd"/>
+            <rect x="32" y="274" width="60" height="4" rx="1" fill="rgba(0,0,0,0.28)"/>
+            <rect x="32" y="263" width="40" height="4" rx="1" fill="#c4603c" opacity="0.5"/>
+            <rect x="128" y="274" width="60" height="4" rx="1" fill="rgba(0,0,0,0.28)"/>
+            <rect x="224" y="274" width="60" height="4" rx="1" fill="rgba(0,0,0,0.28)"/>
+            <rect x="320" y="274" width="60" height="4" rx="1" fill="rgba(0,0,0,0.28)"/>
+          </svg>
+        </div>
+        <div class="port-body">
+          <span class="port-industry">Retail / Boutique Shop</span>
+          <h3>The Edit</h3>
+          <p>A clean, editorial layout for retail. Features a filterable product grid, brand story section, and newsletter signup — built to convert browsers into buyers.</p>
+          <a href="Template_Retail.html" target="_blank" class="port-link">View example →</a>
+        </div>
+      </div>
+
+      <div class="port-card">
+        <div class="port-img">
+          <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
+            <rect width="560" height="316" fill="#0d1526"/>
+            <rect width="560" height="32" fill="#131d33"/>
+            <rect x="16" y="10" width="8" height="8" rx="4" fill="#2563eb" opacity="0.6"/>
+            <rect x="30" y="11" width="66" height="10" rx="2" fill="#1a2740"/>
+            <rect x="300" y="12" width="36" height="8" rx="2" fill="#1a2740"/>
+            <rect x="344" y="12" width="36" height="8" rx="2" fill="#1a2740"/>
+            <rect x="388" y="12" width="36" height="8" rx="2" fill="#1a2740"/>
+            <rect x="440" y="9" width="104" height="14" rx="2" fill="#2563eb" opacity="0.45"/>
+            <rect x="28" y="54" width="8" height="8" rx="4" fill="#2563eb" opacity="0.45"/>
+            <rect x="42" y="56" width="80" height="5" rx="2" fill="#2563eb" opacity="0.35"/>
+            <rect x="28" y="72" width="240" height="18" rx="2" fill="#1a2740"/>
+            <rect x="28" y="98" width="200" height="18" rx="2" fill="#1a2740"/>
+            <rect x="28" y="130" width="108" height="5" rx="1" fill="#131d33"/>
+            <rect x="28" y="141" width="92" height="5" rx="1" fill="#131d33"/>
+            <rect x="28" y="165" width="100" height="22" rx="2" fill="#2563eb" opacity="0.42"/>
+            <rect x="136" y="165" width="80" height="22" rx="2" fill="none" stroke="#1a2740" stroke-width="1.5"/>
+            <rect x="314" y="42" width="218" height="152" rx="4" fill="none" stroke="#1a2740" stroke-width="2" stroke-dasharray="8 4"/>
+            <rect x="332" y="70" width="182" height="96" rx="3" fill="#131d33"/>
+            <path d="M332 166 L362 120 L396 142 L438 108 L514 166Z" fill="#1a2740" opacity="0.8"/>
+            <circle cx="370" cy="110" r="16" fill="#1a2740"/>
+            <rect x="28" y="212" width="156" height="90" rx="2" fill="#131d33" stroke="#1a2740" stroke-width="1"/>
+            <rect x="40" y="226" width="36" height="36" rx="4" fill="#1a2740"/>
+            <rect x="40" y="272" width="120" height="6" rx="1" fill="#1a2740"/>
+            <rect x="40" y="282" width="100" height="4.5" rx="1" fill="#0d1526"/>
+            <rect x="196" y="212" width="156" height="90" rx="2" fill="#131d33" stroke="#1a2740" stroke-width="1"/>
+            <rect x="208" y="226" width="36" height="36" rx="4" fill="#1a2740"/>
+            <rect x="208" y="272" width="120" height="6" rx="1" fill="#1a2740"/>
+            <rect x="364" y="212" width="156" height="90" rx="2" fill="#131d33" stroke="#1a2740" stroke-width="1"/>
+            <rect x="376" y="226" width="36" height="36" rx="4" fill="#1a2740"/>
+            <rect x="376" y="272" width="120" height="6" rx="1" fill="#1a2740"/>
+          </svg>
+        </div>
+        <div class="port-body">
+          <span class="port-industry">Any Business Type</span>
+          <h3>Universal — Any Industry</h3>
+          <p>For businesses that don't fit a specific mold. A clean, structured foundation — hero, services, about, testimonials, and contact — ready to become anything.</p>
+          <a href="Template_Blank.html" target="_blank" class="port-link">View example →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="wrap">
+    <span class="sec-ey">Pricing</span>
+    <h2 class="sec-h">Simple packages, no surprises</h2>
+    <p class="sec-p">Every package includes a finished, mobile-responsive website — delivered as clean HTML files you own outright. No monthly fees.</p>
+    <div class="price-grid">
+
+      <div class="price-col">
+        <div class="price-bar"></div>
+        <span class="price-name">Starter</span>
+        <div class="price-amount">$199</div>
+        <span class="price-days">Delivered in 3 business days</span>
+        <p class="price-desc">Perfect for businesses that need a clean, professional online presence quickly — with their own content and branding applied.</p>
+        <ul class="price-feats">
+          <li>Industry-matched design</li>
+          <li>Your logo &amp; brand colors</li>
+          <li>Up to 3 content sections filled in</li>
+          <li>Contact form connected</li>
+          <li>Mobile responsive</li>
+          <li class="dim">Full content written in</li>
+          <li class="dim">Stock photo sourcing</li>
+          <li class="dim">Hosting &amp; domain setup</li>
+        </ul>
+        <a href="#contact" class="price-btn pb-ghost">Get Started</a>
+      </div>
+
+      <div class="price-col hot">
+        <div class="price-bar"></div>
+        <span class="price-name">Standard</span>
+        <div class="price-amount">$349</div>
+        <span class="price-days">Delivered in 5 business days</span>
+        <p class="price-desc">A fully built, polished site with all your content written in, photos sourced, and everything ready to go live the moment it lands in your inbox.</p>
+        <ul class="price-feats">
+          <li>Industry-matched design</li>
+          <li>Your logo &amp; brand colors</li>
+          <li>Full site content written in</li>
+          <li>Contact form connected</li>
+          <li>Mobile responsive</li>
+          <li>Stock photo sourcing</li>
+          <li>Minor layout customizations</li>
+          <li class="dim">Hosting &amp; domain setup</li>
+        </ul>
+        <a href="#contact" class="price-btn pb-amber">Get Started</a>
+      </div>
+
+      <div class="price-col">
+        <div class="price-bar"></div>
+        <span class="price-name">Premium</span>
+        <div class="price-amount">$599</div>
+        <span class="price-days">Delivered in 7 business days</span>
+        <p class="price-desc">The complete hands-off experience. I handle everything — design, content, photos, setup, hosting, and your custom domain — and hand it over live.</p>
+        <ul class="price-feats">
+          <li>Industry-matched design</li>
+          <li>Your logo &amp; brand colors</li>
+          <li>Full site content written in</li>
+          <li>Contact form connected</li>
+          <li>Mobile responsive</li>
+          <li>Stock photo sourcing &amp; editing</li>
+          <li>Custom layout changes</li>
+          <li>Hosting + domain setup</li>
+        </ul>
+        <a href="#contact" class="price-btn pb-purple">Get Started</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="wrap">
+    <span class="sec-ey">How It Works</span>
+    <h2 class="sec-h">From brief to live site in days</h2>
+    <p class="sec-p">Four steps. No jargon. No drawn-out timelines.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>You fill out the brief</h3>
+        <p>Tell me your business name, what you do, your services, and any colors or design preferences. Takes about 10 minutes — use the form below.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>I get to work</h3>
+        <p>I choose the right design foundation, build in all your content, match your branding, and make sure your contact form is wired up and working.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>You review it</h3>
+        <p>I send you a preview link. You share feedback — change this, move that, tweak the copy. We go back and forth until you're happy with every detail.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <h3>You go live</h3>
+        <p>Your finished files land in your inbox. Upload to any web host in minutes, or let me handle it as a small add-on — and your business is online.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px;">
+      <span class="sec-ey">Get a Quote</span>
+      <h2 class="sec-h" style="max-width:none;">Tell me about your business</h2>
+      <p class="sec-p" style="margin:0 auto;">I'll come back to you within one business day with a clear plan, a timeline, and a quote. No pressure, no commitment yet.</p>
+    </div>
+    <div class="form-shell">
+      <div class="form-head">
+        <h3>Start your project</h3>
+        <p>Fill this out and I'll be in touch within 24 hours.</p>
+      </div>
+      <form action="https://formspree.io/f/xgojngea" method="POST">
+        <div class="form-grid">
+          <div class="field"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required></div>
+          <div class="field"><label for="c-email">Email Address</label><input type="email" id="c-email" name="email" placeholder="you@email.com" required></div>
+          <div class="field"><label for="c-biz">Business Name</label><input type="text" id="c-biz" name="business" placeholder="Your business"></div>
+          <div class="field"><label for="c-type">Business Type</label>
+            <select id="c-type" name="business_type" onchange="toggleOtherField(this.value)">
+              <option value="">Select your industry…</option>
+              <option>Restaurant / Bar / Café</option>
+              <option>Salon / Spa / Barber</option>
+              <option>Retail / Boutique</option>
+              <option>Contractor / Trades</option>
+              <option>Fitness / Personal Trainer</option>
+              <option>Professional Services</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field" id="other-type-field" style="display:none;"><label for="c-type-other">Please describe your business</label><input type="text" id="c-type-other" name="business_type_other" placeholder="e.g. Photography studio, law firm, florist…"></div>
+          <div class="field"><label for="c-pkg">Package</label>
+            <select id="c-pkg" name="package">
+              <option value="">Which package interests you?</option>
+              <option>Starter — $199</option>
+              <option>Standard — $349</option>
+              <option>Premium — $599</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label for="c-timeline">Timeline</label>
+            <select id="c-timeline" name="timeline">
+              <option value="">When do you need it?</option>
+              <option>As soon as possible</option>
+              <option>Within 2 weeks</option>
+              <option>Within a month</option>
+              <option>No rush</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:26px;"><label for="c-msg">About Your Business</label><textarea id="c-msg" name="message" placeholder="What do you do, who are your customers, any websites you like the look of, anything that helps me understand your brand…"></textarea></div>
+        <button type="submit" class="btn btn-amber" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send My Project Brief</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="brand">Cyber<em style="color:var(--amber);">Patriot</em></a>
+    <div class="foot-links">
+      <a href="#work">Work</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#process">How It Works</a>
+      <a href="#contact">Get a Quote</a>
+    </div>
+    <p class="foot-c">© 2026 CyberPatriot. All rights reserved.<a href="cyber.html" id="admin-link" tabindex="-1" aria-hidden="true" style="color:inherit;opacity:0;font-size:10px;margin-left:4px;user-select:none;">·</a></p>
+  </div>
+</footer>
+
+<!-- ── ADMIN LOGIN MODAL ── -->
+<div id="admin-overlay" onclick="if(event.target===this)closeAdminLogin()">
+  <div class="admin-modal" id="adminModal">
+    <button class="admin-modal-close" onclick="closeAdminLogin()">×</button>
+    <div class="admin-logo">Cyber<em>Patriot</em></div>
+
+    <!-- Sign In view -->
+    <div id="adminSignIn">
+      <p class="admin-sub">Owner login</p>
+      <label class="admin-label" for="adminEmail">Email</label>
+      <div class="admin-input-wrap" style="margin-bottom:12px;">
+        <input type="email" id="adminEmail" class="admin-input" placeholder="your@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')document.getElementById('adminPw').focus()">
+      </div>
+      <label class="admin-label" for="adminPw">Password</label>
+      <div class="admin-input-wrap">
+        <input type="password" id="adminPw" class="admin-input" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAdminLogin()">
+        <button class="admin-eye" type="button" onclick="toggleAdminPw()" id="adminEye">👁</button>
+      </div>
+      <p class="admin-error" id="adminError"></p>
+      <!-- Remember Me -->
+      <label style="display:flex;align-items:center;gap:9px;margin:12px 0;cursor:pointer;user-select:none;">
+        <input type="checkbox" id="adminRemember" style="width:15px;height:15px;accent-color:var(--amber);cursor:pointer;">
+        <span style="font-size:13px;color:var(--slate);">Remember my email</span>
+      </label>
+      <button class="admin-btn" id="adminBtn" onclick="doAdminLogin()">Sign In → Dashboard</button>
+      <p style="text-align:center;margin-top:12px;">
+        <button onclick="showAdminForgot()" style="background:none;border:none;color:var(--slate);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Plus Jakarta Sans',sans-serif;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">Forgot your password?</button>
+      </p>
+    </div>
+
+    <!-- Forgot Password view -->
+    <div id="adminForgot" style="display:none;">
+      <p class="admin-sub">Enter your email and we'll send a reset link.</p>
+      <label class="admin-label" for="adminForgotEmail">Email Address</label>
+      <div class="admin-input-wrap">
+        <input type="email" id="adminForgotEmail" class="admin-input" placeholder="your@email.com" onkeydown="if(event.key==='Enter')sendAdminReset()">
+      </div>
+      <p class="admin-error" id="adminForgotError"></p>
+      <button class="admin-btn" id="adminForgotBtn" onclick="sendAdminReset()">Send Reset Link</button>
+      <p style="text-align:center;margin-top:12px;">
+        <button onclick="showAdminLogin()" style="background:none;border:none;color:var(--slate);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Plus Jakarta Sans',sans-serif;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">← Back to sign in</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── ADMIN LOGIN (storefront side) ───────────────────
+   Uses Supabase Auth. Same project as cyber.html.
+   On success → stamps session → redirects to cyber.html */
+
+// ── REPLACE THESE TWO VALUES ─────────────────────────
+const SUPABASE_URL      = 'YOUR_SUPABASE_URL';      // REPLACE
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // REPLACE
+// ─────────────────────────────────────────────────────
+
+const adminSupa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function openAdminLogin(){
+  document.getElementById('adminError').textContent = '';
+  document.getElementById('adminForgotError').textContent = '';
+  document.getElementById('adminPw').value = '';
+  showAdminLogin();
+  // Pre-fill remembered email
+  const remembered = localStorage.getItem('cp_remembered_email');
+  if(remembered){
+    document.getElementById('adminEmail').value = remembered;
+    document.getElementById('adminRemember').checked = true;
+    setTimeout(()=>document.getElementById('adminPw').focus(), 80);
+  } else {
+    document.getElementById('adminEmail').value = '';
+    document.getElementById('adminRemember').checked = false;
+    setTimeout(()=>document.getElementById('adminEmail').focus(), 80);
+  }
+  document.getElementById('admin-overlay').classList.add('open');
+}
+
+function closeAdminLogin(){
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+
+function showAdminLogin(){
+  document.getElementById('adminSignIn').style.display = '';
+  document.getElementById('adminForgot').style.display = 'none';
+}
+
+function showAdminForgot(){
+  document.getElementById('adminSignIn').style.display = 'none';
+  document.getElementById('adminForgot').style.display = '';
+  document.getElementById('adminForgotError').textContent = '';
+  setTimeout(()=>document.getElementById('adminForgotEmail').focus(), 80);
+}
+
+function toggleAdminPw(){
+  const inp = document.getElementById('adminPw');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  document.getElementById('adminEye').textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+async function doAdminLogin(){
+  const email    = document.getElementById('adminEmail').value.trim();
+  const pw       = document.getElementById('adminPw').value.trim();
+  const remember = document.getElementById('adminRemember').checked;
+  const errEl    = document.getElementById('adminError');
+  const btn      = document.getElementById('adminBtn');
+  errEl.textContent = '';
+
+  if(!email){ errEl.textContent = 'Please enter your email.'; return; }
+  if(!pw)   { errEl.textContent = 'Please enter your password.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  const { error } = await adminSupa.auth.signInWithPassword({ email, password: pw });
+
+  if(error){
+    btn.disabled = false; btn.textContent = 'Sign In → Dashboard';
+    errEl.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+    document.getElementById('adminPw').value = '';
+    document.getElementById('adminPw').focus();
+    const modal = document.getElementById('adminModal');
+    modal.classList.remove('shake'); void modal.offsetWidth; modal.classList.add('shake');
+    return;
+  }
+
+  // Save or clear remembered email
+  if(remember){
+    localStorage.setItem('cp_remembered_email', email);
+  } else {
+    localStorage.removeItem('cp_remembered_email');
+  }
+
+  // Stamp session so cyber.html auto-unlocks
+  sessionStorage.setItem('cp_auth_ts', Date.now().toString());
+  window.location.href = 'cyber.html';
+}
+
+async function sendAdminReset(){
+  const email = document.getElementById('adminForgotEmail').value.trim();
+  const errEl = document.getElementById('adminForgotError');
+  const btn   = document.getElementById('adminForgotBtn');
+  errEl.textContent = ''; errEl.style.color = '';
+
+  if(!email){ errEl.textContent = 'Please enter your email.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Sending…';
+
+  const { error } = await adminSupa.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://patriotwebsites.com/reset.html'
+  });
+
+  btn.disabled = false; btn.textContent = 'Send Reset Link';
+
+  if(error){
+    errEl.textContent = error.message || 'Something went wrong — please try again.';
+  } else {
+    errEl.style.color = '#10b981';
+    errEl.textContent = '✓ Check your email for the reset link!';
+    setTimeout(() => { errEl.style.color=''; showAdminLogin(); }, 4000);
+  }
+}
+
+/* Ctrl+Shift+D opens the modal */
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey && e.shiftKey && e.key === 'D'){
+    e.preventDefault(); openAdminLogin();
+  }
+});
+
+/* Show/hide the "Other" business type text box */
+function toggleOtherField(val){
+  const field = document.getElementById('other-type-field');
+  const input = document.getElementById('c-type-other');
+  if(val === 'Other'){
+    field.style.display = '';
+    input.required = true;
+    input.focus();
+  } else {
+    field.style.display = 'none';
+    input.required = false;
+    input.value = '';
+  }
+}
+</script>
+
+<!-- ── FLOATING QUOTE BUTTON ── -->
+<button id="quote-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" aria-label="Get a Quote">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Get a Quote
+</button>
+
+</body>
+</html>
