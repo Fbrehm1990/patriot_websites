@@ -7,6 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Google Ads: base site tag — REPLACE AW-CONVERSION_ID with your real Conversion ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-CONVERSION_ID');
+</script>
 <style>
 :root{
   --bg:#080e1a; --bg2:#0d1526; --bg3:#131d33;
@@ -70,7 +79,7 @@ section{padding:90px 0;border-bottom:1px solid var(--line);}
 .benefit p{font-size:14.5px;color:var(--slate);line-height:1.75;}
 
 /* ── PORTFOLIO ── */
-.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:52px;}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px;}
 .port-card{background:var(--bg2);border:1px solid var(--line);overflow:hidden;transition:border-color .22s,transform .22s;}
 .port-card:hover{border-color:rgba(245,158,11,0.45);transform:translateY(-4px);}
 .port-img{aspect-ratio:16/9;overflow:hidden;}
@@ -146,23 +155,99 @@ footer{padding:48px 0;}
 #quote-btn:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 6px 28px rgba(245,158,11,0.45);}
 #quote-btn svg{flex-shrink:0;}
 
+/* ── MOBILE NAV HAMBURGER ── */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;inset:0;top:66px;background:var(--bg2);z-index:49;flex-direction:column;padding:32px 24px;gap:0;border-top:1px solid var(--line);}
+.mobile-nav.open{display:flex;}
+.mobile-nav a{display:block;font-size:18px;font-weight:600;color:var(--slate);padding:18px 0;border-bottom:1px solid var(--line);transition:color .2s;}
+.mobile-nav a:hover{color:var(--white);}
+.mobile-nav .m-cta{margin-top:24px;background:var(--amber);color:#060c18;text-align:center;padding:16px;font-weight:700;font-size:15px;border-bottom:none;}
+
 /* ── RESPONSIVE ── */
+/* Prevent ANY horizontal overflow globally */
+html{overflow-x:hidden;}
+body{overflow-x:hidden;max-width:100vw;}
+
 @media(max-width:860px){
+  /* NAV */
+  .navlinks{display:none;}
+  .nav-cta{display:none;}
+  .nav-hamburger{display:flex;}
+
+  /* HERO — single column, hide illustration */
   .hero{grid-template-columns:1fr;min-height:auto;}
   .hero::before{display:none;}
-  .hero-left{padding:70px 0;}
-  .hero-right{min-height:280px;border-top:1px solid var(--line);}
+  .hero-left{padding:60px 0 48px;}
+  .hero h1{font-size:clamp(36px,9vw,54px);}
+  .hero-sub{font-size:15px;max-width:100%;}
+  .hero-right{display:none;}
+
+  /* STATS */
   .stats-strip{grid-template-columns:1fr 1fr;}
-  .benefits,.portfolio-grid{grid-template-columns:1fr;}
-  .price-grid,.steps{grid-template-columns:1fr;}
-  .price-col{border-right:none;border-bottom:1px solid var(--line);}
+  .stat{padding:22px 16px;}
+  .stat b{font-size:26px;}
+
+  /* SECTIONS */
+  section{padding:60px 0;}
+  .sec-h{font-size:clamp(24px,6vw,36px);}
+
+  /* BENEFITS */
+  .benefits{grid-template-columns:1fr;}
+  .benefit{padding:28px 24px;}
+
+  /* PORTFOLIO */
+  .portfolio-grid{grid-template-columns:1fr;}
+
+  /* PRICING */
+  .price-grid{grid-template-columns:1fr;}
+  .price-col{border-right:none;border-bottom:1px solid var(--line);padding:28px 22px;}
   .price-col:last-child{border-bottom:none;}
-  .step{border-right:none;border-bottom:1px solid var(--line);}
+  .price-col.hot::before{font-size:9px;padding:3px 10px;}
+  .price-amount{font-size:42px;}
+
+  /* PROCESS STEPS */
+  .steps{grid-template-columns:1fr;}
+  .step{border-right:none;border-bottom:1px solid var(--line);padding:28px 22px;}
   .step:last-child{border-bottom:none;}
   .step::after{display:none;}
+
+  /* FORM */
   .form-grid{grid-template-columns:1fr;}
-  .form-shell{padding:32px 22px;}
-  .navlinks{display:none;}
+  .form-shell{padding:28px 20px;margin:32px 0 0;}
+  .form-shell::before{display:none;}
+
+  /* FOOTER */
+  .foot{flex-direction:column;align-items:flex-start;gap:16px;}
+  .foot-links{flex-wrap:wrap;gap:16px;}
+
+  /* QUOTE BUTTON */
+  #quote-btn{padding:12px 16px;font-size:13px;bottom:20px;right:16px;}
+
+  /* Prevent iOS Safari input zoom across the whole page */
+  input, select, textarea{font-size:16px !important;}
+
+  /* ADMIN MODAL — mobile fixes */
+  #admin-overlay{align-items:flex-start;padding:16px;padding-top:max(16px, env(safe-area-inset-top));overflow-y:auto;}
+  .admin-modal{padding:28px 20px;max-height:none;}
+  .admin-modal::before{display:none;}
+  .admin-input{font-size:16px;} /* prevents iOS Safari zoom on focus */
+  .admin-sub{margin-bottom:18px;}
+  .admin-btn{padding:16px;font-size:15px;} /* bigger tap target */
+
+  /* WRAP PADDING */
+  .wrap{padding:0 20px;}
+}
+
+@media(max-width:480px){
+  .stats-strip{grid-template-columns:1fr 1fr;}
+  .stat{padding:18px 12px;}
+  .hero h1{font-size:clamp(32px,8vw,44px);}
+  .hero-ctas{flex-direction:column;}
+  .hero-ctas .btn{text-align:center;}
+  .price-amount{font-size:38px;}
+  #quote-btn span{display:none;}
+  #quote-btn{padding:14px;border-radius:50%;width:52px;height:52px;justify-content:center;}
 }
 /* ── ADMIN LOGIN MODAL ── */
 #admin-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(8,14,26,0.85);align-items:center;justify-content:center;padding:24px;}
@@ -201,11 +286,23 @@ footer{padding:48px 0;}
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Get a Quote</a>
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
     <button onclick="openAdminLogin()" title="Owner login" style="background:transparent;border:none;cursor:pointer;color:var(--slate);padding:6px;margin-left:4px;display:flex;align-items:center;transition:color .2s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--slate)'">
       <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </button>
   </nav>
 </header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#work" onclick="closeMobileNav()">My Work</a>
+  <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
+  <a href="#process" onclick="closeMobileNav()">How It Works</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  <a href="#contact" onclick="closeMobileNav()" class="m-cta">Get a Quote</a>
+</nav>
 
 <!-- ── HERO ── -->
 <div class="hero">
@@ -271,11 +368,42 @@ footer{padding:48px 0;}
 
 <!-- ── STATS ── -->
 <div class="stats-strip">
-  <div class="stat"><b>3–7</b><span>Day delivery</span></div>
+  <div class="stat"><b>5–9</b><span>Day delivery</span></div>
   <div class="stat"><b>4</b><span>Industry designs ready</span></div>
   <div class="stat"><b>100%</b><span>You own the files</span></div>
   <div class="stat"><b>$0</b><span>Monthly fees — ever</span></div>
 </div>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="wrap">
+    <span class="sec-ey">How It Works</span>
+    <h2 class="sec-h">From brief to live site in days</h2>
+    <p class="sec-p">Four steps. No jargon. No drawn-out timelines.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>You fill out the brief</h3>
+        <p>Tell me your business name, what you do, your services, and any colors or design preferences. Takes about 10 minutes — use the form below.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>I get to work</h3>
+        <p>I choose the right design foundation, build in all your content, match your branding, and make sure your contact form is wired up and working.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>You review it</h3>
+        <p>I send you a preview link. You share feedback — change this, move that, tweak the copy. We go back and forth until you're happy with every detail.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <h3>You go live</h3>
+        <p>Your finished files land in your inbox. Upload to any web host in minutes, or let me handle it as a small add-on — and your business is online.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ── WHAT YOU GET ── -->
 <section id="about">
@@ -289,7 +417,7 @@ footer{padding:48px 0;}
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <h3>Fast turnaround</h3>
-        <p>Most sites are delivered within 3–7 business days. You fill out a short brief, I get to work — no drawn-out approval cycles or waiting weeks for a first draft.</p>
+        <p>Most sites are delivered within 5–9 business days. You fill out a short brief, I get to work — no drawn-out approval cycles or waiting weeks for a first draft.</p>
       </div>
       <div class="benefit">
         <div class="benefit-icon">
@@ -312,10 +440,67 @@ footer{padding:48px 0;}
 <!-- ── PORTFOLIO ── -->
 <section id="work">
   <div class="wrap">
-    <span class="sec-ey">Example Work</span>
-    <h2 class="sec-h">Sites I can build for you</h2>
-    <p class="sec-p">Each design is tailored to the industry — the layout, sections, and tone are all built for that type of business from the ground up.</p>
+    <span class="sec-ey">My Work</span>
+    <h2 class="sec-h">Built for real businesses</h2>
+    <p class="sec-p">A mix of live client work and industry-specific designs — each one built from the ground up for that business type.</p>
     <div class="portfolio-grid">
+
+      <!-- TATTOO SHOP — real client work -->
+      <div class="port-card" style="border-color:rgba(139,26,26,0.4);">
+        <div class="port-img">
+          <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
+            <rect width="560" height="316" fill="#0e0d0d"/>
+            <radialGradient id="p0g" cx="60%" cy="40%" r="55%"><stop offset="0%" stop-color="#8b1a1a" stop-opacity="0.18"/><stop offset="100%" stop-color="#8b1a1a" stop-opacity="0"/></radialGradient>
+            <rect width="560" height="316" fill="url(#p0g)"/>
+            <!-- nav -->
+            <rect width="560" height="32" fill="#141111"/>
+            <rect x="16" y="10" width="90" height="12" rx="2" fill="#8b1a1a" opacity="0.85"/>
+            <rect x="286" y="12" width="36" height="8" rx="2" fill="rgba(245,235,220,0.18)"/>
+            <rect x="330" y="12" width="36" height="8" rx="2" fill="rgba(245,235,220,0.18)"/>
+            <rect x="374" y="12" width="36" height="8" rx="2" fill="rgba(245,235,220,0.18)"/>
+            <rect x="432" y="9" width="112" height="14" rx="1" fill="#8b1a1a" opacity="0.7"/>
+            <!-- hero -->
+            <rect x="28" y="48" width="10" height="10" rx="1" fill="#8b1a1a" opacity="0.6"/>
+            <rect x="44" y="50" width="100" height="6" rx="2" fill="#8b1a1a" opacity="0.4"/>
+            <rect x="28" y="68" width="260" height="24" rx="2" fill="#f5edd6" opacity="0.82"/>
+            <rect x="28" y="100" width="220" height="24" rx="2" fill="#f5edd6" opacity="0.72"/>
+            <rect x="28" y="132" width="180" height="24" rx="2" fill="#8b1a1a" opacity="0.5"/>
+            <rect x="28" y="170" width="100" height="22" rx="1" fill="#8b1a1a" opacity="0.8"/>
+            <rect x="136" y="170" width="90" height="22" rx="1" fill="none" stroke="rgba(245,235,220,0.25)" stroke-width="1.5"/>
+            <!-- decorative cross/iron motif -->
+            <line x1="440" y1="50" x2="440" y2="210" stroke="#8b1a1a" stroke-width="1" opacity="0.3"/>
+            <line x1="360" y1="130" x2="520" y2="130" stroke="#8b1a1a" stroke-width="1" opacity="0.3"/>
+            <circle cx="440" cy="130" r="50" fill="none" stroke="#8b1a1a" stroke-width="1" opacity="0.2"/>
+            <circle cx="440" cy="130" r="30" fill="none" stroke="#8b1a1a" stroke-width="0.8" opacity="0.15"/>
+            <circle cx="440" cy="130" r="8" fill="#8b1a1a" opacity="0.25"/>
+            <!-- divider -->
+            <line x1="28" y1="220" x2="532" y2="220" stroke="#2a1f1f" stroke-width="1"/>
+            <!-- gallery tabs -->
+            <rect x="28" y="226" width="60" height="8" rx="1" fill="rgba(245,235,220,0.1)"/>
+            <rect x="28" y="236" width="60" height="2" fill="#8b1a1a"/>
+            <rect x="96" y="227" width="54" height="6" rx="1" fill="rgba(245,235,220,0.06)"/>
+            <rect x="158" y="227" width="54" height="6" rx="1" fill="rgba(245,235,220,0.06)"/>
+            <!-- gallery grid -->
+            <rect x="28" y="248" width="112" height="56" rx="2" fill="#1a1212"/>
+            <rect x="148" y="248" width="112" height="56" rx="2" fill="#1a1212"/>
+            <rect x="268" y="248" width="112" height="56" rx="2" fill="#1a1212"/>
+            <rect x="388" y="248" width="80" height="56" rx="2" fill="#1a1212"/>
+            <!-- ink splatter details in gallery cards -->
+            <circle cx="84" cy="270" r="16" fill="#8b1a1a" opacity="0.18"/>
+            <circle cx="204" cy="274" r="12" fill="#8b1a1a" opacity="0.14"/>
+            <circle cx="324" cy="268" r="18" fill="#8b1a1a" opacity="0.16"/>
+            <!-- artist badge -->
+            <rect x="28" y="290" width="80" height="16" rx="8" fill="#8b1a1a" opacity="0.25"/>
+            <rect x="33" y="295" width="50" height="5" rx="1" fill="#8b1a1a" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="port-body">
+          <span class="port-industry" style="color:#c0392b;">Tattoo Studio · Live Client Work</span>
+          <h3>Crow &amp; Iron Tattoo Co.</h3>
+          <p>A full gothic-aesthetic website with multi-step online booking, artist profiles, filtered gallery, and a secure staff dashboard — connected to a live Supabase backend.</p>
+          <a href="Tattoo_shop_website.html" target="_blank" class="port-link" style="color:#c0392b;">View site →</a>
+        </div>
+      </div>
 
       <div class="port-card">
         <div class="port-img">
@@ -519,7 +704,7 @@ footer{padding:48px 0;}
         <div class="price-bar"></div>
         <span class="price-name">Starter</span>
         <div class="price-amount">$199</div>
-        <span class="price-days">Delivered in 3 business days</span>
+        <span class="price-days">Delivered in 5 business days</span>
         <p class="price-desc">Perfect for businesses that need a clean, professional online presence quickly — with their own content and branding applied.</p>
         <ul class="price-feats">
           <li>Industry-matched design</li>
@@ -538,7 +723,7 @@ footer{padding:48px 0;}
         <div class="price-bar"></div>
         <span class="price-name">Standard</span>
         <div class="price-amount">$349</div>
-        <span class="price-days">Delivered in 5 business days</span>
+        <span class="price-days">Delivered in 7 business days</span>
         <p class="price-desc">A fully built, polished site with all your content written in, photos sourced, and everything ready to go live the moment it lands in your inbox.</p>
         <ul class="price-feats">
           <li>Industry-matched design</li>
@@ -557,7 +742,7 @@ footer{padding:48px 0;}
         <div class="price-bar"></div>
         <span class="price-name">Premium</span>
         <div class="price-amount">$599</div>
-        <span class="price-days">Delivered in 7 business days</span>
+        <span class="price-days">Delivered in 9 business days</span>
         <p class="price-desc">The complete hands-off experience. I handle everything — design, content, photos, setup, hosting, and your custom domain — and hand it over live.</p>
         <ul class="price-feats">
           <li>Industry-matched design</li>
@@ -576,37 +761,6 @@ footer{padding:48px 0;}
   </div>
 </section>
 
-<!-- ── PROCESS ── -->
-<section id="process">
-  <div class="wrap">
-    <span class="sec-ey">How It Works</span>
-    <h2 class="sec-h">From brief to live site in days</h2>
-    <p class="sec-p">Four steps. No jargon. No drawn-out timelines.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">01</div>
-        <h3>You fill out the brief</h3>
-        <p>Tell me your business name, what you do, your services, and any colors or design preferences. Takes about 10 minutes — use the form below.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">02</div>
-        <h3>I get to work</h3>
-        <p>I choose the right design foundation, build in all your content, match your branding, and make sure your contact form is wired up and working.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">03</div>
-        <h3>You review it</h3>
-        <p>I send you a preview link. You share feedback — change this, move that, tweak the copy. We go back and forth until you're happy with every detail.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">04</div>
-        <h3>You go live</h3>
-        <p>Your finished files land in your inbox. Upload to any web host in minutes, or let me handle it as a small add-on — and your business is online.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── CONTACT ── -->
 <section id="contact">
   <div class="wrap">
@@ -621,6 +775,7 @@ footer{padding:48px 0;}
         <p>Fill this out and I'll be in touch within 24 hours.</p>
       </div>
       <form action="https://formspree.io/f/xgojngea" method="POST">
+        <input type="hidden" name="_next" value="https://YOUR-DOMAIN/thank-you.html">
         <div class="form-grid">
           <div class="field"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required></div>
           <div class="field"><label for="c-email">Email Address</label><input type="email" id="c-email" name="email" placeholder="you@email.com" required></div>
@@ -658,7 +813,19 @@ footer{padding:48px 0;}
           </div>
         </div>
         <div class="field" style="margin-bottom:26px;"><label for="c-msg">About Your Business</label><textarea id="c-msg" name="message" placeholder="What do you do, who are your customers, any websites you like the look of, anything that helps me understand your brand…"></textarea></div>
-        <button type="submit" class="btn btn-amber" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send My Project Brief</button>
+
+        <!-- Terms agreement -->
+        <label style="display:flex;align-items:flex-start;gap:12px;margin-bottom:22px;cursor:pointer;line-height:1.6;">
+          <input type="checkbox" id="agreeTerms" name="agree_terms" value="Yes — I agree to the Terms of Service and Privacy Policy" required style="width:17px;height:17px;margin-top:3px;accent-color:var(--amber);flex-shrink:0;cursor:pointer;">
+          <span style="font-size:14px;color:var(--slate);">I have read and agree to the <a href="terms-of-service.html" target="_blank" style="color:var(--amber);">Terms of Service</a> and <a href="privacy-policy.html" target="_blank" style="color:var(--amber);">Privacy Policy</a>.</span>
+        </label>
+
+        <!-- Hidden fields — populated by JS on submit for legal record keeping -->
+        <input type="hidden" id="agreedAt"       name="agreed_at"       value="">
+        <input type="hidden" id="termsVersion"   name="terms_version"   value="v1.0 — January 2026">
+        <input type="hidden" name="agreement_text" value="Submitter confirmed: I have read and agree to the CyberPatriot Terms of Service and Privacy Policy at patriotwebsites.com">
+
+        <button type="submit" class="btn btn-amber" onclick="stampAgreement()" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send My Project Brief</button>
       </form>
     </div>
   </div>
@@ -674,7 +841,13 @@ footer{padding:48px 0;}
       <a href="#process">How It Works</a>
       <a href="#contact">Get a Quote</a>
     </div>
-    <p class="foot-c">© 2026 CyberPatriot. All rights reserved.<a href="cyber.html" id="admin-link" tabindex="-1" aria-hidden="true" style="color:inherit;opacity:0;font-size:10px;margin-left:4px;user-select:none;">·</a></p>
+    <p class="foot-c">© 2026 CyberPatriot. All rights reserved.</p>
+  </div>
+  <div style="border-top:1px solid var(--line);padding:16px 0;margin-top:0;">
+    <div class="wrap" style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="privacy-policy.html" style="font-size:12.5px;color:var(--slate);transition:color .2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--slate)'">Privacy Policy</a>
+      <a href="terms-of-service.html" style="font-size:12.5px;color:var(--slate);transition:color .2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--slate)'">Terms of Service</a>
+    </div>
   </div>
 </footer>
 
@@ -726,12 +899,12 @@ footer{padding:48px 0;}
 
 <script>
 /* ── ADMIN LOGIN (storefront side) ───────────────────
-   Uses Supabase Auth. Same project as cyber.html.
-   On success → stamps session → redirects to cyber.html */
+   Uses Supabase Auth. Same project as SiteForge_Dashboard.html.
+   On success → stamps session → redirects to SiteForge_Dashboard.html */
 
 // ── REPLACE THESE TWO VALUES ─────────────────────────
-const SUPABASE_URL      = 'YOUR_SUPABASE_URL';      // REPLACE
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // REPLACE
+const SUPABASE_URL      = 'https://ohkhdvcywwqgcxijdoig.supabase.co';      // REPLACE
+const SUPABASE_ANON_KEY = 'sb_publishable_zFSIWw_tffP44hh2_DvuzA_udNqeCKO'; // REPLACE
 // ─────────────────────────────────────────────────────
 
 const adminSupa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -809,9 +982,9 @@ async function doAdminLogin(){
     localStorage.removeItem('cp_remembered_email');
   }
 
-  // Stamp session so cyber.html auto-unlocks
+  // Stamp session so SiteForge_Dashboard.html auto-unlocks
   sessionStorage.setItem('cp_auth_ts', Date.now().toString());
-  window.location.href = 'cyber.html';
+  window.location.href = 'SiteForge_Dashboard.html';
 }
 
 async function sendAdminReset(){
@@ -846,7 +1019,34 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* Show/hide the "Other" business type text box */
+/* Stamp agreement timestamp on form submit */
+function stampAgreement(){
+  const now = new Date();
+  const stamp = now.getFullYear() + '-' +
+    String(now.getMonth()+1).padStart(2,'0') + '-' +
+    String(now.getDate()).padStart(2,'0') + ' ' +
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0') + ':' +
+    String(now.getSeconds()).padStart(2,'0') + ' (' +
+    Intl.DateTimeFormat().resolvedOptions().timeZone + ')';
+  document.getElementById('agreedAt').value = stamp;
+}
+
+/* Hamburger menu */
+function toggleMobileNav(){
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('navHamburger');
+  const open = nav.classList.toggle('open');
+  btn.querySelectorAll('span')[0].style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+  btn.querySelectorAll('span')[1].style.opacity  = open ? '0' : '1';
+  btn.querySelectorAll('span')[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+}
+function closeMobileNav(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('navHamburger').querySelectorAll('span').forEach(s=>{ s.style.transform=''; s.style.opacity='1'; });
+}
+
+
 function toggleOtherField(val){
   const field = document.getElementById('other-type-field');
   const input = document.getElementById('c-type-other');

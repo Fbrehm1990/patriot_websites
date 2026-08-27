@@ -1,5 +1,3 @@
-# patriot_websites
-
 # SiteForge
 
 Done-for-you web design storefront and client dashboard, built for small businesses in the Martinsburg, WV area.

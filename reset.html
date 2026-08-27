@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password — CyberPatriot</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080e1a;--bg2:#0d1526;--amber:#f59e0b;--amber2:#fbbf24;--slate:#8b9bb4;--white:#f0f4fa;--line:#1a2740;--red:#ef4444;--green:#10b981;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);padding:48px 40px;position:relative;}
+.card::before{content:"";position:absolute;inset:12px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.logo{font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin-bottom:6px;}
+.logo em{color:var(--amber);font-style:italic;}
+.sub{font-size:13.5px;color:var(--slate);margin-bottom:32px;line-height:1.6;}
+.label{display:block;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.inp-wrap{position:relative;margin-bottom:8px;}
+.inp{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--white);padding:13px 46px 13px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;transition:border-color .2s;}
+.inp:focus{outline:none;border-color:var(--amber);}
+.eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--slate);cursor:pointer;font-size:16px;}
+.eye:hover{color:var(--white);}
+.hint{font-size:12px;color:var(--slate);margin-bottom:18px;}
+.btn{width:100%;background:var(--amber);color:#060c18;border:none;padding:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px;}
+.btn:hover{background:var(--amber2);}
+.btn:disabled{opacity:0.55;cursor:not-allowed;}
+.msg{font-size:13px;min-height:18px;margin-top:12px;line-height:1.6;text-align:center;}
+.msg.err{color:var(--red);}
+.msg.ok{color:var(--green);}
+.loading{text-align:center;color:var(--slate);font-size:14px;padding:20px 0;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">Cyber<em>Patriot</em></div>
+  <p class="sub" id="cardSub">Set your new dashboard password.</p>
+
+  <div id="loadingState" class="loading">Verifying your reset link…</div>
+
+  <div id="formState" style="display:none;">
+    <label class="label" for="newPw">New Password</label>
+    <div class="inp-wrap">
+      <input type="password" id="newPw" class="inp" placeholder="At least 8 characters" autocomplete="new-password">
+      <button class="eye" type="button" onclick="toggleVis('newPw','eye1')" id="eye1">👁</button>
+    </div>
+    <label class="label" for="confirmPw" style="margin-top:14px;">Confirm Password</label>
+    <div class="inp-wrap" style="margin-bottom:4px;">
+      <input type="password" id="confirmPw" class="inp" placeholder="Repeat your new password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doReset()">
+      <button class="eye" type="button" onclick="toggleVis('confirmPw','eye2')" id="eye2">👁</button>
+    </div>
+    <p class="hint">Use at least 8 characters with a mix of letters and numbers.</p>
+    <button class="btn" id="resetBtn" onclick="doReset()">Set New Password</button>
+    <p class="msg" id="resetMsg"></p>
+  </div>
+
+  <div id="successState" style="display:none;text-align:center;padding:20px 0;">
+    <div style="font-size:40px;margin-bottom:16px;">✅</div>
+    <p style="font-size:15px;font-weight:700;margin-bottom:8px;">Password updated!</p>
+    <p style="font-size:13px;color:var(--slate);margin-bottom:24px;">Redirecting you to the dashboard…</p>
+  </div>
+
+  <div id="errorState" style="display:none;text-align:center;padding:20px 0;">
+    <div style="font-size:40px;margin-bottom:16px;">⚠️</div>
+    <p style="font-size:15px;font-weight:700;margin-bottom:8px;">Link expired or invalid</p>
+    <p style="font-size:13px;color:var(--slate);margin-bottom:24px;">Password reset links expire after 1 hour. Request a new one from the login screen.</p>
+    <a href="SiteForge_Storefront.html" style="color:var(--amber);font-size:13px;">← Back to site</a>
+  </div>
+</div>
+
+<script>
+// ── REPLACE THESE TWO VALUES ──────────────────────────
+const SUPABASE_URL      = 'https://ohkhdvcywwqgcxijdoig.supabase.co';      // REPLACE
+const SUPABASE_ANON_KEY = 'sb_publishable_zFSIWw_tffP44hh2_DvuzA_udNqeCKO'; // REPLACE
+// ─────────────────────────────────────────────────────
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function show(id){ ['loadingState','formState','successState','errorState'].forEach(s=>{ document.getElementById(s).style.display = s===id?'':'none'; }); }
+
+function toggleVis(inputId, btnId){
+  const inp = document.getElementById(inputId);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  document.getElementById(btnId).textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+// Supabase puts the recovery token in the URL hash — listen for it
+supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  if(event === 'PASSWORD_RECOVERY'){
+    show('formState');
+  } else if(event === 'SIGNED_IN' && window.location.hash.includes('type=recovery')){
+    show('formState');
+  }
+});
+
+// Also check on load — token may already be in URL
+window.addEventListener('load', async () => {
+  const hash = window.location.hash;
+  if(!hash || (!hash.includes('access_token') && !hash.includes('type=recovery'))){
+    // No token in URL — invalid link
+    setTimeout(() => show('errorState'), 800);
+    return;
+  }
+  // Give Supabase a moment to process the hash
+  setTimeout(async () => {
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(session){ show('formState'); } else { show('errorState'); }
+  }, 1200);
+});
+
+async function doReset(){
+  const pw  = document.getElementById('newPw').value.trim();
+  const pw2 = document.getElementById('confirmPw').value.trim();
+  const msg = document.getElementById('resetMsg');
+  const btn = document.getElementById('resetBtn');
+  msg.textContent = ''; msg.className = 'msg';
+
+  if(!pw || !pw2){ msg.textContent = 'Please fill in both fields.'; msg.className='msg err'; return; }
+  if(pw.length < 8){ msg.textContent = 'Password must be at least 8 characters.'; msg.className='msg err'; return; }
+  if(pw !== pw2){ msg.textContent = 'Passwords do not match.'; msg.className='msg err'; return; }
+
+  btn.disabled = true; btn.textContent = 'Updating…';
+
+  const { error } = await supabaseClient.auth.updateUser({ password: pw });
+
+  if(error){
+    btn.disabled = false; btn.textContent = 'Set New Password';
+    msg.textContent = error.message || 'Something went wrong — try requesting a new reset link.';
+    msg.className = 'msg err';
+    return;
+  }
+
+  show('successState');
+  setTimeout(() => window.location.href = 'SiteForge_Dashboard.html', 2200);
+}
+</script>
+</body>
+</html>

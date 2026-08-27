@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You — CyberPatriot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Google Ads: base site tag — REPLACE AW-CONVERSION_ID with your real Conversion ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-CONVERSION_ID');
+
+  // Fires the Quote Form Submission conversion.
+  // REPLACE AW-CONVERSION_ID/CONVERSION_LABEL with the values from your Google Ads conversion action.
+  gtag('event', 'conversion', {
+      'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL'
+  });
+</script>
+
+<style>
+:root{
+  --bg:#080e1a; --bg2:#0d1526; --bg3:#131d33;
+  --amber:#f59e0b; --amber2:#fbbf24;
+  --slate:#8b9bb4; --white:#f0f4fa;
+  --line:#1a2740; --green:#10b981;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--white);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:24px;
+}
+.card{
+  max-width:520px; padding:48px 40px;
+  background:var(--bg2); border:1px solid var(--line); border-radius:20px;
+}
+.check{
+  width:64px; height:64px; border-radius:50%;
+  background:rgba(16,185,129,.12); border:1px solid var(--green);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 24px; font-size:28px; color:var(--green);
+}
+h1{
+  font-family:'Fraunces',serif; font-weight:700; font-size:28px;
+  margin-bottom:14px;
+}
+p{ color:var(--slate); font-size:15.5px; line-height:1.65; margin-bottom:28px; }
+a.btn{
+  display:inline-block; background:var(--amber); color:#080e1a;
+  font-weight:700; padding:14px 28px; border-radius:10px;
+  text-decoration:none; font-size:14.5px;
+}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="check">✓</div>
+    <h1>Got it — thank you!</h1>
+    <p>Your project brief is in. I'll review it and get back to you within one business day with a clear plan, timeline, and quote.</p>
+    <a href="/" class="btn">Back to Home</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+╔══════════════════════════════════════════════════════════════╗
+║         UNIVERSAL BUSINESS TEMPLATE by SiteForge            ║
+║                   siteforge.co                               ║
+╠══════════════════════════════════════════════════════════════╣
+║  HOW TO CUSTOMIZE THIS TEMPLATE                              ║
+║                                                              ║
+║  STEP 1 — CHANGE YOUR COLORS (lines 30–35 below)            ║
+║    Edit the 3 CSS variables to match your brand.             ║
+║                                                              ║
+║  STEP 2 — FIND EVERY "REPLACE" COMMENT                      ║
+║    Use Ctrl+F (or Cmd+F) and search for "REPLACE"            ║
+║    Every piece of content that needs your text is labeled.   ║
+║                                                              ║
+║  STEP 3 — CONNECT YOUR FORM                                  ║
+║    Replace action="#" on the contact form with your          ║
+║    Formspree endpoint: https://formspree.io                  ║
+║                                                              ║
+║  STEP 4 — ADD YOUR LOGO                                      ║
+║    Replace the .brand text with an <img> tag pointing        ║
+║    to your logo file.                                        ║
+╚══════════════════════════════════════════════════════════════╝
+-->
+<title>Your Business Name</title><!-- REPLACE: your business name -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   YOUR BRAND COLORS — change these 3 values to rebrand
+   the entire site instantly.
+   ============================================================ */
+:root{
+  --accent:    #2563eb;   /* REPLACE: your main brand color   */
+  --accent2:   #1d4ed8;   /* REPLACE: a slightly darker shade */
+  --text-dark: #0f172a;   /* REPLACE: your heading color      */
+
+  /* Leave the rest as-is or fine-tune as needed */
+  --bg:        #ffffff;
+  --bg2:       #f8fafc;
+  --bg3:       #f1f5f9;
+  --text:      #0f172a;
+  --text-dim:  #64748b;
+  --line:      #e2e8f0;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.65;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1120px;margin:0 auto;padding:0 30px;}
+
+/* ── NAVIGATION ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.brand{
+  font-size:20px;font-weight:800;letter-spacing:-0.01em;color:var(--text-dark);
+  display:flex;align-items:center;gap:10px;
+}
+.brand-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+/* REPLACE: swap .brand text with your business name, or use an <img> for your logo */
+.navlinks{display:flex;gap:28px;list-style:none;}
+.navlinks a{
+  font-size:14px;font-weight:500;color:var(--text-dim);
+  transition:color .2s;letter-spacing:0.01em;
+}
+.navlinks a:hover{color:var(--text);}
+.nav-btn{
+  font-size:13px;font-weight:700;letter-spacing:0.04em;
+  background:var(--accent);color:#fff;padding:10px 22px;
+  transition:background .2s;
+}
+.nav-btn:hover{background:var(--accent2);}
+
+/* ── HERO ── */
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:88vh;border-bottom:1px solid var(--line);
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 64px 80px 0;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:24px;
+}
+.hero-tag::before{content:"";width:24px;height:2px;background:var(--accent);}
+.hero h1{
+  font-size:clamp(42px,5.5vw,70px);font-weight:800;
+  line-height:1.06;letter-spacing:-0.025em;
+  color:var(--text-dark);margin-bottom:22px;
+}
+/* REPLACE: your main headline — make it specific to what you do */
+.hero h1 span{color:var(--accent);}
+.hero-sub{
+  font-size:17px;color:var(--text-dim);
+  max-width:420px;margin-bottom:44px;line-height:1.75;font-weight:300;
+}
+/* REPLACE: your supporting description */
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{
+  font-family:'Outfit',sans-serif;
+  font-size:14px;font-weight:600;letter-spacing:0.02em;
+  padding:14px 28px;display:inline-block;transition:all .2s;cursor:pointer;border:none;
+}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:var(--accent2);}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--line);}
+.btn-outline:hover{border-color:var(--text);}
+.hero-right{
+  background:var(--bg2);display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;border-left:1px solid var(--line);
+}
+.hero-placeholder{
+  width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;padding:60px;
+}
+.hero-placeholder svg{opacity:0.35;}
+.hero-placeholder p{
+  font-size:12.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text-dim);text-align:center;max-width:200px;line-height:1.6;
+}
+/* REPLACE: delete .hero-right and .hero-placeholder, add your image:
+   <div class="hero-right">
+     <img src="your-image.jpg" alt="Description" style="width:100%;height:100%;object-fit:cover;">
+   </div>
+*/
+
+/* ── TRUST STRIP ── */
+.trust{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);background:var(--bg2);
+}
+.trust-item{
+  padding:32px 24px;text-align:center;
+  border-right:1px solid var(--line);
+}
+.trust-item:last-child{border-right:none;}
+.trust-item b{
+  display:block;font-size:32px;font-weight:800;
+  color:var(--accent);letter-spacing:-0.02em;margin-bottom:4px;
+}
+.trust-item span{font-size:13px;color:var(--text-dim);font-weight:400;}
+/* REPLACE: your own stats/trust signals — years in business, customers served, etc. */
+
+/* ── SECTIONS ── */
+section{padding:88px 0;border-bottom:1px solid var(--line);}
+.sec-label{
+  font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:14px;
+}
+.sec-title{
+  font-size:clamp(28px,4vw,44px);font-weight:800;
+  letter-spacing:-0.02em;color:var(--text-dark);margin-bottom:16px;
+}
+.sec-sub{font-size:16px;color:var(--text-dim);max-width:520px;font-weight:300;line-height:1.75;}
+
+/* ── SERVICES / FEATURES ── */
+.features-head{margin-bottom:54px;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);}
+.feat{background:var(--bg);padding:42px 36px;}
+.feat-icon{
+  width:48px;height:48px;background:rgba(37,99,235,0.08);
+  display:flex;align-items:center;justify-content:center;margin-bottom:24px;
+}
+.feat-icon svg{opacity:0.85;}
+.feat h3{font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;}
+.feat p{font-size:14.5px;color:var(--text-dim);line-height:1.75;font-weight:300;}
+/* REPLACE: your 3 main services, features, or selling points */
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.about-visual{
+  background:var(--bg2);border:1px solid var(--line);
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.about-visual::after{
+  content:"YOUR PHOTO HERE";
+  font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--text-dim);position:absolute;
+}
+/* REPLACE: add your photo <img src="about.jpg" ...> inside .about-visual */
+.about-copy p{
+  font-size:15.5px;color:var(--text-dim);
+  line-height:1.85;margin-bottom:18px;font-weight:300;
+}
+.about-copy p strong{color:var(--text);font-weight:600;}
+.about-list{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:10px;}
+.about-list li{
+  display:flex;align-items:center;gap:12px;
+  font-size:14.5px;font-weight:500;
+}
+.about-list li::before{
+  content:"";width:20px;height:2px;background:var(--accent);flex-shrink:0;
+}
+/* REPLACE: your key selling points / values */
+
+/* ── TESTIMONIALS ── */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:54px;}
+.tcard{background:var(--bg2);border:1px solid var(--line);padding:36px 32px;}
+.tcard-stars{display:flex;gap:3px;margin-bottom:18px;}
+.star{color:var(--accent);font-size:16px;}
+.tcard blockquote{
+  font-size:15px;color:var(--text);line-height:1.8;
+  margin-bottom:24px;font-weight:300;font-style:italic;
+}
+.tcard-author{display:flex;align-items:center;gap:14px;}
+.tcard-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--bg3);border:2px solid var(--line);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:700;color:var(--accent);
+}
+.tcard-name{font-size:14px;font-weight:600;display:block;margin-bottom:2px;}
+.tcard-info{font-size:12.5px;color:var(--text-dim);}
+/* REPLACE: your real customer testimonials */
+
+/* ── CTA BANNER ── */
+.cta-band{
+  background:var(--text-dark);padding:88px 0;
+  border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:"";position:absolute;right:-100px;top:50%;transform:translateY(-50%);
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(37,99,235,0.15) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cta-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;position:relative;z-index:2;
+}
+.cta-copy h2{
+  font-size:clamp(28px,4vw,44px);font-weight:800;
+  letter-spacing:-0.02em;color:#fff;margin-bottom:10px;
+}
+.cta-copy p{font-size:16px;color:#94a3b8;font-weight:300;max-width:480px;}
+/* REPLACE: your CTA headline and description */
+.btn-white{background:#fff;color:var(--text-dark);font-weight:700;}
+.btn-white:hover{background:var(--accent);color:#fff;}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;}
+.contact-info h3{font-size:26px;font-weight:700;letter-spacing:-0.01em;margin-bottom:20px;}
+.contact-info p{font-size:15px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;font-weight:300;}
+.contact-info a{color:var(--accent);}
+.info-block{margin-top:32px;display:flex;flex-direction:column;gap:18px;}
+.info-row{display:flex;gap:16px;align-items:flex-start;}
+.info-icon{
+  width:38px;height:38px;background:rgba(37,99,235,0.08);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+}
+.info-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px;}
+.info-val{font-size:14.5px;color:var(--text-dim);font-weight:400;}
+/* REPLACE: your address, phone, email, hours */
+.cform{display:flex;flex-direction:column;gap:16px;}
+.cfield label{
+  display:block;font-size:11.5px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;
+}
+.cfield input,.cfield select,.cfield textarea{
+  width:100%;background:var(--bg2);border:1.5px solid var(--line);
+  color:var(--text);padding:13px 14px;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:400;
+  transition:border-color .2s;
+}
+.cfield input:focus,.cfield select:focus,.cfield textarea:focus{
+  outline:none;border-color:var(--accent);
+}
+.cfield textarea{resize:vertical;min-height:110px;}
+.cform-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+/* REPLACE: add your Formspree action URL to the form below */
+
+/* ── FOOTER ── */
+footer{padding:48px 0;background:var(--bg);}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.foot-links{display:flex;gap:24px;list-style:none;}
+.foot-links a{font-size:13px;color:var(--text-dim);transition:color .2s;font-weight:500;}
+.foot-links a:hover{color:var(--text);}
+.foot-c{font-size:13px;color:var(--text-dim);}
+/* REPLACE: footer links and copyright */
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:70px 0;}
+  .hero-right{min-height:300px;border-left:none;border-top:1px solid var(--line);}
+  .trust,.features-grid{grid-template-columns:1fr 1fr;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+  .test-grid{grid-template-columns:1fr;}
+  .navlinks{display:none;}
+  .cform-row{grid-template-columns:1fr;}
+}
+@media(max-width:580px){
+  .trust{grid-template-columns:1fr 1fr;}
+  .trust-item{border-bottom:1px solid var(--line);}
+  .features-grid{grid-template-columns:1fr;}
+  .cta-inner{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+     REPLACE: business name/logo + nav links
+═══════════════════════════════════════════ -->
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand">
+      <span class="brand-dot"></span>
+      Your Business Name<!-- REPLACE: your name or drop in <img src="logo.png" alt="Your Logo" height="36"> -->
+    </a>
+    <ul class="navlinks">
+      <!-- REPLACE: your page sections -->
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-btn">Get in Touch</a><!-- REPLACE: your CTA text + destination -->
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     REPLACE: headline, description, CTAs,
+     and the right-side image placeholder
+═══════════════════════════════════════════ -->
+<div class="hero">
+  <div class="wrap hero-left">
+    <span class="hero-tag">Your tagline or specialty</span><!-- REPLACE -->
+    <h1>Your big<br>headline <span>goes<br>right here.</span></h1><!-- REPLACE: make this specific to what you do -->
+    <p class="hero-sub">Write 1–2 sentences explaining what you do, who you serve, and why customers should choose you over anyone else.</p><!-- REPLACE -->
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-accent">Primary Action</a><!-- REPLACE: e.g. "Book Now", "Get a Quote", "Shop" -->
+      <a href="#services" class="btn btn-outline">Learn More</a><!-- REPLACE -->
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-placeholder">
+      <!-- REPLACE this entire block with:
+           <img src="your-hero-image.jpg" alt="Description"
+                style="width:100%;height:100%;object-fit:cover;">
+      -->
+      <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="56" height="56" rx="4" stroke="#94a3b8" stroke-width="2" fill="none"/>
+        <circle cx="22" cy="22" r="8" stroke="#94a3b8" stroke-width="2" fill="none"/>
+        <path d="M4 44 L20 28 L34 40 L44 30 L60 44" stroke="#94a3b8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p>Add your hero image or photo here</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TRUST STRIP
+     REPLACE: 4 stats or trust signals
+═══════════════════════════════════════════ -->
+<div class="trust">
+  <div class="trust-item"><b>10+</b><span>Years in business</span></div><!-- REPLACE -->
+  <div class="trust-item"><b>500+</b><span>Happy customers</span></div>
+  <div class="trust-item"><b>4.9★</b><span>Average rating</span></div>
+  <div class="trust-item"><b>100%</b><span>Your promise here</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SERVICES / FEATURES
+     REPLACE: your 3 main offerings
+═══════════════════════════════════════════ -->
+<section id="services">
+  <div class="wrap">
+    <div class="features-head">
+      <span class="sec-label">What We Offer</span><!-- REPLACE: "Our Services", "What We Do", etc. -->
+      <h2 class="sec-title">Your services,<br>spelled out clearly.</h2><!-- REPLACE -->
+      <p class="sec-sub">Write a short intro to your services — 1 sentence is enough. Focus on what the customer gets, not how you deliver it.</p><!-- REPLACE -->
+    </div>
+    <div class="features-grid">
+
+      <div class="feat">
+        <div class="feat-icon">
+          <!-- REPLACE: swap SVG icon for one that matches your service -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="color:var(--accent)"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="color:var(--accent)"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="color:var(--accent)"/>
+          </svg>
+        </div>
+        <h3>Service One</h3><!-- REPLACE: your first service name -->
+        <p>Describe this service in 2–3 sentences. Focus on the benefit to the customer, not just what it is. What problem does it solve?</p><!-- REPLACE -->
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" style="color:var(--accent)"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--accent)"/>
+          </svg>
+        </div>
+        <h3>Service Two</h3><!-- REPLACE -->
+        <p>Another service description here. Keep it short and benefit-driven. Customers skim — make every word count.</p><!-- REPLACE -->
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="color:var(--accent)"/>
+          </svg>
+        </div>
+        <h3>Service Three</h3><!-- REPLACE -->
+        <p>Your third main offering. If you have more than three, pick the most important ones or add more .feat blocks to the grid.</p><!-- REPLACE -->
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+     REPLACE: your story + key points
+═══════════════════════════════════════════ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-visual">
+        <!-- REPLACE: add your photo or team photo
+             <img src="about.jpg" alt="About us" style="width:100%;height:100%;object-fit:cover;">
+        -->
+      </div>
+      <div class="about-copy">
+        <span class="sec-label">About Us</span><!-- REPLACE: "Our Story", "Who We Are" -->
+        <h2 class="sec-title" style="max-width:none;">Write your story<br>in plain language.</h2><!-- REPLACE -->
+        <p>Start with why you started this business. Keep it honest and human — customers connect with people, not corporate-speak. <strong>What makes you different?</strong></p><!-- REPLACE -->
+        <p>Add a second paragraph here if needed. Talk about your team, your approach, your values, or how long you've been doing this. Two paragraphs is usually enough.</p><!-- REPLACE -->
+        <ul class="about-list">
+          <li>Your first key strength or value</li><!-- REPLACE -->
+          <li>Your second key strength or value</li>
+          <li>Your third key strength or value</li>
+          <li>Your fourth key strength or value</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+     REPLACE: real customer quotes
+═══════════════════════════════════════════ -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="features-head">
+      <span class="sec-label">Customer Reviews</span><!-- REPLACE -->
+      <h2 class="sec-title">What people are saying.</h2><!-- REPLACE -->
+    </div>
+    <div class="test-grid">
+
+      <div class="tcard">
+        <div class="tcard-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <blockquote>"Replace this with a real customer quote. The best testimonials mention a specific result or detail — not just 'great service!' Ask your best customers for one."</blockquote><!-- REPLACE -->
+        <div class="tcard-author">
+          <div class="tcard-avatar">A</div><!-- REPLACE: first initial -->
+          <div>
+            <span class="tcard-name">Customer Name</span><!-- REPLACE -->
+            <span class="tcard-info">Their job title or location</span><!-- REPLACE -->
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <blockquote>"A second testimonial from a different type of customer. Variety helps — if possible, show different services or demographics that you serve well."</blockquote><!-- REPLACE -->
+        <div class="tcard-author">
+          <div class="tcard-avatar">B</div>
+          <div>
+            <span class="tcard-name">Customer Name</span><!-- REPLACE -->
+            <span class="tcard-info">Their job title or location</span><!-- REPLACE -->
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <blockquote>"Third testimonial here. Three is a good number — enough to show social proof without looking like you're trying too hard. Use your best reviews."</blockquote><!-- REPLACE -->
+        <div class="tcard-author">
+          <div class="tcard-avatar">C</div>
+          <div>
+            <span class="tcard-name">Customer Name</span><!-- REPLACE -->
+            <span class="tcard-info">Their job title or location</span><!-- REPLACE -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     REPLACE: your call-to-action message
+═══════════════════════════════════════════ -->
+<div class="cta-band">
+  <div class="wrap cta-inner">
+    <div class="cta-copy">
+      <h2>Ready to get started?</h2><!-- REPLACE: your CTA headline -->
+      <p>Write one line that removes any hesitation and tells them exactly what happens next when they click the button.</p><!-- REPLACE -->
+    </div>
+    <a href="#contact" class="btn btn-white" style="padding:16px 36px;font-size:15px;white-space:nowrap;">Contact Us Today</a><!-- REPLACE: button text + link -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CONTACT
+     REPLACE: your address, phone, email, hours
+     and connect the form to Formspree
+═══════════════════════════════════════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <span class="sec-label">Contact</span>
+        <h3>Let's talk.</h3><!-- REPLACE -->
+        <p>Describe how people can best reach you, what to expect when they do, and how fast you respond. This paragraph builds trust right before they submit a form.</p><!-- REPLACE -->
+
+        <div class="info-block">
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--accent)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <span class="info-label">Address</span>
+              <span class="info-val">123 Your Street, City, State 00000</span><!-- REPLACE -->
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--accent)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.31h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <span class="info-label">Phone</span>
+              <span class="info-val"><a href="tel:+15550000000">(555) 000-0000</a></span><!-- REPLACE -->
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--accent)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <span class="info-label">Email</span>
+              <span class="info-val"><a href="mailto:hello@yourbusiness.com">hello@yourbusiness.com</a></span><!-- REPLACE -->
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--accent)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <span class="info-label">Hours</span>
+              <!-- REPLACE: your hours -->
+              <span class="info-val" style="white-space:pre-line;">Mon – Fri: 9 am – 5 pm
+Sat: 10 am – 3 pm
+Sun: Closed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- REPLACE: change action="#" to your Formspree URL: https://formspree.io/f/xxxxxxxx -->
+        <form class="cform" action="#" method="POST">
+          <div class="cform-row">
+            <div class="cfield">
+              <label for="c-name">Your Name</label>
+              <input type="text" id="c-name" name="name" placeholder="Full name" required>
+            </div>
+            <div class="cfield">
+              <label for="c-email">Email Address</label>
+              <input type="email" id="c-email" name="email" placeholder="you@email.com" required>
+            </div>
+          </div>
+          <div class="cfield">
+            <label for="c-phone">Phone (optional)</label>
+            <input type="tel" id="c-phone" name="phone" placeholder="(555) 000-0000">
+          </div>
+          <div class="cfield">
+            <!-- REPLACE: change label + options to match your services -->
+            <label for="c-service">What can we help with?</label>
+            <select id="c-service" name="service">
+              <option value="">Select a service…</option>
+              <option>Service One</option>
+              <option>Service Two</option>
+              <option>Service Three</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="cfield">
+            <label for="c-msg">Message</label>
+            <textarea id="c-msg" name="message" placeholder="Tell us a bit about what you need…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-accent" style="align-self:flex-start;padding:14px 30px;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     REPLACE: links + copyright
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="brand">
+      <span class="brand-dot"></span>
+      Your Business Name<!-- REPLACE -->
+    </a>
+    <ul class="foot-links">
+      <!-- REPLACE: your nav links -->
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="foot-c">© 2026 Your Business Name. All rights reserved.</p><!-- REPLACE -->
+  </div>
+</footer>
+
+</body>
+</html>

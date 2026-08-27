@@ -267,7 +267,7 @@ h1,h2,h3{font-family:'Fraunces',serif;}
       </div>
     </nav>
     <div class="sidebar-foot">
-      <p>Leads sync from your<br>chat widget automatically.<br><a href="index.html">← Back to storefront</a></p>
+      <p>Leads sync from your<br>chat widget automatically.<br><a href="SiteForge_Storefront.html">← Back to storefront</a></p>
       <button onclick="lockDashboard()" style="margin-top:12px;width:100%;background:transparent;border:1px solid var(--line);color:var(--slate);padding:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--slate)'">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Lock Dashboard
@@ -502,7 +502,17 @@ const SUPABASE_URL      = 'https://ohkhdvcywwqgcxijdoig.supabase.co';      // RE
 const SUPABASE_ANON_KEY = 'sb_publishable_zFSIWw_tffP44hh2_DvuzA_udNqeCKO'; // REPLACE
 // ─────────────────────────────────────────────────────
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Safe Supabase initialization — won't crash if CDN fails or
+// credentials haven't been filled in yet
+let supabaseClient = null;
+const supabaseReady = SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY';
+try {
+  if(supabaseReady && window.supabase){
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+} catch(e){
+  console.warn('Supabase could not initialize:', e.message);
+}
 
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 min inactivity lock
 let inactivityTimer = null;
@@ -539,6 +549,14 @@ async function submitAuth(){
   const remember = document.getElementById('rememberMe').checked;
   errEl.textContent = '';
 
+  // Guard: Supabase not configured yet
+  if(!supabaseClient){
+    errEl.textContent = !supabaseReady
+      ? 'Dashboard not connected yet — paste your Supabase URL and key into the file (search "REPLACE").'
+      : 'Could not reach the auth service — check your internet connection and try again.';
+    return;
+  }
+
   if(!email){ errEl.textContent = 'Please enter your email.'; return; }
   if(!pw)   { errEl.textContent = 'Please enter your password.'; return; }
 
@@ -572,6 +590,11 @@ async function sendReset(){
   const errEl = document.getElementById('forgotError');
   const btn   = document.getElementById('forgotBtn');
   errEl.textContent = '';
+
+  if(!supabaseClient){
+    errEl.textContent = 'Dashboard not connected yet — Supabase credentials need to be configured first.';
+    return;
+  }
 
   if(!email){ errEl.textContent = 'Please enter your email address.'; return; }
 
@@ -630,13 +653,16 @@ window.addEventListener('load', async () => {
   // Check if redirected from storefront with a fresh session
   const storefrontAuth = sessionStorage.getItem('cp_auth_ts');
   if(storefrontAuth && (Date.now() - parseInt(storefrontAuth)) < 60000){
-    // Fresh login from storefront — verify Supabase session
-    const { data:{ session } } = await supabaseClient.auth.getSession();
-    if(session){ sessionStorage.removeItem('cp_auth_ts'); unlockDashboard(); return; }
+    if(supabaseClient){
+      const { data:{ session } } = await supabaseClient.auth.getSession();
+      if(session){ sessionStorage.removeItem('cp_auth_ts'); unlockDashboard(); return; }
+    }
   }
   // Normal check
-  const { data:{ session } } = await supabaseClient.auth.getSession();
-  if(session){ unlockDashboard(); }
+  if(supabaseClient){
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(session){ unlockDashboard(); return; }
+  }
   else { document.getElementById('authEmail').focus(); }
 });
 
@@ -930,21 +956,27 @@ async function sendAiMessage(){
   document.getElementById('aiSend').disabled = true;
   showTyping();
   try{
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    const res = await fetch(SUPABASE_URL + '/functions/v1/dashboard-ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + session.access_token
+      },
       body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1000,
         system: AI_SYSTEM,
         messages: aiHistory
       })
     });
     const data = await res.json();
     hideTyping();
-    const reply = data.content?.map(c=>c.text||'').join('') || 'Something went wrong — please try again.';
-    appendAiMessage('assistant', reply);
-    aiHistory.push({role:'assistant', content:reply});
+    if(data.error){
+      appendAiMessage('assistant', 'Error: ' + data.error);
+    } else {
+      const reply = data.content?.map(c=>c.text||'').join('') || 'Something went wrong — please try again.';
+      appendAiMessage('assistant', reply);
+      aiHistory.push({role:'assistant', content:reply});
+    }
   } catch(e){
     hideTyping();
     appendAiMessage('assistant','Connection error. Check your internet and try again.');
@@ -998,11 +1030,20 @@ async function quickGenerate(type, prompt){
   body.innerHTML = '<div class="mktg-loading"><div class="mktg-spinner"></div>Generating your ' + type.toLowerCase() + '…</div>';
   document.querySelectorAll('.mktg-btn').forEach(b=>b.classList.remove('running'));
   try{
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:MKTG_SYSTEM,messages:[{role:'user',content:prompt}]})
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    const res = await fetch(SUPABASE_URL + '/functions/v1/dashboard-ai',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + session.access_token
+      },
+      body:JSON.stringify({system:MKTG_SYSTEM,messages:[{role:'user',content:prompt}]})
     });
     const data = await res.json();
+    if(data.error){
+      body.innerHTML = '<span style="color:var(--red);">Error: ' + data.error + '</span>';
+      return;
+    }
     const text = data.content?.map(c=>c.text||'').join('') || 'Something went wrong — please try again.';
     currentMktgContent = text;
     body.textContent = text;

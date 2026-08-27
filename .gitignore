@@ -1,0 +1,31 @@
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets.json
+
+# Supabase local dev
+.supabase/
+supabase/.temp/
+
+# Editor/OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (in case any tooling gets added later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Netlify
+.netlify/
+
+# Backups / working copies
+*.bak
+*_backup.html
+*_old.html

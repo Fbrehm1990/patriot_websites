@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crow &amp; Iron Tattoo Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --ink:#0e0d0d;
+    --ink-2:#161413;
+    --bone:#ece5d6;
+    --bone-dim:#bfb6a2;
+    --blood:#9c1c1c;
+    --blood-bright:#c4351f;
+    --gold:#c9a267;
+    --line:#3a352e;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:radial-gradient(rgba(236,229,214,0.035) 1px, transparent 1px);
+    background-size:3px 3px;
+    pointer-events:none;
+    z-index:1;
+  }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  h1,h2,h3{margin:0; font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:0.04em;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--blood-bright);
+  }
+  .stamp{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:64px; height:64px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    transform:rotate(-8deg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.08em;
+    color:var(--gold);
+    text-align:center;
+    flex-shrink:0;
+    opacity:0.85;
+  }
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,13,13,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:74px;
+  }
+  .brand{
+    font-family:'UnifrakturCook',cursive;
+    font-size:28px;
+    color:var(--bone);
+    text-decoration:none;
+    letter-spacing:0.02em;
+  }
+  .brand span{color:var(--blood-bright);}
+  .navlinks{display:flex; gap:30px; list-style:none; margin:0; padding:0;}
+  .navlinks a{
+    text-decoration:none;
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+    transition:color .2s;
+    padding-bottom:4px;
+    border-bottom:1px solid transparent;
+  }
+  .navlinks a:hover{color:var(--bone); border-color:var(--blood-bright);}
+  .navcta{
+    font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+    background:var(--blood); color:var(--bone); padding:10px 18px; border:1px solid var(--blood);
+    text-decoration:none; transition:all .2s;
+  }
+  .navcta:hover{background:transparent; color:var(--blood-bright);}
+  .navtoggle{display:none; background:none; border:none; color:var(--bone); font-size:26px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 100px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-120px; top:-80px;
+    width:520px; height:520px;
+    border:1px solid rgba(201,162,103,0.18);
+    border-radius:50%;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; right:-40px; top:20px;
+    width:380px; height:380px;
+    border:1px solid rgba(156,28,28,0.22);
+    border-radius:50%;
+  }
+  .hero-inner{position:relative; z-index:2; max-width:680px;}
+  .hero h1{
+    font-size:clamp(44px,7vw,78px);
+    line-height:0.98;
+    margin:18px 0 22px;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--blood-bright);
+  }
+  .hero p.lede{
+    font-size:18px; color:var(--bone-dim); max-width:520px; margin-bottom:34px;
+  }
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Oswald',sans-serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase;
+    padding:15px 26px; text-decoration:none; display:inline-block; transition:all .2s; cursor:pointer; border:1px solid var(--bone);
+  }
+  .btn-primary{background:var(--blood); border-color:var(--blood); color:var(--bone);}
+  .btn-primary:hover{background:var(--blood-bright); border-color:var(--blood-bright);}
+  .btn-ghost{background:transparent; color:var(--bone);}
+  .btn-ghost:hover{background:var(--bone); color:var(--ink);}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:96px 0; border-bottom:1px solid var(--line); position:relative; z-index:2;}
+  .sec-head{display:flex; align-items:flex-end; justify-content:space-between; gap:30px; margin-bottom:54px; flex-wrap:wrap;}
+  .sec-head h2{font-size:clamp(30px,4vw,46px); margin-top:10px;}
+  .sec-head p{color:var(--bone-dim); max-width:420px; font-size:15px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;}
+  .shop-bio p{color:var(--bone-dim); margin-bottom:16px;}
+  .shop-bio .figures{display:flex; gap:36px; margin-top:34px;}
+  .figure b{display:block; font-family:'Oswald',sans-serif; font-size:30px; color:var(--gold);}
+  .figure span{font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--bone-dim);}
+
+  .artist-list{display:flex; flex-direction:column; gap:0;}
+  .artist{
+    display:grid; grid-template-columns:84px 1fr; gap:20px;
+    padding:26px 0; border-top:1px solid var(--line);
+  }
+  .artist:last-child{border-bottom:1px solid var(--line);}
+  .artist-photo{
+    width:84px; height:84px; border-radius:50%;
+    background:linear-gradient(160deg,#262220,#0e0d0d);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'UnifrakturCook',cursive; font-size:30px; color:var(--gold);
+  }
+  .artist h3{font-size:19px; margin-bottom:4px;}
+  .artist .role{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--blood-bright); text-transform:uppercase; margin-bottom:8px; display:block;}
+  .artist p{color:var(--bone-dim); font-size:14.5px; margin:0;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-tabs{display:flex; gap:10px; margin-bottom:36px; flex-wrap:wrap;}
+  .gtab{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.06em;
+    padding:8px 16px; border:1px solid var(--line); background:transparent; color:var(--bone-dim); cursor:pointer; text-transform:uppercase;
+  }
+  .gtab.active, .gtab:hover{border-color:var(--blood-bright); color:var(--bone);}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
+  }
+  .gcard{
+    position:relative; border:1px solid var(--line); background:var(--ink-2);
+    aspect-ratio:3/4; overflow:hidden; cursor:default;
+    transition:transform .25s, border-color .25s;
+  }
+  .gcard:hover{transform:translateY(-5px); border-color:var(--gold);}
+  .gcard svg{width:100%; height:100%; display:block;}
+  .gcard .tag{
+    position:absolute; bottom:0; left:0; right:0;
+    padding:10px 12px;
+    background:linear-gradient(to top, rgba(14,13,13,0.92), transparent);
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim);
+    display:flex; justify-content:space-between;
+  }
+  .gcard .tag b{color:var(--gold); font-weight:500;}
+
+  /* ---------- BOOKING ---------- */
+  .booking-shell{
+    border:1px solid var(--line);
+    background:var(--ink-2);
+    padding:44px;
+    position:relative;
+  }
+  .booking-shell::before{
+    content:""; position:absolute; top:14px; left:14px; right:14px; bottom:14px;
+    border:1px dashed rgba(201,162,103,0.25);
+    pointer-events:none;
+  }
+  .step-label{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.12em; color:var(--gold);
+    text-transform:uppercase; margin-bottom:14px; display:block;
+  }
+  .artist-select{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:38px;}
+  .artist-opt{
+    border:1px solid var(--line); padding:18px; cursor:pointer; background:transparent; color:var(--bone); text-align:left; font-family:'Inter',sans-serif;
+    transition:all .15s;
+  }
+  .artist-opt:hover{border-color:var(--bone-dim);}
+  .artist-opt.sel{border-color:var(--blood-bright); background:rgba(156,28,28,0.1);}
+  .artist-opt b{display:block; font-family:'Oswald',sans-serif; font-size:16px; margin-bottom:3px; text-transform:uppercase;}
+  .artist-opt span{font-size:12px; color:var(--bone-dim);}
+
+  .date-row{display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:38px;}
+  .date-opt{
+    flex:0 0 auto; width:72px; border:1px solid var(--line); background:transparent; color:var(--bone);
+    padding:12px 6px; text-align:center; cursor:pointer; font-family:'JetBrains Mono',monospace;
+  }
+  .date-opt .dow{display:block; font-size:10px; color:var(--bone-dim); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px;}
+  .date-opt .dnum{display:block; font-size:20px; font-family:'Oswald',sans-serif; color:var(--bone);}
+  .date-opt:hover{border-color:var(--bone-dim);}
+  .date-opt.sel{border-color:var(--blood-bright); background:rgba(156,28,28,0.1);}
+
+  .slot-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:38px; min-height:54px;}
+  .slot-btn{
+    border:1px solid var(--line); background:transparent; color:var(--bone); padding:14px 8px;
+    font-family:'JetBrains Mono',monospace; font-size:13px; cursor:pointer; transition:all .15s;
+  }
+  .slot-btn:hover{border-color:var(--bone-dim);}
+  .slot-btn.sel{border-color:var(--blood-bright); background:rgba(156,28,28,0.12); color:var(--bone);}
+  .slot-btn:disabled{opacity:0.25; cursor:not-allowed; text-decoration:line-through;}
+  .empty-note{color:var(--bone-dim); font-size:13px; font-style:italic; grid-column:1/-1;}
+
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px;}
+  .field label{display:block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--bone-dim); margin-bottom:8px;}
+  .field input, .field textarea, .field select{
+    width:100%; background:var(--ink); border:1px solid var(--line); color:var(--bone);
+    padding:13px 14px; font-family:'Inter',sans-serif; font-size:14.5px;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{outline:none; border-color:var(--blood-bright);}
+  .field textarea{resize:vertical; min-height:80px;}
+
+  .summary-bar{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    border-top:1px solid var(--line); padding-top:26px; margin-top:10px;
+  }
+  .summary-bar .sum-text{font-size:13.5px; color:var(--bone-dim);}
+  .summary-bar .sum-text b{color:var(--bone);}
+  .confirm-box{
+    display:none; text-align:center; padding:50px 30px;
+  }
+  .confirm-box .stamp-big{
+    width:120px; height:120px; border:3px solid var(--blood-bright); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin:0 auto 26px; transform:rotate(-6deg);
+    font-family:'Oswald',sans-serif; color:var(--blood-bright); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; text-align:center;
+  }
+  .confirm-box h3{font-size:26px; margin-bottom:14px;}
+  .confirm-box p{color:var(--bone-dim); max-width:420px; margin:0 auto 6px;}
+  .form-msg{font-size:13px; color:var(--blood-bright); margin-top:-10px; margin-bottom:18px; min-height:18px;}
+
+  /* ---------- STAFF DASHBOARD ---------- */
+  .staff-calendar{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px;}
+  .staff-day{border:1px solid var(--line); padding:14px;}
+  .staff-day h4{font-family:'Oswald',sans-serif; font-size:14px; margin-bottom:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.06em;}
+  .staff-slot{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 0; border-top:1px solid var(--line); font-family:'JetBrains Mono',monospace; font-size:11.5px;}
+  .staff-slot:first-of-type{border-top:none;}
+  .staff-slot .lbl{color:var(--bone-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .staff-slot.booked .lbl{color:var(--bone);}
+  .staff-slot.blocked .lbl{color:var(--blood-bright);}
+  .staff-slot button{
+    flex-shrink:0;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:4px 8px; border:1px solid var(--line); background:transparent; color:var(--bone-dim); cursor:pointer;
+  }
+  .staff-slot button:hover{border-color:var(--blood-bright); color:var(--bone);}
+  .staff-slot.booked .lbl{cursor:pointer;}
+  .staff-slot.booked .lbl:hover{color:var(--gold); text-decoration:underline;}
+
+  /* ---------- EDIT APPOINTMENT MODAL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:200;
+    background:rgba(14,13,13,0.82);
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    width:100%; max-width:480px;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    padding:36px;
+    position:relative;
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal-box::before{
+    content:""; position:absolute; top:10px; left:10px; right:10px; bottom:10px;
+    border:1px dashed rgba(201,162,103,0.25);
+    pointer-events:none;
+  }
+  .modal-close{
+    position:absolute; top:14px; right:14px;
+    background:none; border:none; color:var(--bone-dim); font-size:22px; cursor:pointer; line-height:1;
+  }
+  .modal-close:hover{color:var(--blood-bright);}
+  .modal-box h3{font-size:21px; margin-bottom:6px;}
+  .modal-sub{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); margin-bottom:24px; letter-spacing:0.04em;}
+  .modal-box .field{margin-bottom:18px;}
+  .modal-actions{display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:8px; flex-wrap:wrap;}
+  .modal-msg{font-size:13px; color:var(--blood-bright); min-height:18px; margin-bottom:10px;}
+  .btn-danger{background:transparent; border:1px solid var(--blood); color:var(--blood-bright);}
+  .btn-danger:hover{background:var(--blood); color:var(--bone);}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:50px 0; }
+  .foot-inner{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; align-items:center;}
+  .foot-inner .brand{font-size:22px;}
+  .foot-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--bone-dim); display:flex; gap:24px; flex-wrap:wrap;}
+
+  @media(max-width:920px){
+    .navlinks{display:none;}
+    .navtoggle{display:block;}
+    .about-grid{grid-template-columns:1fr; gap:50px;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .artist-select{grid-template-columns:1fr;}
+    .slot-grid{grid-template-columns:repeat(2,1fr);}
+    .form-row{grid-template-columns:1fr;}
+    .booking-shell{padding:26px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand">Crow <span>&amp;</span> Iron</a>
+    <ul class="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#booking">Book</a></li>
+      <li><a href="#staff">Staff</a></li>
+    </ul>
+    <a href="#booking" class="navcta">Book a Slot</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Est. 2014 — Custom Tattoo Studio</span>
+    <h1>Permanent work,<br>made by hand, <em>not habit.</em></h1>
+    <p class="lede">Three resident artists, one chair at a time. Every piece at Crow &amp; Iron is drawn for the skin it's going on — no flash-off-the-wall, no rushing the line.</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn btn-primary">Check Availability</a>
+      <a href="#gallery" class="btn btn-ghost">See the Work</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 — About Us</span>
+        <h2>The shop &amp; the hands behind it</h2>
+      </div>
+      <p>A small studio in a converted print shop — three private stations, one front room, no walk-in chaos.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="shop-bio">
+        <p>Crow &amp; Iron started as a single chair in the back of a print shop and grew, slowly and on purpose, into a three-artist studio that still books by appointment only. We believe a tattoo is a collaboration — you bring the idea and the placement, we bring twenty-plus combined years of putting ink where it'll still look right in twenty more.</p>
+        <p>Every consult starts with paper before it touches skin. Our artists draw your piece to fit your body, not the other way around, and we'll always tell you honestly if an idea needs a different approach to age well.</p>
+        <div class="figures">
+          <div class="figure"><b>12k+</b><span>Sessions Completed</span></div>
+          <div class="figure"><b>3</b><span>Resident Artists</span></div>
+          <div class="figure"><b>4.9</b><span>Average Rating</span></div>
+        </div>
+      </div>
+
+      <div class="artist-list">
+        <div class="artist">
+          <div class="artist-photo">M</div>
+          <div>
+            <h3>Mara Voss</h3>
+            <span class="role">Blackwork &amp; Fine Line — 8 yrs</span>
+            <p>Mara trained under a single-needle specialist in Antwerp before settling into blackwork and architectural fine line. She keeps a sketchbook of botanical studies that ends up in most of her custom pieces, and she's particular about negative space — ask her about it and you'll get a twenty-minute answer.</p>
+          </div>
+        </div>
+        <div class="artist">
+          <div class="artist-photo">D</div>
+          <div>
+            <h3>Desmond Cole</h3>
+            <span class="role">American Traditional &amp; Color Realism — 12 yrs</span>
+            <p>Desmond apprenticed in a street shop that did nothing but traditional flash for six years before he started layering in color realism. He still hand-draws every flash sheet on the wall behind the front desk, and he's the one to see for bold linework that holds up for decades.</p>
+          </div>
+        </div>
+        <div class="artist">
+          <div class="artist-photo">Y</div>
+          <div>
+            <h3>Yuki Tanaka</h3>
+            <span class="role">Japanese Irezumi &amp; Illustrative — 10 yrs</span>
+            <p>Yuki studied traditional irezumi composition in Osaka before bringing it stateside, and now splits her time between full back pieces and smaller illustrative work that borrows the same sense of movement. She books large-scale projects in multi-session arcs, so plan ahead.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 — Gallery</span>
+        <h2>Recent work, off the books</h2>
+      </div>
+      <p>A sample of finished pieces by station. Filter by artist to see their specific hand.</p>
+    </div>
+
+    <div class="gallery-tabs" id="galleryTabs">
+      <button class="gtab active" data-filter="all">All Work</button>
+      <button class="gtab" data-filter="mara">Mara — Blackwork</button>
+      <button class="gtab" data-filter="desmond">Desmond — Traditional</button>
+      <button class="gtab" data-filter="yuki">Yuki — Irezumi</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section id="booking">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 — Book an Appointment</span>
+        <h2>Pick an artist, a slot, and you're booked</h2>
+      </div>
+      <p>Availability below pulls from each artist's real open slots. Booked times disappear from the list for everyone.</p>
+    </div>
+
+    <div class="booking-shell">
+      <div id="bookingForm">
+        <span class="step-label">Step 1 — Choose your artist</span>
+        <div class="artist-select" id="artistSelect"></div>
+
+        <span class="step-label">Step 2 — Choose a date</span>
+        <div class="date-row" id="dateRow"></div>
+
+        <span class="step-label">Step 3 — Choose a time</span>
+        <div class="slot-grid" id="slotGrid">
+          <span class="empty-note">Pick an artist and date to see open times.</span>
+        </div>
+
+        <span class="step-label">Step 4 — Your details</span>
+        <div class="form-row">
+          <div class="field">
+            <label for="custName">Full Name</label>
+            <input type="text" id="custName" placeholder="Jordan Reyes" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="custPhone">Phone Number</label>
+            <input type="tel" id="custPhone" placeholder="(555) 123-4567" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:22px;">
+          <label for="custNote">Tattoo Idea (optional)</label>
+          <textarea id="custNote" placeholder="Placement, size, reference, anything we should know before your session."></textarea>
+        </div>
+
+        <div class="form-msg" id="formMsg"></div>
+
+        <div class="summary-bar">
+          <div class="sum-text" id="summaryText">No slot selected yet.</div>
+          <button class="btn btn-primary" id="confirmBtn" type="button">Confirm Appointment</button>
+        </div>
+      </div>
+
+      <div class="confirm-box" id="confirmBox">
+        <div class="stamp-big">Booked<br>&amp; Stamped</div>
+        <h3>You're on the books.</h3>
+        <p id="confirmDetails"></p>
+        <p style="margin-top:18px;">We'll text the number you gave us if anything changes. See you in the chair.</p>
+        <button class="btn btn-ghost" style="margin-top:26px;" onclick="resetBooking()">Book Another Slot</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="staff">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 — Staff Access</span>
+        <h2>Artist schedule login</h2>
+      </div>
+      <p>Sign in to block off time, view upcoming bookings, or cancel a slot. Each artist only sees and edits their own schedule.</p>
+    </div>
+
+    <div class="booking-shell" id="staffLoginShell">
+      <span class="step-label">Sign in</span>
+      <div class="form-row">
+        <div class="field">
+          <label for="staffEmail">Email</label>
+          <input type="email" id="staffEmail" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="staffPassword">Password</label>
+          <input type="password" id="staffPassword" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="form-msg" id="staffMsg"></div>
+      <button class="btn btn-primary" id="staffLoginBtn" type="button">Sign In</button>
+    </div>
+
+    <div class="booking-shell" id="staffDashboard" style="display:none;">
+      <div class="summary-bar" style="border-top:none; padding-top:0; margin-top:0; margin-bottom:30px;">
+        <div class="sum-text">Signed in as <b id="staffArtistName"></b></div>
+        <button class="btn btn-ghost" id="staffLogoutBtn" type="button">Sign Out</button>
+      </div>
+      <span class="step-label">Your schedule — next 14 open studio days</span>
+      <div id="staffCalendar" class="staff-calendar"></div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <button class="modal-close" id="editModalClose" type="button" aria-label="Close">&times;</button>
+    <h3>Edit Appointment</h3>
+    <p class="modal-sub" id="editModalSub"></p>
+
+    <div class="field">
+      <label for="editName">Full Name</label>
+      <input type="text" id="editName" autocomplete="off">
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="editPhone">Phone Number</label>
+        <input type="tel" id="editPhone" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="editTime">Time</label>
+        <select id="editTime"></select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="editDate">Date</label>
+      <select id="editDate"></select>
+    </div>
+    <div class="field" style="margin-bottom:10px;">
+      <label for="editNote">Tattoo Idea / Notes</label>
+      <textarea id="editNote"></textarea>
+    </div>
+
+    <div class="modal-msg" id="editModalMsg"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="editDeleteBtn" type="button">Cancel Booking</button>
+      <button class="btn btn-primary" id="editSaveBtn" type="button">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="wrap foot-inner">
+    <a href="#top" class="brand">Crow <span>&amp;</span> Iron</a>
+    <div class="foot-meta">
+      <span>118 Foundry Row, Martinsburg, WV</span>
+      <span>Tue–Sat, 11am–7pm</span>
+      <span>(304) 555-0148</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   DATA: artists, gallery, scheduling
+   ========================================================= */
+const ARTISTS = [
+  { id:"mara",    name:"Mara Voss",    role:"Blackwork & Fine Line" },
+  { id:"desmond", name:"Desmond Cole", role:"American Traditional & Color Realism" },
+  { id:"yuki",    name:"Yuki Tanaka",  role:"Japanese Irezumi & Illustrative" }
+];
+const DAILY_TIMES = ["11:00 AM","1:00 PM","3:00 PM","5:00 PM"];
+const STUDIO_DAYS = [2,3,4,5,6]; // Tue(2)-Sat(6) open, Sun/Mon closed
+
+/* ---------- Gallery (original SVG flash-style art, no external images) ---------- */
+const GALLERY = [
+  { artist:"mara", title:"Negative-space moth", svg: svgMoth() },
+  { artist:"mara", title:"Linework mountain range", svg: svgMountain() },
+  { artist:"mara", title:"Single-needle botanical sleeve", svg: svgBotanical() },
+  { artist:"desmond", title:"Traditional swallow pair", svg: svgSwallow() },
+  { artist:"desmond", title:"Color realism rose", svg: svgRose() },
+  { artist:"desmond", title:"Banner & dagger", svg: svgDagger() },
+  { artist:"yuki", title:"Koi & wave half-sleeve", svg: svgKoi() },
+  { artist:"yuki", title:"Crane in flight", svg: svgCrane() }
+];
+
+function svgWrap(inner, accent){
+  return `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="400" fill="#161413"/>
+    <g stroke="${accent}" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">${inner}</g>
+  </svg>`;
+}
+function svgMoth(){return svgWrap(`<path d="M150 90 L150 310"/><path d="M150 130 C80 90 40 140 55 210 C70 270 120 260 150 200"/><path d="M150 130 C220 90 260 140 245 210 C230 270 180 260 150 200"/><circle cx="150" cy="95" r="8"/><path d="M142 88 L120 60 M158 88 L180 60"/>`,"#c9a267");}
+function svgMountain(){return svgWrap(`<path d="M30 280 L100 160 L140 210 L190 120 L270 280 Z"/><path d="M30 280 L270 280"/><circle cx="220" cy="100" r="22"/>`,"#ece5d6");}
+function svgBotanical(){return svgWrap(`<path d="M150 40 C150 140 150 260 150 360"/><path d="M150 90 C110 100 90 130 95 150 C130 150 150 120 150 90"/><path d="M150 130 C190 140 210 170 205 190 C170 190 150 160 150 130"/><path d="M150 180 C110 190 90 220 95 240 C130 240 150 210 150 180"/><path d="M150 230 C190 240 210 270 205 290 C170 290 150 260 150 230"/><circle cx="150" cy="55" r="14"/>`,"#c9a267");}
+function svgSwallow(){return svgWrap(`<path d="M70 200 C100 160 140 170 150 200 C160 170 200 160 230 200 C210 230 180 220 150 240 C120 220 90 230 70 200 Z"/><path d="M150 200 L150 240"/><path d="M120 250 L150 280 L180 250"/>`,"#ece5d6");}
+function svgRose(){return svgWrap(`<circle cx="150" cy="170" r="16"/><circle cx="150" cy="170" r="34"/><circle cx="150" cy="170" r="52"/><path d="M150 222 L150 320"/><path d="M150 250 C120 250 110 230 120 215 M150 270 C180 270 190 250 180 235"/><path d="M115 130 L100 110 M185 130 L200 110"/>`,"#9c1c1c");}
+function svgDagger(){return svgWrap(`<path d="M150 50 L150 250"/><path d="M120 80 L180 80"/><path d="M135 250 L165 250 L150 290 Z"/><path d="M150 250 L150 90"/><path d="M90 200 C120 190 180 190 210 200 C190 230 110 230 90 200 Z"/><text x="150" y="215" font-family="JetBrains Mono" font-size="13" fill="#161413" text-anchor="middle">HOLD FAST</text>`,"#c9a267");}
+function svgKoi(){return svgWrap(`<path d="M70 220 C110 190 170 190 210 220 C230 230 250 220 260 200 C250 230 230 250 210 245 C170 280 110 280 80 250 C60 240 50 220 60 200 C55 215 60 220 70 220 Z"/><circle cx="200" cy="210" r="4"/><path d="M40 260 C70 250 100 270 90 290 M120 300 C150 290 180 310 170 330 M200 270 C230 260 260 280 250 300"/>`,"#ece5d6");}
+function svgCrane(){return svgWrap(`<path d="M90 280 C100 220 130 180 150 150 C160 130 150 110 165 100"/><path d="M150 150 C200 140 240 160 260 130"/><path d="M90 280 L90 330 M150 280 L150 330"/><circle cx="167" cy="98" r="6"/><path d="M173 95 L195 88"/>`,"#c9a267");}
+
+function renderGallery(filter){
+  const grid = document.getElementById("galleryGrid");
+  grid.innerHTML = "";
+  GALLERY.filter(g => filter === "all" || g.artist === filter).forEach(g => {
+    const artistName = ARTISTS.find(a => a.id === g.artist).name;
+    const card = document.createElement("div");
+    card.className = "gcard";
+    card.innerHTML = g.svg + `<div class="tag"><span>${g.title}</span><b>${artistName.split(" ")[0]}</b></div>`;
+    grid.appendChild(card);
+  });
+}
+document.getElementById("galleryTabs").addEventListener("click", e => {
+  if(!e.target.classList.contains("gtab")) return;
+  document.querySelectorAll(".gtab").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  renderGallery(e.target.dataset.filter);
+});
+renderGallery("all");
+
+/* =========================================================
+   BOOKING SYSTEM — backed by Supabase (real Postgres database)
+   Table: bookings (id, name, phone, note, artist_id, appt_date, appt_time, created_at)
+   A unique constraint on (artist_id, appt_date, appt_time) stops double-booking
+   even if two people submit at the exact same moment.
+   ========================================================= */
+
+// ---- Fill these in with your own Supabase project's values ----
+const SUPABASE_URL = "https://bvsgrgdardumiabfewwr.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable__Qic8J69dJyd76lnVw2m-A_OaF0R9nO";
+// -----------------------------------------------------------------
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let state = { artist:null, date:null, time:null };
+let takenSlots = new Set(); // holds "artist|date|time" strings that are already booked
+
+function pad(n){ return n.toString().padStart(2,"0"); }
+function fmtDate(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+
+function nextStudioDays(count){
+  const days = [];
+  let d = new Date();
+  while(days.length < count){
+    d = new Date(d.getTime() + 86400000);
+    if(STUDIO_DAYS.includes(d.getDay())) days.push(new Date(d));
+  }
+  return days;
+}
+const UPCOMING_DAYS = nextStudioDays(14);
+
+function slotKey(artist, date, time){ return `${artist}|${date}|${time}`; }
+
+async function loadAvailability(){
+  takenSlots = new Set();
+  const from = fmtDate(UPCOMING_DAYS[0]);
+  const to = fmtDate(UPCOMING_DAYS[UPCOMING_DAYS.length - 1]);
+
+  const [bookingsRes, blocksRes] = await Promise.all([
+    supabaseClient.from("bookings").select("artist_id, appt_date, appt_time").gte("appt_date", from).lte("appt_date", to),
+    supabaseClient.from("blocked_slots").select("artist_id, appt_date, appt_time").gte("appt_date", from).lte("appt_date", to)
+  ]);
+
+  if(bookingsRes.error) console.error("Could not load bookings:", bookingsRes.error.message);
+  if(blocksRes.error) console.error("Could not load blocked slots:", blocksRes.error.message);
+
+  (bookingsRes.data || []).forEach(row => {
+    takenSlots.add(slotKey(row.artist_id, row.appt_date, row.appt_time));
+  });
+  (blocksRes.data || []).forEach(row => {
+    takenSlots.add(slotKey(row.artist_id, row.appt_date, row.appt_time));
+  });
+}
+
+function renderArtists(){
+  const wrap = document.getElementById("artistSelect");
+  wrap.innerHTML = "";
+  ARTISTS.forEach(a => {
+    const btn = document.createElement("button");
+    btn.className = "artist-opt" + (state.artist === a.id ? " sel" : "");
+    btn.innerHTML = `<b>${a.name}</b><span>${a.role}</span>`;
+    btn.onclick = () => { state.artist = a.id; state.time = null; renderAll(); };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderDates(){
+  const wrap = document.getElementById("dateRow");
+  wrap.innerHTML = "";
+  const dow = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  UPCOMING_DAYS.forEach(d => {
+    const key = fmtDate(d);
+    const btn = document.createElement("button");
+    btn.className = "date-opt" + (state.date === key ? " sel" : "");
+    btn.innerHTML = `<span class="dow">${dow[d.getDay()]}</span><span class="dnum">${d.getDate()}</span>`;
+    btn.onclick = () => { state.date = key; state.time = null; renderAll(); };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderSlots(){
+  const grid = document.getElementById("slotGrid");
+  grid.innerHTML = "";
+  if(!state.artist || !state.date){
+    grid.innerHTML = `<span class="empty-note">Pick an artist and date to see open times.</span>`;
+    return;
+  }
+  let anyOpen = false;
+  DAILY_TIMES.forEach(t => {
+    const k = slotKey(state.artist, state.date, t);
+    const open = !takenSlots.has(k);
+    if(open) anyOpen = true;
+    const btn = document.createElement("button");
+    btn.className = "slot-btn" + (state.time === t ? " sel" : "");
+    btn.textContent = t;
+    btn.disabled = !open;
+    btn.onclick = () => { state.time = t; renderAll(); };
+    grid.appendChild(btn);
+  });
+  if(!anyOpen){
+    grid.innerHTML = `<span class="empty-note">No open times left for this artist on this day — try another date.</span>`;
+  }
+}
+
+function renderSummary(){
+  const sum = document.getElementById("summaryText");
+  if(state.artist && state.date && state.time){
+    const a = ARTISTS.find(x => x.id === state.artist);
+    const dObj = new Date(state.date + "T00:00:00");
+    const niceDate = dObj.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+    sum.innerHTML = `<b>${a.name}</b> — ${niceDate} at <b>${state.time}</b>`;
+  } else {
+    sum.textContent = "No slot selected yet.";
+  }
+}
+
+function renderAll(){
+  renderArtists();
+  renderDates();
+  renderSlots();
+  renderSummary();
+}
+
+document.getElementById("confirmBtn").addEventListener("click", async () => {
+  const msg = document.getElementById("formMsg");
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const note = document.getElementById("custNote").value.trim();
+
+  if(!state.artist || !state.date || !state.time){
+    msg.textContent = "Pick an artist, date, and time first.";
+    return;
+  }
+  if(!name){ msg.textContent = "We need a name to hold the slot."; return; }
+  if(!phone || phone.replace(/\D/g,"").length < 7){
+    msg.textContent = "Enter a valid phone number so we can reach you.";
+    return;
+  }
+
+  const btn = document.getElementById("confirmBtn");
+  btn.disabled = true;
+  btn.textContent = "Booking…";
+
+  const k = slotKey(state.artist, state.date, state.time);
+
+  const { error } = await supabaseClient.from("bookings").insert({
+    name: name,
+    phone: phone,
+    note: note || null,
+    artist_id: state.artist,
+    appt_date: state.date,
+    appt_time: state.time
+  });
+
+  if(error){
+    if(error.code === "23505"){
+      msg.textContent = "Someone just grabbed that slot — pick another time.";
+      takenSlots.add(k);
+      renderSlots();
+    } else {
+      console.error(error);
+      msg.textContent = "Something went wrong saving your booking. Please try again.";
+    }
+    btn.disabled = false;
+    btn.textContent = "Confirm Appointment";
+    return;
+  }
+
+  takenSlots.add(k);
+  showConfirmation();
+});
+
+function showConfirmation(){
+  const a = ARTISTS.find(x => x.id === state.artist);
+  const dObj = new Date(state.date + "T00:00:00");
+  const niceDate = dObj.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+  document.getElementById("confirmDetails").innerHTML =
+    `<b style="color:var(--bone)">${document.getElementById("custName").value.trim()}</b>, you're booked with
+    <b style="color:var(--bone)">${a.name}</b> on <b style="color:var(--bone)">${niceDate}</b> at
+    <b style="color:var(--bone)">${state.time}</b>.`;
+  document.getElementById("bookingForm").style.display = "none";
+  document.getElementById("confirmBox").style.display = "block";
+}
+
+function resetBooking(){
+  state = { artist:null, date:null, time:null };
+  document.getElementById("custName").value = "";
+  document.getElementById("custPhone").value = "";
+  document.getElementById("custNote").value = "";
+  document.getElementById("formMsg").textContent = "";
+  const btn = document.getElementById("confirmBtn");
+  btn.disabled = false;
+  btn.textContent = "Confirm Appointment";
+  document.getElementById("confirmBox").style.display = "none";
+  document.getElementById("bookingForm").style.display = "block";
+  renderAll();
+}
+
+(async function init(){
+  await loadAvailability();
+  renderAll();
+  await checkExistingStaffSession();
+})();
+
+/* =========================================================
+   STAFF / ARTIST DASHBOARD — Supabase Auth
+   Each artist signs in with their own email/password.
+   Their auth account is linked to an artist_id via the
+   artist_profiles table, so they only ever see/edit their
+   own slots (enforced both in the UI and by RLS policies).
+   ========================================================= */
+let staffArtistId = null;
+let staffBookingsById = {};
+
+document.getElementById("staffLoginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("staffEmail").value.trim();
+  const password = document.getElementById("staffPassword").value;
+  const msg = document.getElementById("staffMsg");
+  msg.textContent = "";
+
+  if(!email || !password){ msg.textContent = "Enter your email and password."; return; }
+
+  const btn = document.getElementById("staffLoginBtn");
+  btn.disabled = true; btn.textContent = "Signing in…";
+
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+  btn.disabled = false; btn.textContent = "Sign In";
+
+  if(error){ msg.textContent = "Sign-in failed: " + error.message; return; }
+  await loadStaffProfile();
+});
+
+document.getElementById("staffLogoutBtn").addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  staffArtistId = null;
+  document.getElementById("staffDashboard").style.display = "none";
+  document.getElementById("staffLoginShell").style.display = "block";
+  document.getElementById("staffEmail").value = "";
+  document.getElementById("staffPassword").value = "";
+  document.getElementById("staffMsg").textContent = "";
+});
+
+async function checkExistingStaffSession(){
+  const { data } = await supabaseClient.auth.getSession();
+  if(data.session) await loadStaffProfile();
+}
+
+async function loadStaffProfile(){
+  const msg = document.getElementById("staffMsg");
+  const { data: profile, error } = await supabaseClient
+    .from("artist_profiles")
+    .select("artist_id")
+    .single();
+
+  if(error || !profile){
+    msg.textContent = "Signed in, but no artist profile is linked to this account yet.";
+    await supabaseClient.auth.signOut();
+    return;
+  }
+
+  staffArtistId = profile.artist_id;
+  const artist = ARTISTS.find(a => a.id === staffArtistId);
+  document.getElementById("staffArtistName").textContent = artist ? artist.name : staffArtistId;
+  document.getElementById("staffLoginShell").style.display = "none";
+  document.getElementById("staffDashboard").style.display = "block";
+  await renderStaffCalendar();
+}
+
+async function renderStaffCalendar(){
+  const wrap = document.getElementById("staffCalendar");
+  wrap.innerHTML = "<p style='color:var(--bone-dim); font-size:13px;'>Loading…</p>";
+
+  const from = fmtDate(UPCOMING_DAYS[0]);
+  const to = fmtDate(UPCOMING_DAYS[UPCOMING_DAYS.length - 1]);
+
+  const [bookingsRes, blocksRes] = await Promise.all([
+    supabaseClient.from("bookings").select("*").eq("artist_id", staffArtistId).gte("appt_date", from).lte("appt_date", to),
+    supabaseClient.from("blocked_slots").select("*").eq("artist_id", staffArtistId).gte("appt_date", from).lte("appt_date", to)
+  ]);
+
+  if(bookingsRes.error || blocksRes.error){
+    wrap.innerHTML = "<p style='color:var(--blood-bright); font-size:13px;'>Could not load your schedule.</p>";
+    return;
+  }
+
+  const bookingMap = {};
+  staffBookingsById = {};
+  (bookingsRes.data || []).forEach(b => {
+    bookingMap[`${b.appt_date}|${b.appt_time}`] = b;
+    staffBookingsById[b.id] = b;
+  });
+  const blockMap = {};
+  (blocksRes.data || []).forEach(b => { blockMap[`${b.appt_date}|${b.appt_time}`] = b; });
+
+  const dow = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  wrap.innerHTML = "";
+  UPCOMING_DAYS.forEach(d => {
+    const key = fmtDate(d);
+    const day = document.createElement("div");
+    day.className = "staff-day";
+    let rows = "";
+    DAILY_TIMES.forEach(t => {
+      const bk = bookingMap[`${key}|${t}`];
+      const blk = blockMap[`${key}|${t}`];
+      if(bk){
+        rows += `<div class="staff-slot booked"><span class="lbl" title="Click to edit" data-action="edit" data-id="${bk.id}">${t} — ${bk.name}</span>
+          <button data-action="cancel" data-id="${bk.id}">Cancel</button></div>`;
+      } else if(blk){
+        rows += `<div class="staff-slot blocked"><span class="lbl">${t} — Blocked</span>
+          <button data-action="unblock" data-id="${blk.id}">Unblock</button></div>`;
+      } else {
+        rows += `<div class="staff-slot"><span class="lbl">${t} — Open</span>
+          <button data-action="block" data-date="${key}" data-time="${t}">Block</button></div>`;
+      }
+    });
+    day.innerHTML = `<h4>${dow[d.getDay()]} ${d.getDate()}</h4>${rows}`;
+    wrap.appendChild(day);
+  });
+
+  wrap.querySelectorAll("button[data-action]").forEach(btn => {
+    btn.addEventListener("click", handleStaffAction);
+  });
+  wrap.querySelectorAll("span[data-action='edit']").forEach(span => {
+    span.addEventListener("click", () => openEditModal(span.dataset.id));
+  });
+}
+
+async function handleStaffAction(e){
+  const btn = e.currentTarget;
+  const action = btn.dataset.action;
+
+  if(action === "cancel" && !confirm("Cancel this customer's booking?")) return;
+
+  btn.disabled = true;
+
+  let error = null;
+  if(action === "block"){
+    ({ error } = await supabaseClient.from("blocked_slots").insert({
+      artist_id: staffArtistId, appt_date: btn.dataset.date, appt_time: btn.dataset.time
+    }));
+  } else if(action === "unblock"){
+    ({ error } = await supabaseClient.from("blocked_slots").delete().eq("id", btn.dataset.id));
+  } else if(action === "cancel"){
+    ({ error } = await supabaseClient.from("bookings").delete().eq("id", btn.dataset.id));
+  }
+
+  if(error) alert("Something went wrong: " + error.message);
+
+  await renderStaffCalendar();
+  await loadAvailability();
+  renderAll();
+}
+
+/* =========================================================
+   EDIT APPOINTMENT MODAL
+   Lets a signed-in staff member click any of their booked
+   times and update the customer's name/phone/note, or move
+   the booking to a different open date/time, or cancel it.
+   ========================================================= */
+const editModal = document.getElementById("editModal");
+let editingBookingId = null;
+
+function populateEditDateTimeOptions(currentDate, currentTime){
+  const dow = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const dateSel = document.getElementById("editDate");
+  const timeSel = document.getElementById("editTime");
+
+  dateSel.innerHTML = "";
+  UPCOMING_DAYS.forEach(d => {
+    const key = fmtDate(d);
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = `${dow[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}`;
+    if(key === currentDate) opt.selected = true;
+    dateSel.appendChild(opt);
+  });
+  // make sure the booking's existing date is selectable even if it falls outside the visible window
+  if(![...dateSel.options].some(o => o.value === currentDate)){
+    const opt = document.createElement("option");
+    opt.value = currentDate;
+    opt.textContent = currentDate + " (current)";
+    opt.selected = true;
+    dateSel.prepend(opt);
+  }
+
+  timeSel.innerHTML = "";
+  DAILY_TIMES.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    if(t === currentTime) opt.selected = true;
+    timeSel.appendChild(opt);
+  });
+}
+
+function openEditModal(id){
+  const bk = staffBookingsById[id];
+  if(!bk) return;
+  editingBookingId = id;
+
+  document.getElementById("editModalMsg").textContent = "";
+  document.getElementById("editName").value = bk.name || "";
+  document.getElementById("editPhone").value = bk.phone || "";
+  document.getElementById("editNote").value = bk.note || "";
+  populateEditDateTimeOptions(bk.appt_date, bk.appt_time);
+
+  const artist = ARTISTS.find(a => a.id === bk.artist_id);
+  document.getElementById("editModalSub").textContent =
+    `${artist ? artist.name : bk.artist_id} — editing this customer's booking`;
+
+  const saveBtn = document.getElementById("editSaveBtn");
+  const delBtn = document.getElementById("editDeleteBtn");
+  saveBtn.disabled = false; saveBtn.textContent = "Save Changes";
+  delBtn.disabled = false; delBtn.textContent = "Cancel Booking";
+
+  editModal.classList.add("open");
+}
+
+function closeEditModal(){
+  editModal.classList.remove("open");
+  editingBookingId = null;
+}
+
+document.getElementById("editModalClose").addEventListener("click", closeEditModal);
+editModal.addEventListener("click", (e) => { if(e.target === editModal) closeEditModal(); });
+
+document.getElementById("editSaveBtn").addEventListener("click", async () => {
+  if(!editingBookingId) return;
+  const msg = document.getElementById("editModalMsg");
+  msg.textContent = "";
+
+  const name = document.getElementById("editName").value.trim();
+  const phone = document.getElementById("editPhone").value.trim();
+  const note = document.getElementById("editNote").value.trim();
+  const newDate = document.getElementById("editDate").value;
+  const newTime = document.getElementById("editTime").value;
+
+  if(!name){ msg.textContent = "Name can't be empty."; return; }
+  if(!phone || phone.replace(/\D/g,"").length < 7){ msg.textContent = "Enter a valid phone number."; return; }
+
+  const original = staffBookingsById[editingBookingId];
+  const movingSlot = newDate !== original.appt_date || newTime !== original.appt_time;
+
+  if(movingSlot){
+    const newKey = slotKey(staffArtistId, newDate, newTime);
+    const stillTaken = takenSlots.has(newKey) && newKey !== slotKey(staffArtistId, original.appt_date, original.appt_time);
+    if(stillTaken){
+      msg.textContent = "That date/time is already booked or blocked — pick another.";
+      return;
+    }
+  }
+
+  const btn = document.getElementById("editSaveBtn");
+  btn.disabled = true; btn.textContent = "Saving…";
+
+  const { error } = await supabaseClient.from("bookings").update({
+    name: name,
+    phone: phone,
+    note: note || null,
+    appt_date: newDate,
+    appt_time: newTime
+  }).eq("id", editingBookingId);
+
+  btn.disabled = false; btn.textContent = "Save Changes";
+
+  if(error){
+    if(error.code === "23505"){
+      msg.textContent = "That date/time was just taken — pick another.";
+    } else {
+      console.error(error);
+      msg.textContent = "Something went wrong saving these changes.";
+    }
+    return;
+  }
+
+  closeEditModal();
+  await renderStaffCalendar();
+  await loadAvailability();
+  renderAll();
+});
+
+document.getElementById("editDeleteBtn").addEventListener("click", async () => {
+  if(!editingBookingId) return;
+  if(!confirm("Cancel this customer's booking entirely?")) return;
+
+  const btn = document.getElementById("editDeleteBtn");
+  btn.disabled = true; btn.textContent = "Cancelling…";
+
+  const { error } = await supabaseClient.from("bookings").delete().eq("id", editingBookingId);
+
+  if(error){
+    alert("Something went wrong: " + error.message);
+    btn.disabled = false; btn.textContent = "Cancel Booking";
+    return;
+  }
+
+  closeEditModal();
+  await renderStaffCalendar();
+  await loadAvailability();
+  renderAll();
+});
+
+</script>
+
+</body>
+</html>

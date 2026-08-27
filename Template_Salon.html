@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- =============================================
+  LUMIÈRE STUDIO — Salon / Spa / Barber Template
+  Pro template from SiteForge (siteforge.co)
+  CUSTOMIZE: Search "REPLACE" to find every spot
+  to swap in your business name, content & details.
+============================================= -->
+<title>Lumière Studio — Hair, Color &amp; Skin</title><!-- REPLACE -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#131010;
+  --bg2:#1e1818;
+  --bg3:#2a2020;
+  --ivory:#f7f0ec;
+  --dim:#8a7a74;
+  --rose:#c9a0b8;
+  --rose2:#dbb8cc;
+  --line:#2e2424;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ivory);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;}
+
+/* NAV */
+header{position:sticky;top:0;z-index:50;background:rgba(19,16,16,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:74px;}
+.brand{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;letter-spacing:0.06em;}
+.brand em{color:var(--rose);font-style:italic;}
+.navlinks{display:flex;gap:32px;list-style:none;}
+.navlinks a{font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.navlinks a:hover{color:var(--ivory);}
+.navcta{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;background:var(--rose);color:var(--bg);padding:11px 22px;transition:background .2s;font-weight:600;}
+.navcta:hover{background:var(--rose2);}
+
+/* HERO — split layout */
+.hero{min-height:90vh;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 60px 80px 28px;}
+.hero-eyebrow{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:26px;}
+.hero h1{font-size:clamp(46px,5.5vw,78px);font-weight:400;line-height:1.06;margin-bottom:26px;}
+.hero h1 em{color:var(--rose);}
+.hero-sub{font-size:16.5px;color:var(--dim);max-width:400px;margin-bottom:44px;line-height:1.8;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-right{background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hero-right-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:60px;}
+.hero-right::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 60% 40%,rgba(201,160,184,0.08) 0%,transparent 60%);}
+.btn{display:inline-block;font-family:'Inter',sans-serif;font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 28px;transition:all .2s;cursor:pointer;border:none;font-weight:500;}
+.btn-fill{background:var(--rose);color:var(--bg);}
+.btn-fill:hover{background:var(--rose2);}
+.btn-border{border:1px solid var(--dim);color:var(--ivory);background:transparent;}
+.btn-border:hover{border-color:var(--ivory);}
+
+/* SECTIONS */
+section{padding:96px 0;border-bottom:1px solid var(--line);}
+.eyebrow{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:16px;}
+.sec-title{font-size:clamp(32px,4vw,50px);font-weight:400;margin-bottom:22px;}
+
+/* SERVICES */
+.services-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:60px;align-items:end;}
+.services-intro p{color:var(--dim);font-size:15.5px;line-height:1.8;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.svc{background:var(--bg2);padding:38px 32px;transition:background .2s;}
+.svc:hover{background:var(--bg3);}
+.svc-icon{margin-bottom:22px;opacity:0.7;}
+.svc h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:10px;}
+.svc p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-bottom:20px;}
+.svc-prices{display:flex;flex-direction:column;gap:6px;}
+.price-row{display:flex;justify-content:space-between;font-size:13px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+.price-row:last-child{border-bottom:none;}
+.price-row span{color:var(--dim);}
+.price-row b{color:var(--rose);}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:54px;}
+.member{border:1px solid var(--line);}
+.member-art{background:var(--bg2);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.member-body{padding:24px 24px 28px;}
+.member h3{font-size:22px;font-weight:400;margin-bottom:4px;}
+.member-role{font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:12px;}
+.member p{font-size:13.5px;color:var(--dim);line-height:1.7;}
+
+/* BOOKING */
+.book-shell{background:var(--bg2);border:1px solid var(--line);padding:54px;max-width:680px;margin:0 auto;position:relative;}
+.book-shell::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(201,160,184,0.2);pointer-events:none;}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.field label{display:block;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ivory);padding:13px 14px;font-family:'Inter',sans-serif;font-size:14px;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--rose);}
+.field select option{background:var(--bg);}
+.field textarea{resize:vertical;min-height:80px;}
+
+/* FOOTER */
+footer{padding:54px 0;}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:22px;}
+.foot-links{display:flex;gap:28px;list-style:none;}
+.foot-links a{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.foot-links a:hover{color:var(--ivory);}
+.foot-c{font-size:13px;color:var(--dim);}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-right{min-height:340px;}
+  .hero-left{padding:70px 28px;}
+  .services-intro,.svc-grid,.team-grid{grid-template-columns:1fr;}
+  .book-grid{grid-template-columns:1fr;}
+  .navlinks{display:none;}
+  .book-shell{padding:32px 22px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand">Lumière<em> Studio</em></a><!-- REPLACE: your salon name -->
+    <ul class="navlinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#team">Our Team</a></li>
+      <li><a href="#booking">Book</a></li>
+    </ul>
+    <a href="#booking" class="navcta">Book Now</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Hair · Color · Skin · Nails</span><!-- REPLACE: your service types -->
+    <h1>Beauty that<br>feels like<br><em>you.</em></h1>
+    <p class="hero-sub">We believe a great haircut is a conversation, not a transaction. Come in, sit down, tell us what you want — and leave feeling exactly like yourself, only more so.</p><!-- REPLACE: your tagline/description -->
+    <div class="hero-ctas">
+      <a href="#booking" class="btn btn-fill">Book an Appointment</a>
+      <a href="#services" class="btn btn-border">Our Services</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-art">
+      <svg viewBox="0 0 320 420" width="280" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#c9a0b8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <!-- abstract figure / botanical -->
+          <path d="M160 60 C140 100 120 150 130 210 C140 270 170 310 160 380"/>
+          <path d="M160 130 C130 110 108 90 112 68 C132 72 148 96 160 130"/>
+          <path d="M160 160 C190 140 212 120 208 98 C188 102 172 126 160 160"/>
+          <path d="M160 200 C130 180 108 160 112 138 C132 142 148 166 160 200"/>
+          <path d="M160 230 C190 210 212 190 208 168 C188 172 172 196 160 230"/>
+          <path d="M160 270 C135 255 118 238 122 218 C140 222 154 244 160 270"/>
+          <!-- circles -->
+          <circle cx="160" cy="52" r="22"/>
+          <circle cx="160" cy="52" r="14"/>
+          <circle cx="160" cy="52" r="5" fill="#c9a0b8" opacity="0.4"/>
+          <!-- base line -->
+          <line x1="100" y1="382" x2="220" y2="382"/>
+          <line x1="120" y1="382" x2="140" y2="360"/>
+          <line x1="200" y1="382" x2="180" y2="360"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="services-intro">
+      <div>
+        <span class="eyebrow">Services &amp; Pricing</span>
+        <h2 class="sec-title">What we do best</h2>
+      </div>
+      <p>All prices are starting points — your stylist will confirm during consultation. We use only professional-grade, cruelty-free products throughout.</p><!-- REPLACE -->
+    </div>
+    <!-- REPLACE: all service cards and prices below -->
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <path d="M12 8 L12 28 M24 8 L24 28"/>
+              <path d="M8 16 L28 16"/>
+              <circle cx="12" cy="10" r="3"/><circle cx="24" cy="26" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <h3>Cut &amp; Style</h3>
+        <p>Precision cuts tailored to your face shape, hair texture, and lifestyle — from lived-in to polished.</p>
+        <div class="svc-prices">
+          <div class="price-row"><span>Women's cut</span><b>from $65</b></div>
+          <div class="price-row"><span>Men's cut</span><b>from $45</b></div>
+          <div class="price-row"><span>Blowout &amp; style</span><b>from $50</b></div>
+          <div class="price-row"><span>Children (under 12)</span><b>from $35</b></div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <circle cx="18" cy="18" r="12"/>
+              <circle cx="18" cy="18" r="6"/>
+              <line x1="18" y1="2" x2="18" y2="8"/>
+              <line x1="18" y1="28" x2="18" y2="34"/>
+              <line x1="2" y1="18" x2="8" y2="18"/>
+              <line x1="28" y1="18" x2="34" y2="18"/>
+            </g>
+          </svg>
+        </div>
+        <h3>Color</h3>
+        <p>Full spectrum color work — single process, balayage, highlights, and corrective. We match your vision.</p>
+        <div class="svc-prices">
+          <div class="price-row"><span>Single process</span><b>from $90</b></div>
+          <div class="price-row"><span>Partial highlights</span><b>from $120</b></div>
+          <div class="price-row"><span>Full highlights</span><b>from $160</b></div>
+          <div class="price-row"><span>Balayage</span><b>from $185</b></div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <path d="M10 28 Q18 10 26 28"/>
+              <path d="M13 22 Q18 18 23 22"/>
+              <line x1="18" y1="10" x2="18" y2="6"/>
+              <circle cx="18" cy="5" r="2"/>
+            </g>
+          </svg>
+        </div>
+        <h3>Treatments</h3>
+        <p>Restore, repair, and nourish your hair with in-salon treatments designed to last between visits.</p>
+        <div class="svc-prices">
+          <div class="price-row"><span>Deep conditioning</span><b>from $45</b></div>
+          <div class="price-row"><span>Keratin smoothing</span><b>from $220</b></div>
+          <div class="price-row"><span>Scalp treatment</span><b>from $60</b></div>
+          <div class="price-row"><span>Olaplex service</span><b>from $40</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <span class="eyebrow">Our Team</span>
+    <h2 class="sec-title">Meet your stylists</h2>
+    <!-- REPLACE: stylist names, roles, and bios below -->
+    <div class="team-grid">
+      <div class="member">
+        <div class="member-art">
+          <svg viewBox="0 0 240 300" width="120" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.3" fill="none" stroke-linecap="round">
+              <ellipse cx="120" cy="90" rx="40" ry="46"/>
+              <path d="M80 126 C60 150 54 190 58 240 L182 240 C186 190 180 150 160 126"/>
+              <path d="M100 200 C110 192 130 192 140 200"/>
+              <path d="M82 100 C72 88 72 70 82 62"/>
+              <path d="M158 100 C168 88 168 70 158 62"/>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Isabelle Mora</h3>
+          <span class="member-role">Senior Stylist &amp; Colorist</span>
+          <p>10 years behind the chair. Isabelle specializes in balayage, blonding, and the kind of cut that still looks great two months later.</p>
+        </div>
+      </div>
+      <div class="member">
+        <div class="member-art">
+          <svg viewBox="0 0 240 300" width="120" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.3" fill="none" stroke-linecap="round">
+              <ellipse cx="120" cy="88" rx="36" ry="42"/>
+              <path d="M84 122 C64 146 58 188 62 238 L178 238 C182 188 176 146 156 122"/>
+              <path d="M100 130 C120 138 140 130 150 122"/>
+              <path d="M102 198 C112 190 128 190 138 198"/>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Marcus Bell</h3>
+          <span class="member-role">Master Barber</span>
+          <p>Classic meets contemporary. Marcus cuts everything from textured fades to old-world barbering — always with a razor-sharp finish.</p>
+        </div>
+      </div>
+      <div class="member">
+        <div class="member-art">
+          <svg viewBox="0 0 240 300" width="120" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c9a0b8" stroke-width="1.3" fill="none" stroke-linecap="round">
+              <ellipse cx="120" cy="86" rx="38" ry="44"/>
+              <path d="M82 122 C62 148 56 190 60 238 L180 238 C184 190 178 148 158 122"/>
+              <path d="M92 70 C100 60 140 60 148 70"/>
+              <path d="M103 200 C113 193 127 193 137 200"/>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Priya Nair</h3>
+          <span class="member-role">Color Specialist</span>
+          <p>Priya's work is bold when it needs to be and invisible when it should be. She's especially sought after for vibrant fashion colors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="booking" style="background:var(--bg);">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px;">
+      <span class="eyebrow">Book an Appointment</span>
+      <h2 class="sec-title">Ready when you are</h2>
+      <p style="color:var(--dim);font-size:15px;">We'll confirm your appointment within 24 hours.</p>
+    </div>
+    <div class="book-shell">
+      <!-- REPLACE: connect this form to your booking platform (Vagaro, Square, Booksy, or Formspree) -->
+      <form action="#" method="POST">
+        <div class="book-grid">
+          <div class="field"><label for="b-name">Full Name</label><input type="text" id="b-name" name="name" placeholder="Your name" required></div>
+          <div class="field"><label for="b-phone">Phone</label><input type="tel" id="b-phone" name="phone" placeholder="(555) 123-4567" required></div>
+          <div class="field"><label for="b-email">Email</label><input type="email" id="b-email" name="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="b-stylist">Preferred Stylist</label>
+            <select id="b-stylist" name="stylist">
+              <option value="">No preference</option>
+              <option>Isabelle Mora</option><!-- REPLACE -->
+              <option>Marcus Bell</option>
+              <option>Priya Nair</option>
+            </select>
+          </div>
+          <div class="field"><label for="b-service">Service</label>
+            <select id="b-service" name="service">
+              <option>Women's Cut &amp; Style</option><!-- REPLACE: your services -->
+              <option>Men's Cut</option>
+              <option>Color — Single Process</option>
+              <option>Color — Highlights</option>
+              <option>Balayage</option>
+              <option>Treatment</option>
+              <option>Other (describe below)</option>
+            </select>
+          </div>
+          <div class="field"><label for="b-date">Preferred Date</label><input type="date" id="b-date" name="date" required></div>
+        </div>
+        <div class="field" style="margin-bottom:24px;"><label for="b-note">Notes</label><textarea id="b-note" name="note" placeholder="Hair length, goals, anything we should know before we get started…"></textarea></div>
+        <button type="submit" class="btn btn-fill" style="width:100%;text-align:center;padding:16px;font-size:13px;">Request Appointment</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="brand">Lumière<em style="color:var(--rose);font-style:italic;"> Studio</em></a><!-- REPLACE -->
+    <ul class="foot-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#booking">Book</a></li>
+    </ul>
+    <p class="foot-c">© 2026 Lumière Studio. All rights reserved.</p><!-- REPLACE -->
+  </div>
+</footer>
+
+</body>
+</html>

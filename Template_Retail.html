@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- =============================================
+  THE EDIT — Retail / Boutique Template
+  Pro template from SiteForge (siteforge.co)
+  CUSTOMIZE: Search "REPLACE" to find every spot
+  to swap in your business name, content & details.
+============================================= -->
+<title>The Edit — Curated Women's Boutique</title><!-- REPLACE -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#f9f6f3;
+  --off:#ede8e2;
+  --clay:#ede4dc;
+  --terra:#c4603c;
+  --terra2:#d4714d;
+  --ink:#111010;
+  --dim:#7a6e66;
+  --line:#ddd6cc;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* NAV */
+header{position:sticky;top:0;z-index:50;background:rgba(249,246,243,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.brand{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+.navlinks{display:flex;gap:30px;list-style:none;}
+.navlinks a{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.navlinks a:hover{color:var(--ink);}
+.nav-cart{display:flex;align-items:center;gap:6px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);font-weight:500;background:var(--ink);color:var(--white);padding:10px 18px;}
+.nav-cart:hover{background:var(--terra);}
+
+/* HERO */
+.hero{min-height:88vh;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 70px 80px 28px;position:relative;}
+.hero-left::after{content:"";position:absolute;top:60px;right:0;width:1px;height:calc(100% - 120px);background:var(--line);}
+.hero-tag{display:inline-block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);margin-bottom:24px;font-weight:500;}
+.hero h1{font-size:clamp(44px,5.5vw,74px);font-weight:700;line-height:1.04;letter-spacing:-0.02em;margin-bottom:24px;}
+.hero h1 em{color:var(--terra);font-style:normal;}
+.hero-sub{font-size:17px;color:var(--dim);max-width:390px;margin-bottom:44px;line-height:1.75;font-weight:300;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-right{background:var(--clay);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hero-right::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(196,96,60,0.1);top:50%;left:50%;transform:translate(-50%,-50%);}
+.btn{display:inline-block;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;padding:15px 28px;transition:all .2s;cursor:pointer;border:none;font-weight:500;}
+.btn-dark{background:var(--ink);color:var(--white);}
+.btn-dark:hover{background:var(--terra);}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--white);}
+
+/* SECTIONS */
+section{padding:90px 0;border-bottom:1px solid var(--line);}
+.eyebrow{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);display:block;margin-bottom:14px;font-weight:500;}
+.sec-title{font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:-0.02em;margin-bottom:22px;}
+
+/* PRODUCTS */
+.prod-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:44px;flex-wrap:wrap;}
+.prod-head h2{margin-bottom:0;}
+.prod-filters{display:flex;gap:0;}
+.pfilt{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:9px 18px;background:transparent;color:var(--dim);border:1px solid var(--line);cursor:pointer;transition:all .2s;border-right:none;font-family:'DM Sans',sans-serif;font-weight:500;}
+.pfilt:last-child{border-right:1px solid var(--line);}
+.pfilt:hover,.pfilt.on{background:var(--ink);color:var(--white);border-color:var(--ink);}
+.pfilt.on + .pfilt{border-left-color:var(--ink);}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.prod-card{cursor:pointer;}
+.prod-img{background:var(--clay);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;margin-bottom:16px;}
+.prod-img svg{width:70%;height:70%;}
+.prod-badge-new{position:absolute;top:12px;left:12px;background:var(--terra);color:#fff;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 8px;font-weight:600;}
+.prod-badge-sale{position:absolute;top:12px;left:12px;background:var(--ink);color:#fff;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 8px;font-weight:600;}
+.prod-name{font-size:15px;font-weight:500;margin-bottom:4px;}
+.prod-price{font-size:14px;color:var(--dim);}
+.prod-price s{color:var(--line);}
+.prod-price b{color:var(--terra);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.about-art{background:var(--clay);padding:70px 50px;display:flex;align-items:center;justify-content:center;min-height:400px;}
+.about-copy p{color:var(--dim);font-size:15.5px;line-height:1.85;margin-bottom:18px;font-weight:300;}
+.about-copy p b{color:var(--ink);font-weight:600;}
+.about-vals{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:44px;border:1px solid var(--line);}
+.val{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+.val:nth-child(2n){border-right:none;}
+.val:nth-last-child(-n+2){border-bottom:none;}
+.val h4{font-size:14px;font-weight:700;letter-spacing:0.04em;margin-bottom:6px;}
+.val p{font-size:13px;color:var(--dim);line-height:1.6;}
+
+/* NEWSLETTER */
+.news-shell{background:var(--ink);color:var(--white);padding:80px 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.news-copy h2{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-0.02em;margin-bottom:14px;}
+.news-copy p{color:#8a8078;font-size:15px;line-height:1.75;font-weight:300;}
+.news-form{display:flex;flex-direction:column;gap:12px;}
+.news-row{display:flex;gap:0;}
+.news-row input{flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:var(--white);padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:14px;}
+.news-row input::placeholder{color:#5a524a;}
+.news-row input:focus{outline:none;border-color:var(--terra);}
+.news-row button{background:var(--terra);color:#fff;border:none;padding:14px 22px;font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-weight:600;}
+.news-row button:hover{background:var(--terra2);}
+.news-small{font-size:12px;color:#5a524a;}
+
+/* FOOTER */
+footer{padding:50px 0;background:var(--white);}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.foot-links{display:flex;gap:26px;list-style:none;}
+.foot-links a{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.foot-links a:hover{color:var(--ink);}
+.foot-c{font-size:13px;color:var(--dim);}
+
+@media(max-width:900px){
+  .hero,.about-grid,.news-shell{grid-template-columns:1fr;}
+  .hero-right{min-height:340px;}
+  .hero-left::after{display:none;}
+  .hero-left{padding:70px 28px;}
+  .prod-grid{grid-template-columns:repeat(2,1fr);}
+  .navlinks{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand">The Edit</a><!-- REPLACE: your store name -->
+    <ul class="navlinks">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#shop" class="nav-cart">Shop Now</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">New arrivals weekly</span><!-- REPLACE -->
+    <h1>Dressed for<br>your <em>actual</em><br>life.</h1>
+    <p class="hero-sub">Thoughtfully sourced clothing, accessories, and objects for women who know what they like — and don't need anyone to tell them.</p><!-- REPLACE: your tagline -->
+    <div class="hero-ctas">
+      <a href="#shop" class="btn btn-dark">Shop New Arrivals</a>
+      <a href="#about" class="btn btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg viewBox="0 0 300 380" width="260" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#c4603c" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- dress form -->
+        <path d="M150 40 C130 40 116 52 116 68 C116 84 130 96 150 96 C170 96 184 84 184 68 C184 52 170 40 150 40Z"/>
+        <path d="M116 96 C96 110 84 136 84 164 C84 192 96 218 108 232 L192 232 C204 218 216 192 216 164 C216 136 204 110 184 96"/>
+        <path d="M108 232 C100 260 98 290 102 320 L198 320 C202 290 200 260 192 232"/>
+        <path d="M102 320 L96 340 L204 340 L198 320"/>
+        <line x1="84" y1="164" x2="60" y2="160"/>
+        <line x1="216" y1="164" x2="240" y2="160"/>
+        <path d="M60 160 C50 156 44 148 46 140"/>
+        <path d="M240 160 C250 156 256 148 254 140"/>
+        <!-- collar detail -->
+        <path d="M130 96 L150 116 L170 96"/>
+        <!-- waist cinch -->
+        <line x1="88" y1="180" x2="212" y2="180"/>
+      </g>
+      <!-- terracotta fill hints -->
+      <path d="M130 96 L150 116 L170 96 L166 92 L150 110 L134 92Z" fill="#c4603c" opacity="0.2"/>
+    </svg>
+  </div>
+</div>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="prod-head">
+      <div>
+        <span class="eyebrow">Shop</span>
+        <h2 class="sec-title">New arrivals</h2>
+      </div>
+      <div class="prod-filters">
+        <button class="pfilt on" data-filter="all">All</button>
+        <button class="pfilt" data-filter="tops">Tops</button>
+        <button class="pfilt" data-filter="bottoms">Bottoms</button>
+        <button class="pfilt" data-filter="accessories">Accessories</button>
+      </div>
+    </div>
+    <!-- REPLACE: product names, prices, and SVG artwork below -->
+    <div class="prod-grid" id="prodGrid">
+
+      <div class="prod-card" data-cat="tops">
+        <div class="prod-img"><span class="prod-badge-new">New</span>
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c4603c" stroke-width="1.4" fill="rgba(196,96,60,0.12)" stroke-linecap="round">
+              <path d="M70 30 C56 30 46 38 42 50 L20 70 L36 82 L44 70 L44 150 L96 150 L96 70 L104 82 L120 70 L98 50 C94 38 84 30 70 30Z"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Linen Relaxed Blouse</p><!-- REPLACE -->
+        <p class="prod-price">$88</p><!-- REPLACE -->
+      </div>
+
+      <div class="prod-card" data-cat="bottoms">
+        <div class="prod-img">
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#7a6e66" stroke-width="1.4" fill="rgba(122,110,102,0.12)" stroke-linecap="round">
+              <path d="M36 30 L104 30 L112 100 C116 130 114 155 108 170 L82 170 L76 110 L70 110 L64 170 L32 170 C26 155 24 130 28 100Z"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Wide Leg Trouser</p>
+        <p class="prod-price">$124</p>
+      </div>
+
+      <div class="prod-card" data-cat="accessories">
+        <div class="prod-img"><span class="prod-badge-sale">Sale</span>
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c4603c" stroke-width="1.4" fill="none" stroke-linecap="round">
+              <path d="M30 60 L110 60 L120 140 L20 140Z"/>
+              <path d="M52 60 C52 44 88 44 88 60"/>
+              <line x1="20" y1="140" x2="120" y2="140"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Structured Tote</p>
+        <p class="prod-price"><s>$165</s> <b>$110</b></p>
+      </div>
+
+      <div class="prod-card" data-cat="tops">
+        <div class="prod-img"><span class="prod-badge-new">New</span>
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#7a6e66" stroke-width="1.4" fill="rgba(122,110,102,0.12)" stroke-linecap="round">
+              <path d="M70 28 C50 28 38 40 36 52 L28 70 C40 76 50 72 56 64 L56 150 L84 150 L84 64 C90 72 100 76 112 70 L104 52 C102 40 90 28 70 28Z"/>
+              <line x1="56" y1="90" x2="84" y2="90"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Mock-Neck Knit</p>
+        <p class="prod-price">$96</p>
+      </div>
+
+      <div class="prod-card" data-cat="bottoms">
+        <div class="prod-img">
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c4603c" stroke-width="1.4" fill="rgba(196,96,60,0.1)" stroke-linecap="round">
+              <path d="M32 28 L108 28 L108 110 C108 140 90 162 70 162 C50 162 32 140 32 110Z"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Bias-Cut Midi Skirt</p>
+        <p class="prod-price">$112</p>
+      </div>
+
+      <div class="prod-card" data-cat="accessories">
+        <div class="prod-img">
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c4603c" stroke-width="1.4" fill="none" stroke-linecap="round">
+              <circle cx="70" cy="90" r="46"/>
+              <circle cx="70" cy="90" r="32"/>
+              <circle cx="70" cy="90" r="4" fill="#c4603c" opacity="0.4"/>
+              <line x1="70" y1="44" x2="70" y2="58"/>
+              <line x1="70" y1="122" x2="70" y2="136"/>
+              <line x1="24" y1="90" x2="38" y2="90"/>
+              <line x1="102" y1="90" x2="116" y2="90"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Enamel Pendant Necklace</p>
+        <p class="prod-price">$48</p>
+      </div>
+
+      <div class="prod-card" data-cat="tops">
+        <div class="prod-img">
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#7a6e66" stroke-width="1.4" fill="rgba(122,110,102,0.1)" stroke-linecap="round">
+              <path d="M30 30 L110 30 L110 130 C110 144 92 154 70 154 C48 154 30 144 30 130Z"/>
+              <line x1="30" y1="60" x2="110" y2="60"/>
+              <path d="M30 60 L18 70 M110 60 L122 70"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Oversized Denim Jacket</p>
+        <p class="prod-price">$198</p>
+      </div>
+
+      <div class="prod-card" data-cat="accessories">
+        <div class="prod-img"><span class="prod-badge-new">New</span>
+          <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#c4603c" stroke-width="1.4" fill="none" stroke-linecap="round">
+              <ellipse cx="70" cy="80" rx="44" ry="56"/>
+              <path d="M40 50 L100 50"/>
+              <path d="M56 50 C56 38 84 38 84 50"/>
+              <line x1="26" y1="80" x2="114" y2="80"/>
+            </g>
+          </svg>
+        </div>
+        <p class="prod-name">Raffia Bucket Hat</p>
+        <p class="prod-price">$54</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-art">
+        <svg viewBox="0 0 280 320" width="240" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c4603c" stroke-width="1.5" fill="none" stroke-linecap="round">
+            <rect x="40" y="40" width="200" height="240" rx="2"/>
+            <rect x="55" y="55" width="170" height="210" rx="1"/>
+            <line x1="55" y1="130" x2="225" y2="130"/>
+            <line x1="55" y1="180" x2="225" y2="180"/>
+            <rect x="72" y="72" width="70" height="50" rx="2" fill="rgba(196,96,60,0.15)"/>
+            <rect x="72" y="145" width="110" height="6" rx="1" fill="rgba(196,96,60,0.2)"/>
+            <rect x="72" y="157" width="90" height="6" rx="1" fill="rgba(196,96,60,0.15)"/>
+            <rect x="72" y="195" width="120" height="6" rx="1" fill="rgba(196,96,60,0.2)"/>
+            <rect x="72" y="207" width="80" height="6" rx="1" fill="rgba(196,96,60,0.15)"/>
+            <circle cx="200" cy="80" r="20" fill="rgba(196,96,60,0.15)" stroke="#c4603c"/>
+          </g>
+        </svg>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">About Us</span>
+        <h2 class="sec-title">A shop with a point of view</h2>
+        <p>The Edit started with a simple question: <b>why is it so hard to find beautiful things that actually last?</b> Not fast fashion, not trend cycles — just well-made clothing and objects you'd reach for over and over.</p><!-- REPLACE: your story -->
+        <p>We opened our doors in 2021 with forty pieces and a very specific idea of what we wanted the shop to feel like. That feeling hasn't changed. We buy small, we reorder what sells, and we're always looking for something that makes us stop and stare.</p>
+        <div class="about-vals">
+          <div class="val"><h4>Considered buying</h4><p>We test everything before it hits the floor.</p></div><!-- REPLACE: your values -->
+          <div class="val"><h4>Small runs only</h4><p>We never carry more than we can vouch for.</p></div>
+          <div class="val"><h4>Free returns</h4><p>30 days, no questions asked.</p></div>
+          <div class="val"><h4>In-store styling</h4><p>Book a 30-min personal session, free.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="news-shell"><!-- REPLACE: newsletter copy below -->
+  <div class="news-copy">
+    <h2>First to know,<br>first to shop.</h2>
+    <p>New arrivals, restocks, and occasional sale previews — direct to your inbox. No noise, just the good stuff.</p>
+  </div>
+  <div class="news-form">
+    <!-- REPLACE: connect to Mailchimp, Klaviyo, or ConvertKit embed -->
+    <form action="#" method="POST">
+      <div class="news-row">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </div>
+      <p class="news-small">By subscribing you agree to our privacy policy. Unsubscribe any time.</p>
+    </form>
+  </div>
+</div>
+
+<section id="contact" style="background:var(--white);">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
+    <div>
+      <span class="eyebrow">Visit Us</span><!-- REPLACE all contact details below -->
+      <h2 class="sec-title" style="margin-bottom:20px;">Come say hello.</h2>
+      <p style="color:var(--dim);font-size:15px;line-height:1.85;margin-bottom:24px;">256 Commerce Street, Suite 4<br>Martinsburg, WV 25401</p>
+      <p style="color:var(--dim);font-size:14px;line-height:2;">Monday – Friday: 10 am – 6 pm<br>Saturday: 10 am – 7 pm<br>Sunday: 12 pm – 5 pm</p>
+      <p style="margin-top:24px;font-size:14px;"><a href="tel:+13045550222" style="color:var(--terra);">(304) 555-0222</a><br><a href="mailto:hello@theedit.co" style="color:var(--terra);">hello@theedit.co</a></p>
+    </div>
+    <div>
+      <span class="eyebrow">Get in Touch</span>
+      <form action="#" method="POST" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;">
+        <div><label style="display:block;font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;">Name</label><input type="text" name="name" placeholder="Your name" style="width:100%;background:var(--off);border:1px solid var(--line);color:var(--ink);padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:14px;" required></div>
+        <div><label style="display:block;font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;">Email</label><input type="email" name="email" placeholder="you@example.com" style="width:100%;background:var(--off);border:1px solid var(--line);color:var(--ink);padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:14px;" required></div>
+        <div><label style="display:block;font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;">Message</label><textarea name="message" rows="4" placeholder="Questions, styling requests, custom orders…" style="width:100%;background:var(--off);border:1px solid var(--line);color:var(--ink);padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;"></textarea></div>
+        <button type="submit" class="btn btn-dark" style="align-self:flex-start;padding:14px 30px;">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="brand">The Edit</a><!-- REPLACE -->
+    <ul class="foot-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="foot-c">© 2026 The Edit Boutique. All rights reserved.</p><!-- REPLACE -->
+  </div>
+</footer>
+
+<script>
+// Product filter
+document.querySelectorAll('.pfilt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pfilt').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.prod-card').forEach(c => {
+      c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>

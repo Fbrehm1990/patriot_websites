@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- =============================================
+  EMBER & OAK — Restaurant Template
+  Free template from SiteForge (siteforge.co)
+  CUSTOMIZE: Search "REPLACE" to find every spot
+  to swap in your business name, content & details.
+============================================= -->
+<title>Ember &amp; Oak — Fine Casual Dining</title><!-- REPLACE: your restaurant name -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1b2a1b;
+  --bg2:#243424;
+  --bg3:#2c3e2c;
+  --cream:#f5edd6;
+  --dim:#8a7d64;
+  --copper:#c17f24;
+  --copper2:#d4912d;
+  --line:#2e3e2e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--cream);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;}
+
+/* --- NAV --- */
+header{position:sticky;top:0;z-index:50;background:rgba(27,42,27,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:74px;}
+.brand{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:0.03em;}
+.brand em{color:var(--copper);font-style:italic;}
+.navlinks{display:flex;gap:34px;list-style:none;}
+.navlinks a{font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.navlinks a:hover{color:var(--cream);}
+.navcta{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;background:var(--copper);color:var(--cream);padding:11px 22px;transition:background .2s;}
+.navcta:hover{background:var(--copper2);}
+
+/* --- HERO --- */
+.hero{min-height:88vh;display:flex;align-items:center;position:relative;overflow:hidden;border-bottom:1px solid var(--line);}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 68% 50%,rgba(193,127,36,0.1) 0%,transparent 60%);pointer-events:none;}
+.hero-inner{position:relative;z-index:2;padding:80px 0;}
+.hero-eyebrow{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--copper);display:block;margin-bottom:26px;}
+.hero h1{font-size:clamp(56px,7.5vw,96px);font-weight:400;line-height:0.98;margin-bottom:28px;}
+.hero h1 em{color:var(--copper);}
+.hero p{font-size:17px;color:var(--dim);max-width:440px;margin-bottom:44px;line-height:1.8;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+.hero-deco{position:absolute;right:8%;top:50%;transform:translateY(-50%);opacity:0.18;pointer-events:none;}
+.btn{display:inline-block;font-family:'Inter',sans-serif;font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 30px;transition:all .2s;cursor:pointer;border:none;}
+.btn-fill{background:var(--copper);color:var(--cream);}
+.btn-fill:hover{background:var(--copper2);}
+.btn-border{border:1px solid var(--dim);color:var(--cream);background:transparent;}
+.btn-border:hover{border-color:var(--cream);}
+
+/* --- SECTION --- */
+section{padding:96px 0;border-bottom:1px solid var(--line);}
+.eyebrow{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--copper);display:block;margin-bottom:16px;}
+.sec-title{font-size:clamp(34px,4.5vw,54px);font-weight:400;margin-bottom:22px;}
+
+/* --- ABOUT --- */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.about-copy p{color:var(--dim);margin-bottom:18px;font-size:15.5px;line-height:1.82;}
+.about-figs{display:flex;gap:44px;margin-top:40px;padding-top:32px;border-top:1px solid var(--line);}
+.fig-val{display:block;font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--copper);}
+.fig-lbl{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);}
+.about-visual{background:var(--bg2);border:1px solid var(--line);padding:70px 40px;display:flex;align-items:center;justify-content:center;}
+
+/* --- MENU --- */
+.menu-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:44px;}
+.mtab{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 26px;background:none;color:var(--dim);border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .2s;margin-bottom:-1px;}
+.mtab:hover{color:var(--cream);}
+.mtab.on{color:var(--cream);border-bottom-color:var(--copper);}
+.menu-panel{display:none;}
+.menu-panel.on{display:block;}
+.menu-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 60px;}
+.menu-item{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);}
+.menu-item:last-child{border-bottom:none;}
+.mi-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:block;margin-bottom:3px;}
+.mi-desc{font-size:13px;color:var(--dim);line-height:1.55;}
+.mi-price{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--copper);font-weight:600;white-space:nowrap;flex-shrink:0;}
+
+/* --- HOURS --- */
+.hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+.hours-title{font-size:clamp(24px,3vw,36px);margin-bottom:26px;font-weight:400;}
+.htable{width:100%;border-collapse:collapse;}
+.htable tr{border-bottom:1px solid var(--line);}
+.htable td{padding:14px 0;font-size:14px;}
+.htable td:last-child{text-align:right;color:var(--cream);}
+.htable td:first-child{color:var(--dim);}
+.htable tr.today td{color:var(--copper);}
+.htable tr.closed td{opacity:0.4;}
+.location p{color:var(--dim);font-size:15px;line-height:1.8;margin-bottom:14px;}
+.location a{color:var(--copper);}
+
+/* --- RESERVATIONS --- */
+.res-shell{background:var(--bg2);border:1px solid var(--line);padding:54px;max-width:700px;margin:0 auto;position:relative;}
+.res-shell::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(193,127,36,0.22);pointer-events:none;}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.field label{display:block;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--cream);padding:13px 14px;font-family:'Inter',sans-serif;font-size:14px;appearance:none;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--copper);}
+.field select option{background:var(--bg);}
+.field textarea{resize:vertical;min-height:80px;}
+
+/* --- FOOTER --- */
+footer{padding:56px 0;}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:22px;}
+.foot-links{display:flex;gap:28px;list-style:none;}
+.foot-links a{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.foot-links a:hover{color:var(--cream);}
+.foot-c{font-size:13px;color:var(--dim);}
+
+@media(max-width:860px){
+  .about-grid,.hours-grid,.menu-cols{grid-template-columns:1fr;}
+  .res-grid{grid-template-columns:1fr;}
+  .hero-deco{display:none;}
+  .navlinks{display:none;}
+  .res-shell{padding:32px 22px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand"><em>Ember</em> &amp; Oak</a><!-- REPLACE: your name -->
+    <ul class="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#reserve">Reserve</a></li>
+    </ul>
+    <a href="#reserve" class="navcta">Reserve a Table</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <span class="hero-eyebrow">Est. 2019 — Martinsburg, WV</span><!-- REPLACE: your location/year -->
+    <h1>Where every<br>plate tells a<br><em>story.</em></h1>
+    <p>Seasonal ingredients, honest cooking, and a room worth lingering in. Open Tuesday through Saturday for dinner — and Sunday brunch when the mood strikes.</p><!-- REPLACE: your description -->
+    <div class="hero-ctas">
+      <a href="#reserve" class="btn btn-fill">Reserve a Table</a>
+      <a href="#menu" class="btn btn-border">View Our Menu</a>
+    </div>
+  </div>
+  <div class="hero-deco">
+    <svg width="420" height="420" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="210" cy="210" r="200" fill="none" stroke="#c17f24" stroke-width="1.5"/>
+      <circle cx="210" cy="210" r="152" fill="none" stroke="#c17f24" stroke-width="1"/>
+      <circle cx="210" cy="210" r="96" fill="none" stroke="#c17f24" stroke-width="1"/>
+      <line x1="210" y1="10" x2="210" y2="410" stroke="#c17f24" stroke-width="0.8"/>
+      <line x1="10" y1="210" x2="410" y2="210" stroke="#c17f24" stroke-width="0.8"/>
+      <ellipse cx="210" cy="210" rx="200" ry="90" fill="none" stroke="#c17f24" stroke-width="0.8"/>
+      <circle cx="210" cy="210" r="14" fill="#c17f24" opacity="0.3"/>
+      <circle cx="210" cy="118" r="5" fill="#c17f24" opacity="0.5"/>
+      <circle cx="210" cy="302" r="5" fill="#c17f24" opacity="0.5"/>
+    </svg>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy">
+        <span class="eyebrow">Our Story</span>
+        <h2 class="sec-title">Food grown close,<br>cooked with care.</h2><!-- REPLACE -->
+        <p>Ember &amp; Oak started as a single table in a borrowed kitchen. We wanted to prove that fine-casual didn't have to mean precious — that you could have impeccable technique and a room where people actually stayed for dessert.</p><!-- REPLACE: your story -->
+        <p>We source from farms within sixty miles, change the menu with the seasons, and believe the best meal you'll have this year should feel like the most natural thing in the world.</p>
+        <div class="about-figs">
+          <div><span class="fig-val">6</span><span class="fig-lbl">Years open</span></div><!-- REPLACE -->
+          <div><span class="fig-val">12</span><span class="fig-lbl">Farm partners</span></div>
+          <div><span class="fig-val">4.9★</span><span class="fig-lbl">Avg. rating</span></div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <svg viewBox="0 0 260 300" width="260" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c17f24" stroke-width="1.6" fill="none" stroke-linecap="round">
+            <!-- fork -->
+            <line x1="80" y1="60" x2="80" y2="240"/>
+            <line x1="68" y1="60" x2="68" y2="100"/>
+            <line x1="80" y1="60" x2="80" y2="100"/>
+            <line x1="92" y1="60" x2="92" y2="100"/>
+            <path d="M68 100 Q80 116 92 100"/>
+            <!-- knife -->
+            <line x1="130" y1="60" x2="130" y2="240"/>
+            <path d="M130 60 Q145 90 130 120"/>
+            <!-- plate -->
+            <circle cx="180" cy="190" r="52"/>
+            <circle cx="180" cy="190" r="38"/>
+            <circle cx="180" cy="178" r="8" fill="#c17f24" opacity="0.35"/>
+            <path d="M162 194 Q180 208 198 194"/>
+            <!-- sprig -->
+            <path d="M180 152 L180 170"/>
+            <path d="M180 160 C172 154 168 148 172 142 C176 148 180 152 180 158"/>
+            <path d="M180 158 C188 152 192 146 188 140 C184 146 180 150 180 158"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <span class="eyebrow">Menu</span>
+    <h2 class="sec-title" style="margin-bottom:38px;">Seasonal &amp; always changing</h2>
+    <div class="menu-tabs">
+      <button class="mtab on" data-tab="starters">Starters</button>
+      <button class="mtab" data-tab="mains">Mains</button>
+      <button class="mtab" data-tab="desserts">Desserts</button>
+      <button class="mtab" data-tab="drinks">Drinks</button>
+    </div>
+
+    <!-- REPLACE: all menu items below with your own -->
+    <div class="menu-panel on" id="tab-starters">
+      <div class="menu-cols">
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Seared Scallops</span><span class="mi-desc">Brown butter, lemon caper cream, microgreens</span></div><span class="mi-price">$18</span></div>
+          <div class="menu-item"><div><span class="mi-name">Charcuterie Board</span><span class="mi-desc">Cured meats, aged cheeses, house preserves, crostini</span></div><span class="mi-price">$22</span></div>
+        </div>
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Roasted Beet Salad</span><span class="mi-desc">Whipped goat cheese, candied walnuts, honey vinaigrette</span></div><span class="mi-price">$14</span></div>
+          <div class="menu-item"><div><span class="mi-name">French Onion Soup</span><span class="mi-desc">Gruyère crouton, caramelized onions, beef broth</span></div><span class="mi-price">$12</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-mains">
+      <div class="menu-cols">
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Braised Short Rib</span><span class="mi-desc">Red wine jus, parsnip purée, wilted greens</span></div><span class="mi-price">$38</span></div>
+          <div class="menu-item"><div><span class="mi-name">Pan-Roasted Duck</span><span class="mi-desc">Cherry gastrique, root vegetable hash, duck jus</span></div><span class="mi-price">$42</span></div>
+          <div class="menu-item"><div><span class="mi-name">Filet Mignon 8oz</span><span class="mi-desc">Compound butter, hand-cut fries, béarnaise on the side</span></div><span class="mi-price">$54</span></div>
+        </div>
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Grilled Swordfish</span><span class="mi-desc">Preserved lemon, caper butter, roasted fingerlings</span></div><span class="mi-price">$34</span></div>
+          <div class="menu-item"><div><span class="mi-name">Wild Mushroom Risotto</span><span class="mi-desc">Arborio, parmesan, truffle oil, fresh herbs</span></div><span class="mi-price">$28</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-desserts">
+      <div class="menu-cols">
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Crème Brûlée</span><span class="mi-desc">Madagascar vanilla, seasonal berries</span></div><span class="mi-price">$11</span></div>
+          <div class="menu-item"><div><span class="mi-name">Chocolate Fondant</span><span class="mi-desc">Warm dark chocolate, vanilla bean ice cream</span></div><span class="mi-price">$13</span></div>
+        </div>
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Tarte Tatin</span><span class="mi-desc">Caramelized apple, puff pastry, crème fraîche</span></div><span class="mi-price">$12</span></div>
+          <div class="menu-item"><div><span class="mi-name">Cheese Selection</span><span class="mi-desc">Three seasonal cheeses, honeycomb, fig paste</span></div><span class="mi-price">$18</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-drinks">
+      <div class="menu-cols">
+        <div>
+          <div class="menu-item"><div><span class="mi-name">House Red</span><span class="mi-desc">Côtes du Rhône, France — glass / bottle</span></div><span class="mi-price">$12 / $46</span></div>
+          <div class="menu-item"><div><span class="mi-name">House White</span><span class="mi-desc">Sauvignon Blanc, Marlborough NZ — glass / bottle</span></div><span class="mi-price">$12 / $46</span></div>
+          <div class="menu-item"><div><span class="mi-name">Old Fashioned</span><span class="mi-desc">Rye whiskey, angostura bitters, orange peel</span></div><span class="mi-price">$14</span></div>
+        </div>
+        <div>
+          <div class="menu-item"><div><span class="mi-name">Espresso Martini</span><span class="mi-desc">Vodka, fresh espresso, coffee liqueur</span></div><span class="mi-price">$15</span></div>
+          <div class="menu-item"><div><span class="mi-name">Sparkling Water</span><span class="mi-desc">San Pellegrino, 750ml</span></div><span class="mi-price">$7</span></div>
+          <div class="menu-item"><div><span class="mi-name">Craft Lager</span><span class="mi-desc">Local rotation on draft</span></div><span class="mi-price">$8</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hours">
+  <div class="wrap">
+    <div class="hours-grid">
+      <div>
+        <span class="eyebrow">Hours</span>
+        <h2 class="hours-title">Come find us</h2>
+        <!-- REPLACE: your actual hours -->
+        <table class="htable">
+          <tr class="closed"><td>Monday</td><td>Closed</td></tr>
+          <tr><td>Tuesday</td><td>5 pm – 10 pm</td></tr>
+          <tr><td>Wednesday</td><td>5 pm – 10 pm</td></tr>
+          <tr><td>Thursday</td><td>5 pm – 10 pm</td></tr>
+          <tr class="today"><td>Friday</td><td>5 pm – 11 pm</td></tr>
+          <tr><td>Saturday</td><td>5 pm – 11 pm</td></tr>
+          <tr><td>Sunday Brunch</td><td>10 am – 2 pm</td></tr>
+        </table>
+      </div>
+      <div class="location">
+        <span class="eyebrow">Location</span>
+        <h2 class="hours-title">118 Foundry Row</h2><!-- REPLACE: your address -->
+        <p>Martinsburg, WV 25401</p><!-- REPLACE -->
+        <p style="margin-top:20px;">Parking available in the lot behind the building. We are fully accessible. Reservations recommended on weekends — walk-ins welcome when space allows.</p><!-- REPLACE -->
+        <p style="margin-top:20px;"><a href="tel:+13045550148">(304) 555-0148</a><br><!-- REPLACE: your phone -->
+        <a href="mailto:hello@emberandoak.com">hello@emberandoak.com</a></p><!-- REPLACE -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reserve" style="background:var(--bg);">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px;">
+      <span class="eyebrow">Reservations</span>
+      <h2 class="sec-title">Book your table</h2>
+      <p style="color:var(--dim);font-size:15px;">For parties of 8 or more, please call us directly.</p>
+    </div>
+    <div class="res-shell">
+      <!-- REPLACE: connect this form to your booking backend (OpenTable, Resy, or a service like Formspree) -->
+      <form action="#" method="POST">
+        <div class="res-grid">
+          <div class="field"><label for="r-name">Full Name</label><input type="text" id="r-name" name="name" placeholder="Jordan Reyes" required></div>
+          <div class="field"><label for="r-email">Email</label><input type="email" id="r-email" name="email" placeholder="you@example.com" required></div>
+          <div class="field"><label for="r-phone">Phone</label><input type="tel" id="r-phone" name="phone" placeholder="(555) 123-4567"></div>
+          <div class="field"><label for="r-guests">Party Size</label>
+            <select id="r-guests" name="guests">
+              <option>1 guest</option><option>2 guests</option><option>3 guests</option>
+              <option>4 guests</option><option>5 guests</option><option>6 guests</option><option>7 guests</option>
+            </select>
+          </div>
+          <div class="field"><label for="r-date">Preferred Date</label><input type="date" id="r-date" name="date" required></div>
+          <div class="field"><label for="r-time">Preferred Time</label>
+            <select id="r-time" name="time">
+              <option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option>
+              <option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option>
+              <option>8:00 PM</option><option>8:30 PM</option><option>9:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:24px;"><label for="r-note">Special Requests</label><textarea id="r-note" name="note" placeholder="Dietary needs, celebrations, seating preferences…"></textarea></div>
+        <button type="submit" class="btn btn-fill" style="width:100%;text-align:center;padding:16px;font-size:13px;">Request Reservation</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="brand"><em>Ember</em> &amp; Oak</a><!-- REPLACE -->
+    <ul class="foot-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#reserve">Reserve</a></li>
+    </ul>
+    <p class="foot-c">© 2026 Ember &amp; Oak. All rights reserved.</p><!-- REPLACE: your business name + year -->
+  </div>
+</footer>
+
+<script>
+// Menu tab switcher
+document.querySelectorAll('.mtab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.mtab').forEach(t => t.classList.remove('on'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('on'));
+    tab.classList.add('on');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('on');
+  });
+});
+</script>
+
+</body>
+</html>
