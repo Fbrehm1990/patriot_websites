@@ -803,7 +803,7 @@ body{overflow-x:hidden;max-width:100vw;}
         </label>
         <input type="hidden" id="agreedAt"     name="agreed_at"     value="">
         <input type="hidden" id="termsVersion" name="terms_version"  value="v1.0 — January 2026">
-        <input type="hidden" name="agreement_text" value="Submitter confirmed: I have read and agree to the CyberPatriot Terms of Service and Privacy Policy at patriotwebsites.com">
+        <input type="hidden" name="agreement_text" value="Submitter confirmed: I have read and agree to the CyberPatriot Terms of Service and Privacy Policy at patrioticwebsites.com">
         <button type="submit" class="btn btn-amber" onclick="stampAgreement()" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send My Project Brief</button>
       </form>
     </div>
@@ -971,7 +971,7 @@ async function sendAdminReset(){
   btn.disabled = true; btn.textContent = 'Sending…';
 
   const { error } = await adminSupa.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://patriotwebsites.com/reset.html'
+    redirectTo: 'https://patrioticwebsites.com/reset.html'
   });
 
   btn.disabled = false; btn.textContent = 'Send Reset Link';

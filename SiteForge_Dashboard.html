@@ -601,7 +601,7 @@ async function sendReset(){
   btn.disabled = true; btn.textContent = 'Sending…';
 
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://patriotwebsites.com/reset.html'  // update if your domain changes
+    redirectTo: 'https://patrioticwebsites.com/reset.html'  // update if your domain changes
   });
 
   btn.disabled = false; btn.textContent = 'Send Reset Link';

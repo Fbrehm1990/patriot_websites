@@ -18,10 +18,10 @@
 </script>
 <style>
 :root{
-  --bg:#080e1a; --bg2:#0d1526; --bg3:#131d33;
-  --amber:#f59e0b; --amber2:#fbbf24;
-  --slate:#8b9bb4; --white:#f0f4fa;
-  --line:#1a2740; --green:#10b981; --purple:#c084fc;
+  --bg:#ffffff; --bg2:#f5f7fb; --bg3:#eaeef5;
+  --amber:#b22234; --amber2:#8f1b2a;
+  --navy:#0e1b33; --slate:#4a5568; --white:#0e1b33;
+  --line:#dde3ec; --green:#10b981; --purple:#c084fc;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -31,14 +31,14 @@ a{color:inherit;text-decoration:none;}
 h1,h2,h3,h4{font-family:'Fraunces',serif;}
 
 /* ── NAV ── */
-header{position:sticky;top:0;z-index:50;background:rgba(8,14,26,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
 nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66px;}
 .brand{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
 .brand em{color:var(--amber);font-style:italic;}
 .navlinks{display:flex;gap:30px;list-style:none;}
 .navlinks a{font-size:13.5px;font-weight:500;color:var(--slate);transition:color .2s;}
 .navlinks a:hover{color:var(--white);}
-.nav-cta{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;background:var(--amber);color:#060c18;padding:10px 22px;transition:background .2s;}
+.nav-cta{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;background:var(--amber);color:#ffffff;padding:10px 22px;transition:background .2s;}
 .nav-cta:hover{background:var(--amber2);}
 
 /* ── HERO ── */
@@ -51,12 +51,12 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 .hero-sub{font-size:17px;color:var(--slate);max-width:440px;margin-bottom:44px;line-height:1.8;}
 .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
 .btn{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;padding:14px 28px;display:inline-block;transition:all .2s;cursor:pointer;border:none;}
-.btn-amber{background:var(--amber);color:#060c18;}
+.btn-amber{background:var(--amber);color:#ffffff;}
 .btn-amber:hover{background:var(--amber2);}
 .btn-ghost{background:transparent;color:var(--white);border:1px solid var(--line);}
 .btn-ghost:hover{border-color:var(--slate);}
 .hero-right{display:flex;align-items:center;justify-content:center;padding:60px;position:relative;z-index:2;}
-.hero-right::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.07),transparent 70%);pointer-events:none;}
+.hero-right::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(178,34,52,0.07),transparent 70%);pointer-events:none;}
 
 /* ── STATS ── */
 .stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);}
@@ -74,14 +74,14 @@ section{padding:90px 0;border-bottom:1px solid var(--line);}
 /* ── WHAT YOU GET ── */
 .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);margin-top:52px;}
 .benefit{background:var(--bg2);padding:38px 32px;}
-.benefit-icon{width:44px;height:44px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.benefit-icon{width:44px;height:44px;background:rgba(178,34,52,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
 .benefit h3{font-size:19px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;}
 .benefit p{font-size:14.5px;color:var(--slate);line-height:1.75;}
 
 /* ── PORTFOLIO ── */
 .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px;}
 .port-card{background:var(--bg2);border:1px solid var(--line);overflow:hidden;transition:border-color .22s,transform .22s;}
-.port-card:hover{border-color:rgba(245,158,11,0.45);transform:translateY(-4px);}
+.port-card:hover{border-color:rgba(178,34,52,0.45);transform:translateY(-4px);}
 .port-img{aspect-ratio:16/9;overflow:hidden;}
 .port-img svg{width:100%;height:100%;display:block;}
 .port-body{padding:22px 24px 26px;border-top:1px solid var(--line);}
@@ -95,8 +95,8 @@ section{padding:90px 0;border-bottom:1px solid var(--line);}
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);margin-top:52px;}
 .price-col{padding:36px 30px;border-right:1px solid var(--line);position:relative;}
 .price-col:last-child{border-right:none;}
-.price-col.hot{background:rgba(245,158,11,0.03);}
-.price-col.hot::before{content:"Most Popular";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--amber);color:#060c18;font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;font-weight:800;padding:4px 14px;text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;}
+.price-col.hot{background:rgba(178,34,52,0.03);}
+.price-col.hot::before{content:"Most Popular";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--amber);color:#ffffff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;font-weight:800;padding:4px 14px;text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;}
 .price-bar{height:3px;position:absolute;top:0;left:0;right:0;}
 .price-col:nth-child(1) .price-bar{background:#10b981;}
 .price-col:nth-child(2) .price-bar{background:var(--amber);}
@@ -109,29 +109,29 @@ section{padding:90px 0;border-bottom:1px solid var(--line);}
 .price-feats li{font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;color:var(--slate);}
 .price-feats li:last-child{border-bottom:none;}
 .price-feats li::before{content:"✓";color:var(--amber);font-weight:800;font-size:11px;flex-shrink:0;}
-.price-feats li.dim::before{content:"—";color:#3a4a5e;}
+.price-feats li.dim::before{content:"—";color:#a0aab8;}
 .price-feats li.dim{color:#3a4a5e;}
 .price-btn{display:block;width:100%;text-align:center;padding:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
 .pb-ghost{background:transparent;color:var(--white);border:1px solid var(--line);}
 .pb-ghost:hover{border-color:var(--slate);}
-.pb-amber{background:var(--amber);color:#060c18;}
+.pb-amber{background:var(--amber);color:#ffffff;}
 .pb-amber:hover{background:var(--amber2);}
 .pb-purple{background:rgba(192,132,252,0.14);color:var(--purple);border:1px solid rgba(192,132,252,0.32);}
 .pb-purple:hover{background:rgba(192,132,252,0.24);}
 
 /* ── PROCESS ── */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin-top:52px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);margin-top:52px;}
 .step{padding:36px 28px;border-right:1px solid var(--line);position:relative;}
 .step:last-child{border-right:none;}
 .step::after{content:"→";position:absolute;right:-12px;top:36px;color:var(--amber);font-size:16px;z-index:2;}
 .step:last-child::after{display:none;}
-.step-n{font-family:'Fraunces',serif;font-size:48px;font-weight:400;font-style:italic;color:rgba(245,158,11,0.14);line-height:1;margin-bottom:18px;}
+.step-n{font-family:'Fraunces',serif;font-size:48px;font-weight:400;font-style:italic;color:rgba(178,34,52,0.14);line-height:1;margin-bottom:18px;}
 .step h3{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
 .step p{font-size:14px;color:var(--slate);line-height:1.72;}
 
 /* ── INQUIRY FORM ── */
 .form-shell{background:var(--bg2);border:1px solid var(--line);padding:52px;max-width:740px;margin:52px auto 0;position:relative;}
-.form-shell::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.form-shell::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(178,34,52,0.18);pointer-events:none;}
 .form-head{margin-bottom:36px;}
 .form-head h3{font-size:28px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
 .form-head p{font-size:15px;color:var(--slate);line-height:1.7;}
@@ -151,8 +151,8 @@ footer{padding:48px 0;}
 .foot-c{font-size:13px;color:var(--slate);}
 
 /* ── QUOTE BUTTON ── */
-#quote-btn{position:fixed;bottom:28px;right:28px;z-index:500;background:var(--amber);color:#060c18;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(245,158,11,0.35);display:flex;align-items:center;gap:10px;padding:14px 22px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;transition:all .2s;}
-#quote-btn:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 6px 28px rgba(245,158,11,0.45);}
+#quote-btn{position:fixed;bottom:28px;right:28px;z-index:500;background:var(--amber);color:#ffffff;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(178,34,52,0.35);display:flex;align-items:center;gap:10px;padding:14px 22px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;transition:all .2s;}
+#quote-btn:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 6px 28px rgba(178,34,52,0.45);}
 #quote-btn svg{flex-shrink:0;}
 
 /* ── MOBILE NAV HAMBURGER ── */
@@ -162,7 +162,7 @@ footer{padding:48px 0;}
 .mobile-nav.open{display:flex;}
 .mobile-nav a{display:block;font-size:18px;font-weight:600;color:var(--slate);padding:18px 0;border-bottom:1px solid var(--line);transition:color .2s;}
 .mobile-nav a:hover{color:var(--white);}
-.mobile-nav .m-cta{margin-top:24px;background:var(--amber);color:#060c18;text-align:center;padding:16px;font-weight:700;font-size:15px;border-bottom:none;}
+.mobile-nav .m-cta{margin-top:24px;background:var(--amber);color:#ffffff;text-align:center;padding:16px;font-weight:700;font-size:15px;border-bottom:none;}
 
 /* ── RESPONSIVE ── */
 /* Prevent ANY horizontal overflow globally */
@@ -250,10 +250,10 @@ body{overflow-x:hidden;max-width:100vw;}
   #quote-btn{padding:14px;border-radius:50%;width:52px;height:52px;justify-content:center;}
 }
 /* ── ADMIN LOGIN MODAL ── */
-#admin-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(8,14,26,0.85);align-items:center;justify-content:center;padding:24px;}
+#admin-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(14,27,51,0.55);align-items:center;justify-content:center;padding:24px;}
 #admin-overlay.open{display:flex;}
 .admin-modal{background:var(--bg2);border:1px solid var(--line);padding:44px 40px;width:100%;max-width:400px;position:relative;}
-.admin-modal::before{content:"";position:absolute;inset:12px;border:1px dashed rgba(245,158,11,0.18);pointer-events:none;}
+.admin-modal::before{content:"";position:absolute;inset:12px;border:1px dashed rgba(178,34,52,0.18);pointer-events:none;}
 .admin-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--slate);font-size:22px;cursor:pointer;line-height:1;}
 .admin-modal-close:hover{color:var(--white);}
 .admin-logo{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-bottom:5px;}
@@ -266,26 +266,183 @@ body{overflow-x:hidden;max-width:100vw;}
 .admin-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--slate);cursor:pointer;font-size:15px;padding:4px;}
 .admin-eye:hover{color:var(--white);}
 .admin-error{font-size:12.5px;color:#ef4444;min-height:16px;margin-bottom:8px;}
-.admin-btn{width:100%;background:var(--amber);color:#060c18;border:none;padding:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px;}
+.admin-btn{width:100%;background:var(--amber);color:#ffffff;border:none;padding:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px;}
 .admin-btn:hover{background:var(--amber2);}
 .admin-btn:disabled{opacity:0.55;cursor:not-allowed;}
 @keyframes adm-shake{0%,100%{transform:translateX(0);}25%,75%{transform:translateX(-8px);}50%{transform:translateX(8px);}}
 .admin-modal.shake{animation:adm-shake .35s ease;}
+
+/* ── LIGHT THEME + FLAG WATERMARK ── */
+.flag-bg{position:fixed;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.flag-bg svg{width:min(82vw,980px);height:auto;opacity:0.2;transform:perspective(1400px) rotateY(-8deg) skewY(-1.5deg);filter:drop-shadow(0 18px 40px rgba(14,27,51,0.25));}
+@media(max-width:860px){.flag-bg svg{width:118vw;opacity:0.16;}}
+header,.hero,.stats-strip,section,footer{position:relative;z-index:1;}
+header{z-index:50;}
+.hero::before{background:rgba(245,247,251,0.75);}
+.brand{display:inline-flex;align-items:center;gap:10px;}
+.brand-flag{width:30px;height:auto;flex-shrink:0;border-radius:2px;box-shadow:0 0 0 1px rgba(14,27,51,0.12);}
+.port-card{box-shadow:0 1px 3px rgba(14,27,51,0.06);}
+.port-card:hover{box-shadow:0 10px 30px rgba(14,27,51,0.10);}
+.form-shell,.step,.stat{background:rgba(255,255,255,0.92);}
+.btn-ghost{border-color:#b8c2d1;}
+.btn-ghost:hover{border-color:var(--navy);}
+.step-n{color:rgba(178,34,52,0.35);}
+#quote-btn{background:var(--navy);box-shadow:0 4px 20px rgba(14,27,51,0.3);}
+#quote-btn:hover{background:var(--amber);box-shadow:0 6px 24px rgba(178,34,52,0.35);}
+
+/* ── WORK SHOWCASE (big window carousel) ── */
+.showcase{margin-top:44px;background:#ffffff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(14,27,51,0.16);}
+.sc-chrome{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#eef1f6;border-bottom:1px solid var(--line);}
+.sc-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.sc-url{flex:1;min-width:0;margin:0 12px;background:#ffffff;border:1px solid var(--line);border-radius:6px;padding:6px 12px;font-size:12.5px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sc-count{font-size:12.5px;font-weight:700;color:var(--slate);flex-shrink:0;}
+.sc-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;outline:none;}
+.sc-track::-webkit-scrollbar{display:none;}
+.sc-track .port-card{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);border:none !important;border-radius:0;box-shadow:none;background:#ffffff;transform:none !important;}
+.sc-track .port-card:hover{box-shadow:none;}
+.sc-track .port-img{aspect-ratio:auto;height:100%;min-height:340px;}
+@media(max-width:860px){.sc-track .port-img{aspect-ratio:16/9;height:auto;min-height:0;}}
+.sc-track .port-body{border-top:none;border-left:1px solid var(--line);padding:40px 36px;display:flex;flex-direction:column;justify-content:center;}
+.sc-track .port-body h3{font-size:28px;margin-bottom:12px;}
+.sc-track .port-body p{font-size:15.5px;margin-bottom:24px;}
+.sc-track .port-link{font-size:14px;align-self:flex-start;background:var(--amber);color:#ffffff !important;padding:12px 20px;}
+.sc-track .port-link:hover{background:var(--amber2);}
+.sc-nav{display:flex;align-items:center;justify-content:center;gap:20px;padding:16px;border-top:1px solid var(--line);background:#fafbfd;}
+.sc-arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#ffffff;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.sc-arrow:hover{background:var(--navy);color:#ffffff;border-color:var(--navy);}
+.sc-pips{display:flex;gap:4px;}
+.sc-pip{width:28px;height:44px;border:none;background:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;}
+.sc-pip::before{content:"";width:9px;height:9px;border-radius:50%;background:#c5cdd9;transition:all .2s;}
+.sc-pip.on::before{background:var(--amber);width:22px;border-radius:5px;}
+@media(max-width:860px){
+  .sc-track .port-card{grid-template-columns:1fr;}
+  .sc-track .port-body{border-left:none;border-top:1px solid var(--line);padding:24px 22px;}
+  .sc-track .port-body h3{font-size:22px;}
+  .sc-count{display:none;}
+  .sc-pip{width:22px;}
+}
+
+/* ── HERO: full width, compact ── */
+.hero{display:block;min-height:0;}
+.hero::before{display:none;}
+.hero-left{padding:64px 30px 56px;}
+.hero h1{font-size:clamp(36px,4.1vw,56px);max-width:none;margin-bottom:20px;}
+.hero-sub{max-width:760px;margin-bottom:32px;}
+@media(max-width:860px){.hero-left{padding:44px 20px 40px;}}
+
+/* ── PHOTO BACKGROUND ── */
+body{background:#0e1b33;}
+.flag-bg{display:block;}
+.flag-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.flag-bg svg{display:none;}
+/* hero sits right on the flag */
+.hero{background:linear-gradient(90deg,rgba(8,14,26,0.82) 0%,rgba(8,14,26,0.55) 55%,rgba(8,14,26,0.15) 100%);border-bottom:none;}
+.hero-left{padding:110px 30px 100px;}
+.hero h1{color:#ffffff;text-shadow:0 2px 18px rgba(0,0,0,0.45);}
+.hero h1 em{color:#ff5a6b;}
+.hero-eyebrow{color:#ffd6db;}
+.hero-sub{color:#e8ecf3;text-shadow:0 1px 8px rgba(0,0,0,0.5);}
+.hero .btn-ghost{color:#ffffff;border-color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.06);}
+.hero .btn-ghost:hover{background:#ffffff;color:#0e1b33;border-color:#ffffff;}
+.stats-strip{background:rgba(14,27,51,0.88);border-bottom:none;}
+.stats-strip .stat{background:transparent;border-color:rgba(255,255,255,0.12);}
+.stats-strip .stat b{color:#ffffff;}
+.stats-strip .stat span{color:#c9d2e2;}
+/* content sections: white panels with the flag peeking through */
+section{background:rgba(255,255,255,0.80);}
+section#work{margin-top:0;}
+section#process{background:rgba(245,247,251,0.82);}
+footer{background:rgba(255,255,255,0.97);}
+@media(max-width:860px){.hero-left{padding:72px 20px 64px;}.flag-bg img{object-position:30% center;}}
+
+/* ── BLUE BUTTONS ── */
+:root{--blue:#0e1b33;--blue2:#1b2d52;}
+.btn-amber,.nav-cta,.mobile-nav .m-cta,.admin-btn,.sc-track .port-link,#quote-btn{background:var(--blue) !important;color:#ffffff !important;}
+.btn-amber:hover,.nav-cta:hover,.admin-btn:hover,.sc-track .port-link:hover,#quote-btn:hover{background:var(--blue2) !important;}
+#quote-btn{box-shadow:0 4px 20px rgba(14,27,51,0.4);}
+.sc-pip.on::before{background:var(--blue);}
+.sc-arrow:hover{background:var(--blue);border-color:var(--blue);}
+.btn-ghost{border-color:var(--blue);color:var(--blue);}
+.btn-ghost:hover{background:var(--blue);color:#ffffff;border-color:var(--blue);}
+.hero .btn-amber{box-shadow:0 6px 24px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.35);}
+
+/* ── CENTERED LAYOUT ── */
+.hero-left{align-items:center;text-align:center;}
+.hero-sub{margin-left:auto;margin-right:auto;}
+.hero-ctas{justify-content:center;}
+.hero{background:radial-gradient(ellipse at center,rgba(8,14,26,0.80) 0%,rgba(8,14,26,0.62) 55%,rgba(8,14,26,0.35) 100%);}
+section .wrap > .sec-ey,section .wrap > .sec-h,section .wrap > .sec-p{text-align:center;margin-left:auto;margin-right:auto;}
+.sec-h{max-width:none;}
+.step{text-align:center;}
+.sc-track .port-body{align-items:center;text-align:center;}
+.sc-track .port-link{align-self:center;}
+.form-head{text-align:center;}
+.foot{flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:14px;}
+.foot-links{justify-content:center;flex-wrap:wrap;}
+@media(max-width:860px){.foot{align-items:center;}}
+
+/* ── BLUE CONTENT BOXES ── */
+:root{--box:#0e1b33;--box-d:#0a1426;--box-line:rgba(255,255,255,0.14);--box-text:#d6def0;}
+.steps{border-color:var(--box-line);background:var(--box);box-shadow:0 18px 44px rgba(14,27,51,0.28);}
+.step{background:var(--box) !important;border-color:var(--box-line) !important;}
+.step h3{color:#ffffff;}
+.step p{color:var(--box-text);}
+.step-n{color:rgba(255,255,255,0.35) !important;}
+.step::after{color:#ffffff;}
+.showcase{border-color:var(--box-d);background:var(--box);box-shadow:0 24px 60px rgba(14,27,51,0.32);}
+.sc-chrome{background:var(--box-d);border-bottom-color:var(--box-line);}
+.sc-url{background:rgba(255,255,255,0.1);border-color:var(--box-line);color:#e6ecf8;}
+.sc-count{color:var(--box-text);}
+.sc-track .port-card{background:var(--box) !important;}
+.sc-track .port-body{background:var(--box);border-color:var(--box-line) !important;}
+.sc-track .port-body h3{color:#ffffff;}
+.sc-track .port-body p{color:var(--box-text);}
+.sc-track .port-industry{color:#ffb3bc;}
+.sc-track .port-link{background:#ffffff !important;color:var(--box) !important;}
+.sc-track .port-link:hover{background:#e6ecf8 !important;}
+.sc-nav{background:var(--box-d);border-top-color:var(--box-line);}
+.sc-arrow{background:transparent;border-color:rgba(255,255,255,0.4);color:#ffffff;}
+.sc-arrow:hover{background:#ffffff !important;color:var(--box);border-color:#ffffff !important;}
+.sc-pip::before{background:rgba(255,255,255,0.35);}
+.sc-pip.on::before{background:#ffffff !important;}
+.form-shell{background:var(--box) !important;border-color:var(--box-d);box-shadow:0 24px 60px rgba(14,27,51,0.32);}
+.form-shell::before{border-color:rgba(255,255,255,0.18);}
+.form-head h3{color:#ffffff;}
+.form-head p,.form-shell .field label{color:var(--box-text);}
+.form-shell .field input,.form-shell .field select,.form-shell .field textarea{background:#ffffff;border-color:transparent;color:#0e1b33;}
+.form-shell .field input:focus,.form-shell .field select:focus,.form-shell .field textarea:focus{border-color:#ffb3bc;box-shadow:0 0 0 3px rgba(255,179,188,0.35);}
+.form-shell .field select option{background:#ffffff;color:#0e1b33;}
+.form-shell label span{color:var(--box-text) !important;}
+.form-shell label span a{color:#ffffff !important;text-decoration:underline;}
+.form-shell .btn-amber{background:#ffffff !important;color:var(--box) !important;}
+.form-shell .btn-amber:hover{background:#e6ecf8 !important;}
+
+/* ── FOOTER LEGAL ── */
+.foot-legal{border-top:1px solid var(--line);padding:22px 0 26px;text-align:center;}
+.foot-legal-h{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;}
+.foot-legal-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 26px;}
+.foot-legal-links a{font-size:13px;color:var(--slate);padding:4px 0;transition:color .2s;}
+.foot-legal-links a:hover{color:var(--navy);text-decoration:underline;}
+.foot .brand{gap:0;}
+footer{padding-bottom:0;}
+.foot{padding-bottom:26px;}
 </style>
 </head>
 <body>
 
+<!-- fixed flag watermark -->
+<div class="flag-bg"><img src="flag-bg.jpg" alt=""></div>
+
 <!-- ── NAV ── -->
 <header>
   <nav class="wrap">
-    <a href="#" class="brand">Cyber<em>Patriot</em></a>
+    <a href="#" class="brand"><svg class="brand-flag" viewBox="0 0 247 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="247" height="130" fill="#ffffff"/><g fill="#b22234"><rect y="0.000" width="247" height="10.000"/><rect y="20.000" width="247" height="10.000"/><rect y="40.000" width="247" height="10.000"/><rect y="60.000" width="247" height="10.000"/><rect y="80.000" width="247" height="10.000"/><rect y="100.000" width="247" height="10.000"/><rect y="120.000" width="247" height="10.000"/></g><rect width="98.8" height="70" fill="#3c3b6e"/><g fill="#ffffff"><polygon points="8.19,3.02 9.09,5.78 11.99,5.78 9.64,7.49 10.54,10.26 8.19,8.55 5.84,10.26 6.74,7.49 4.39,5.78 7.29,5.78"/><polygon points="24.57,3.02 25.47,5.78 28.37,5.78 26.02,7.49 26.92,10.26 24.57,8.55 22.22,10.26 23.12,7.49 20.77,5.78 23.67,5.78"/><polygon points="40.95,3.02 41.85,5.78 44.75,5.78 42.40,7.49 43.30,10.26 40.95,8.55 38.60,10.26 39.50,7.49 37.15,5.78 40.05,5.78"/><polygon points="57.33,3.02 58.23,5.78 61.13,5.78 58.78,7.49 59.68,10.26 57.33,8.55 54.98,10.26 55.88,7.49 53.53,5.78 56.43,5.78"/><polygon points="73.71,3.02 74.61,5.78 77.51,5.78 75.16,7.49 76.06,10.26 73.71,8.55 71.36,10.26 72.26,7.49 69.91,5.78 72.81,5.78"/><polygon points="90.09,3.02 90.99,5.78 93.89,5.78 91.54,7.49 92.44,10.26 90.09,8.55 87.74,10.26 88.64,7.49 86.29,5.78 89.19,5.78"/><polygon points="16.38,10.04 17.28,12.80 20.18,12.80 17.83,14.51 18.73,17.28 16.38,15.57 14.03,17.28 14.93,14.51 12.58,12.80 15.48,12.80"/><polygon points="32.76,10.04 33.66,12.80 36.56,12.80 34.21,14.51 35.11,17.28 32.76,15.57 30.41,17.28 31.31,14.51 28.96,12.80 31.86,12.80"/><polygon points="49.14,10.04 50.04,12.80 52.94,12.80 50.59,14.51 51.49,17.28 49.14,15.57 46.79,17.28 47.69,14.51 45.34,12.80 48.24,12.80"/><polygon points="65.52,10.04 66.42,12.80 69.32,12.80 66.97,14.51 67.87,17.28 65.52,15.57 63.17,17.28 64.07,14.51 61.72,12.80 64.62,12.80"/><polygon points="81.90,10.04 82.80,12.80 85.70,12.80 83.35,14.51 84.25,17.28 81.90,15.57 79.55,17.28 80.45,14.51 78.10,12.80 81.00,12.80"/><polygon points="8.19,17.06 9.09,19.82 11.99,19.82 9.64,21.53 10.54,24.30 8.19,22.59 5.84,24.30 6.74,21.53 4.39,19.82 7.29,19.82"/><polygon points="24.57,17.06 25.47,19.82 28.37,19.82 26.02,21.53 26.92,24.30 24.57,22.59 22.22,24.30 23.12,21.53 20.77,19.82 23.67,19.82"/><polygon points="40.95,17.06 41.85,19.82 44.75,19.82 42.40,21.53 43.30,24.30 40.95,22.59 38.60,24.30 39.50,21.53 37.15,19.82 40.05,19.82"/><polygon points="57.33,17.06 58.23,19.82 61.13,19.82 58.78,21.53 59.68,24.30 57.33,22.59 54.98,24.30 55.88,21.53 53.53,19.82 56.43,19.82"/><polygon points="73.71,17.06 74.61,19.82 77.51,19.82 75.16,21.53 76.06,24.30 73.71,22.59 71.36,24.30 72.26,21.53 69.91,19.82 72.81,19.82"/><polygon points="90.09,17.06 90.99,19.82 93.89,19.82 91.54,21.53 92.44,24.30 90.09,22.59 87.74,24.30 88.64,21.53 86.29,19.82 89.19,19.82"/><polygon points="16.38,24.08 17.28,26.84 20.18,26.84 17.83,28.55 18.73,31.32 16.38,29.61 14.03,31.32 14.93,28.55 12.58,26.84 15.48,26.84"/><polygon points="32.76,24.08 33.66,26.84 36.56,26.84 34.21,28.55 35.11,31.32 32.76,29.61 30.41,31.32 31.31,28.55 28.96,26.84 31.86,26.84"/><polygon points="49.14,24.08 50.04,26.84 52.94,26.84 50.59,28.55 51.49,31.32 49.14,29.61 46.79,31.32 47.69,28.55 45.34,26.84 48.24,26.84"/><polygon points="65.52,24.08 66.42,26.84 69.32,26.84 66.97,28.55 67.87,31.32 65.52,29.61 63.17,31.32 64.07,28.55 61.72,26.84 64.62,26.84"/><polygon points="81.90,24.08 82.80,26.84 85.70,26.84 83.35,28.55 84.25,31.32 81.90,29.61 79.55,31.32 80.45,28.55 78.10,26.84 81.00,26.84"/><polygon points="8.19,31.10 9.09,33.86 11.99,33.86 9.64,35.57 10.54,38.34 8.19,36.63 5.84,38.34 6.74,35.57 4.39,33.86 7.29,33.86"/><polygon points="24.57,31.10 25.47,33.86 28.37,33.86 26.02,35.57 26.92,38.34 24.57,36.63 22.22,38.34 23.12,35.57 20.77,33.86 23.67,33.86"/><polygon points="40.95,31.10 41.85,33.86 44.75,33.86 42.40,35.57 43.30,38.34 40.95,36.63 38.60,38.34 39.50,35.57 37.15,33.86 40.05,33.86"/><polygon points="57.33,31.10 58.23,33.86 61.13,33.86 58.78,35.57 59.68,38.34 57.33,36.63 54.98,38.34 55.88,35.57 53.53,33.86 56.43,33.86"/><polygon points="73.71,31.10 74.61,33.86 77.51,33.86 75.16,35.57 76.06,38.34 73.71,36.63 71.36,38.34 72.26,35.57 69.91,33.86 72.81,33.86"/><polygon points="90.09,31.10 90.99,33.86 93.89,33.86 91.54,35.57 92.44,38.34 90.09,36.63 87.74,38.34 88.64,35.57 86.29,33.86 89.19,33.86"/><polygon points="16.38,38.12 17.28,40.88 20.18,40.88 17.83,42.59 18.73,45.36 16.38,43.65 14.03,45.36 14.93,42.59 12.58,40.88 15.48,40.88"/><polygon points="32.76,38.12 33.66,40.88 36.56,40.88 34.21,42.59 35.11,45.36 32.76,43.65 30.41,45.36 31.31,42.59 28.96,40.88 31.86,40.88"/><polygon points="49.14,38.12 50.04,40.88 52.94,40.88 50.59,42.59 51.49,45.36 49.14,43.65 46.79,45.36 47.69,42.59 45.34,40.88 48.24,40.88"/><polygon points="65.52,38.12 66.42,40.88 69.32,40.88 66.97,42.59 67.87,45.36 65.52,43.65 63.17,45.36 64.07,42.59 61.72,40.88 64.62,40.88"/><polygon points="81.90,38.12 82.80,40.88 85.70,40.88 83.35,42.59 84.25,45.36 81.90,43.65 79.55,45.36 80.45,42.59 78.10,40.88 81.00,40.88"/><polygon points="8.19,45.14 9.09,47.90 11.99,47.90 9.64,49.61 10.54,52.38 8.19,50.67 5.84,52.38 6.74,49.61 4.39,47.90 7.29,47.90"/><polygon points="24.57,45.14 25.47,47.90 28.37,47.90 26.02,49.61 26.92,52.38 24.57,50.67 22.22,52.38 23.12,49.61 20.77,47.90 23.67,47.90"/><polygon points="40.95,45.14 41.85,47.90 44.75,47.90 42.40,49.61 43.30,52.38 40.95,50.67 38.60,52.38 39.50,49.61 37.15,47.90 40.05,47.90"/><polygon points="57.33,45.14 58.23,47.90 61.13,47.90 58.78,49.61 59.68,52.38 57.33,50.67 54.98,52.38 55.88,49.61 53.53,47.90 56.43,47.90"/><polygon points="73.71,45.14 74.61,47.90 77.51,47.90 75.16,49.61 76.06,52.38 73.71,50.67 71.36,52.38 72.26,49.61 69.91,47.90 72.81,47.90"/><polygon points="90.09,45.14 90.99,47.90 93.89,47.90 91.54,49.61 92.44,52.38 90.09,50.67 87.74,52.38 88.64,49.61 86.29,47.90 89.19,47.90"/><polygon points="16.38,52.16 17.28,54.92 20.18,54.92 17.83,56.63 18.73,59.40 16.38,57.69 14.03,59.40 14.93,56.63 12.58,54.92 15.48,54.92"/><polygon points="32.76,52.16 33.66,54.92 36.56,54.92 34.21,56.63 35.11,59.40 32.76,57.69 30.41,59.40 31.31,56.63 28.96,54.92 31.86,54.92"/><polygon points="49.14,52.16 50.04,54.92 52.94,54.92 50.59,56.63 51.49,59.40 49.14,57.69 46.79,59.40 47.69,56.63 45.34,54.92 48.24,54.92"/><polygon points="65.52,52.16 66.42,54.92 69.32,54.92 66.97,56.63 67.87,59.40 65.52,57.69 63.17,59.40 64.07,56.63 61.72,54.92 64.62,54.92"/><polygon points="81.90,52.16 82.80,54.92 85.70,54.92 83.35,56.63 84.25,59.40 81.90,57.69 79.55,59.40 80.45,56.63 78.10,54.92 81.00,54.92"/><polygon points="8.19,59.18 9.09,61.94 11.99,61.94 9.64,63.65 10.54,66.42 8.19,64.71 5.84,66.42 6.74,63.65 4.39,61.94 7.29,61.94"/><polygon points="24.57,59.18 25.47,61.94 28.37,61.94 26.02,63.65 26.92,66.42 24.57,64.71 22.22,66.42 23.12,63.65 20.77,61.94 23.67,61.94"/><polygon points="40.95,59.18 41.85,61.94 44.75,61.94 42.40,63.65 43.30,66.42 40.95,64.71 38.60,66.42 39.50,63.65 37.15,61.94 40.05,61.94"/><polygon points="57.33,59.18 58.23,61.94 61.13,61.94 58.78,63.65 59.68,66.42 57.33,64.71 54.98,66.42 55.88,63.65 53.53,61.94 56.43,61.94"/><polygon points="73.71,59.18 74.61,61.94 77.51,61.94 75.16,63.65 76.06,66.42 73.71,64.71 71.36,66.42 72.26,63.65 69.91,61.94 72.81,61.94"/><polygon points="90.09,59.18 90.99,61.94 93.89,61.94 91.54,63.65 92.44,66.42 90.09,64.71 87.74,66.42 88.64,63.65 86.29,61.94 89.19,61.94"/></g></svg><span>Cyber<em>Patriot</em></span></a>
     <ul class="navlinks">
       <li><a href="#work">Work</a></li>
-      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#process">How It Works</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Get a Quote</a>
+    <a href="#contact" class="nav-cta">Start a Project</a>
     <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -298,71 +455,21 @@ body{overflow-x:hidden;max-width:100vw;}
 <!-- MOBILE NAV -->
 <nav class="mobile-nav" id="mobileNav">
   <a href="#work" onclick="closeMobileNav()">My Work</a>
-  <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
   <a href="#process" onclick="closeMobileNav()">How It Works</a>
   <a href="#contact" onclick="closeMobileNav()">Contact</a>
-  <a href="#contact" onclick="closeMobileNav()" class="m-cta">Get a Quote</a>
+  <a href="#contact" onclick="closeMobileNav()" class="m-cta">Start a Project</a>
 </nav>
 
 <!-- ── HERO ── -->
 <div class="hero">
   <div class="wrap hero-left">
     <span class="hero-eyebrow">Web Design for Local Businesses</span>
-    <h1>Your business,<br>online and<br>looking <em>its best.</em></h1>
-    <p class="hero-sub">I build custom websites for local businesses — designed for your industry, built to your brand, and delivered within a week. No templates to fumble with. No months of back-and-forth.</p>
+    <h1>Your business, online and looking <em>its best.</em></h1>
+    <p class="hero-sub">I design and build custom websites for local businesses — shops, studios, restaurants and more. Take a look at what I've made. If you like it, let's make yours.</p>
     <div class="hero-ctas">
-      <a href="#pricing" class="btn btn-amber">See Packages</a>
-      <a href="#work" class="btn btn-ghost">View My Work</a>
+      <a href="#work" class="btn btn-amber">See My Work</a>
+      <a href="#contact" class="btn btn-ghost">Tell Me About Your Business</a>
     </div>
-  </div>
-  <div class="hero-right">
-    <svg viewBox="0 0 420 320" width="380" xmlns="http://www.w3.org/2000/svg">
-      <!-- browser shell -->
-      <rect x="10" y="10" width="400" height="300" rx="8" fill="#0d1526" stroke="#1a2740" stroke-width="1.5"/>
-      <!-- browser chrome -->
-      <rect x="10" y="10" width="400" height="36" rx="8" fill="#131d33"/>
-      <rect x="10" y="36" width="400" height="10" fill="#131d33"/>
-      <!-- traffic lights -->
-      <circle cx="32" cy="28" r="5" fill="#ef4444" opacity="0.7"/>
-      <circle cx="48" cy="28" r="5" fill="#f59e0b" opacity="0.7"/>
-      <circle cx="64" cy="28" r="5" fill="#10b981" opacity="0.7"/>
-      <!-- url bar -->
-      <rect x="88" y="20" width="230" height="16" rx="8" fill="#0d1526"/>
-      <rect x="96" y="25" width="100" height="6" rx="3" fill="#1a2740"/>
-      <!-- page nav -->
-      <rect x="22" y="58" width="376" height="28" fill="#111d30"/>
-      <rect x="30" y="66" width="48" height="12" rx="2" fill="#f59e0b" opacity="0.8"/>
-      <rect x="100" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
-      <rect x="144" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
-      <rect x="188" y="68" width="36" height="8" rx="2" fill="#1a2740"/>
-      <rect x="346" y="64" width="40" height="16" rx="2" fill="#f59e0b" opacity="0.4"/>
-      <!-- hero area -->
-      <rect x="22" y="98" width="376" height="118" fill="#0d1526"/>
-      <rect x="34" y="112" width="6" height="6" rx="3" fill="#f59e0b" opacity="0.5"/>
-      <rect x="44" y="113" width="60" height="4" rx="2" fill="#f59e0b" opacity="0.35"/>
-      <rect x="34" y="126" width="180" height="14" rx="2" fill="#f0f4fa" opacity="0.8"/>
-      <rect x="34" y="146" width="150" height="14" rx="2" fill="#f0f4fa" opacity="0.75"/>
-      <rect x="34" y="166" width="160" height="14" rx="2" fill="#f59e0b" opacity="0.5"/>
-      <rect x="34" y="190" width="86" height="20" rx="2" fill="#f59e0b" opacity="0.7"/>
-      <rect x="126" y="190" width="72" height="20" rx="2" fill="none" stroke="#1a2740" stroke-width="1.5"/>
-      <!-- photo box -->
-      <rect x="248" y="104" width="144" height="106" rx="4" fill="#131d33"/>
-      <ellipse cx="320" cy="145" rx="40" ry="48" fill="#1a2740"/>
-      <ellipse cx="320" cy="126" rx="17" ry="19" fill="#222e42"/>
-      <!-- content strip -->
-      <rect x="22" y="228" width="376" height="70" fill="#111d30"/>
-      <rect x="34" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
-      <rect x="34" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
-      <rect x="34" y="262" width="90" height="5" rx="1" fill="#1a2740" opacity="0.5"/>
-      <rect x="150" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
-      <rect x="150" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
-      <rect x="266" y="238" width="80" height="8" rx="2" fill="#1a2740"/>
-      <rect x="266" y="252" width="100" height="5" rx="1" fill="#1a2740" opacity="0.7"/>
-      <!-- amber glow accent -->
-      <rect x="22" y="86" width="376" height="3" fill="none"/>
-      <radialGradient id="hg" cx="30%" cy="50%" r="60%"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></radialGradient>
-      <rect x="22" y="98" width="376" height="118" fill="url(#hg)"/>
-    </svg>
   </div>
 </div>
 
@@ -371,79 +478,22 @@ body{overflow-x:hidden;max-width:100vw;}
   <div class="stat"><b>5–9</b><span>Day delivery</span></div>
   <div class="stat"><b>4</b><span>Industry designs ready</span></div>
   <div class="stat"><b>100%</b><span>You own the files</span></div>
-  <div class="stat"><b>$0</b><span>Monthly fees — ever</span></div>
+  <div class="stat"><b>Monthly</b><span>Optional care plan — hosting &amp; updates</span></div>
 </div>
-
-<!-- ── PROCESS ── -->
-<section id="process">
-  <div class="wrap">
-    <span class="sec-ey">How It Works</span>
-    <h2 class="sec-h">From brief to live site in days</h2>
-    <p class="sec-p">Four steps. No jargon. No drawn-out timelines.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">01</div>
-        <h3>You fill out the brief</h3>
-        <p>Tell me your business name, what you do, your services, and any colors or design preferences. Takes about 10 minutes — use the form below.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">02</div>
-        <h3>I get to work</h3>
-        <p>I choose the right design foundation, build in all your content, match your branding, and make sure your contact form is wired up and working.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">03</div>
-        <h3>You review it</h3>
-        <p>I send you a preview link. You share feedback — change this, move that, tweak the copy. We go back and forth until you're happy with every detail.</p>
-      </div>
-      <div class="step">
-        <div class="step-n">04</div>
-        <h3>You go live</h3>
-        <p>Your finished files land in your inbox. Upload to any web host in minutes, or let me handle it as a small add-on — and your business is online.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── WHAT YOU GET ── -->
-<section id="about">
-  <div class="wrap">
-    <span class="sec-ey">What You Get</span>
-    <h2 class="sec-h">A real website, built right,<br>handed over to you.</h2>
-    <p class="sec-p">You focus on running your business. I handle the design, the code, the setup — and deliver clean files you own outright, no strings attached.</p>
-    <div class="benefits">
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <h3>Fast turnaround</h3>
-        <p>Most sites are delivered within 5–9 business days. You fill out a short brief, I get to work — no drawn-out approval cycles or waiting weeks for a first draft.</p>
-      </div>
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3>Built for your industry</h3>
-        <p>Every site starts from a design built specifically for your type of business — not a generic template. Restaurant, salon, retail, or any local business.</p>
-      </div>
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="color:var(--amber)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </div>
-        <h3>Yours to keep forever</h3>
-        <p>You get the complete HTML files — clean, commented, ready to upload anywhere. No subscriptions, no monthly fees, no platform lock-in. Ever.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ── PORTFOLIO ── -->
 <section id="work">
   <div class="wrap">
     <span class="sec-ey">My Work</span>
-    <h2 class="sec-h">Built for real businesses</h2>
-    <p class="sec-p">A mix of live client work and industry-specific designs — each one built from the ground up for that business type.</p>
-    <div class="portfolio-grid">
+    <h2 class="sec-h">Real sites. Click through them.</h2>
+    <p class="sec-p">Live client work and designs built for specific industries. Open any of them, scroll around, try them on your phone.</p>
+    <div class="showcase" aria-roledescription="carousel" aria-label="Website examples">
+      <div class="sc-chrome">
+        <span class="sc-dot" style="background:#ef4444"></span><span class="sc-dot" style="background:#f59e0b"></span><span class="sc-dot" style="background:#10b981"></span>
+        <div class="sc-url" id="scUrl">patrioticwebsites.com/tattoo_shop_website</div>
+        <span class="sc-count" id="scCount">1 / 5</span>
+      </div>
+      <div class="sc-track" id="scTrack" tabindex="0">
 
       <!-- TATTOO SHOP — real client work -->
       <div class="port-card" style="border-color:rgba(139,26,26,0.4);">
@@ -495,10 +545,10 @@ body{overflow-x:hidden;max-width:100vw;}
           </svg>
         </div>
         <div class="port-body">
-          <span class="port-industry" style="color:#c0392b;">Tattoo Studio · Live Client Work</span>
+          <span class="port-industry">Tattoo Studio · Live Client Work</span>
           <h3>Crow &amp; Iron Tattoo Co.</h3>
           <p>A full gothic-aesthetic website with multi-step online booking, artist profiles, filtered gallery, and a secure staff dashboard — connected to a live Supabase backend.</p>
-          <a href="Tattoo_shop_website.html" target="_blank" class="port-link" style="color:#c0392b;">View site →</a>
+          <a href="Tattoo_shop_website.html" target="_blank" class="port-link">View site →</a>
         </div>
       </div>
 
@@ -688,75 +738,72 @@ body{overflow-x:hidden;max-width:100vw;}
         </div>
       </div>
 
+      </div>
+      <div class="sc-nav">
+        <button type="button" class="sc-arrow" id="scPrev" aria-label="Previous site"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="sc-pips" id="scPips"></div>
+        <button type="button" class="sc-arrow" id="scNext" aria-label="Next site"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── PRICING ── -->
-<section id="pricing">
+<script>
+/* Website showcase carousel */
+(function(){
+  var track=document.getElementById('scTrack'); if(!track) return;
+  var slides=[].slice.call(track.querySelectorAll('.port-card'));
+  var pips=document.getElementById('scPips'), url=document.getElementById('scUrl'), count=document.getElementById('scCount');
+  var paths=['tattoo_shop_website','template_restaurant','template_salon','template_retail','template_blank'];
+  var cur=0;
+  slides.forEach(function(sl){var g=sl.querySelector('.port-img svg'); if(g) g.setAttribute('preserveAspectRatio','xMidYMid slice');});
+  slides.forEach(function(sl,i){
+    var b=document.createElement('button'); b.type='button'; b.className='sc-pip';
+    var name=sl.querySelector('h3'); b.setAttribute('aria-label','Show '+(name?name.textContent:'site '+(i+1)));
+    b.onclick=function(){go(i);}; pips.appendChild(b);
+  });
+  function mark(i){
+    cur=i;
+    [].forEach.call(pips.children,function(p,j){p.classList.toggle('on',j===i);});
+    url.textContent='patrioticwebsites.com/'+(paths[i]||'');
+    count.textContent=(i+1)+' / '+slides.length;
+  }
+  function go(i){
+    i=(i+slides.length)%slides.length;
+    track.scrollTo({left:slides[i].offsetLeft-track.offsetLeft,behavior:'smooth'}); mark(i);
+  }
+  document.getElementById('scPrev').onclick=function(){go(cur-1);};
+  document.getElementById('scNext').onclick=function(){go(cur+1);};
+  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();go(cur+1);} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}});
+  var t; track.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){
+    var i=Math.round(track.scrollLeft/track.clientWidth); if(i!==cur) mark(Math.max(0,Math.min(slides.length-1,i)));
+  },80);});
+  mark(0);
+})();
+</script>
+
+<!-- ── PROCESS ── -->
+<section id="process">
   <div class="wrap">
-    <span class="sec-ey">Pricing</span>
-    <h2 class="sec-h">Simple packages, no surprises</h2>
-    <p class="sec-p">Every package includes a finished, mobile-responsive website — delivered as clean HTML files you own outright. No monthly fees.</p>
-    <div class="price-grid">
-
-      <div class="price-col">
-        <div class="price-bar"></div>
-        <span class="price-name">Starter</span>
-        <div class="price-amount">$199</div>
-        <span class="price-days">Delivered in 5 business days</span>
-        <p class="price-desc">Perfect for businesses that need a clean, professional online presence quickly — with their own content and branding applied.</p>
-        <ul class="price-feats">
-          <li>Industry-matched design</li>
-          <li>Your logo &amp; brand colors</li>
-          <li>Up to 3 content sections filled in</li>
-          <li>Contact form connected</li>
-          <li>Mobile responsive</li>
-          <li class="dim">Full content written in</li>
-          <li class="dim">Stock photo sourcing</li>
-          <li class="dim">Hosting &amp; domain setup</li>
-        </ul>
-        <a href="#contact" class="price-btn pb-ghost">Get Started</a>
+    <span class="sec-ey">How It Works</span>
+    <h2 class="sec-h">Three steps. About a week.</h2>
+    <p class="sec-p">No jargon, no drawn-out timelines.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>Tell me about your business</h3>
+        <p>Fill out the short form below — what you do, who you serve, and the look you want.</p>
       </div>
-
-      <div class="price-col hot">
-        <div class="price-bar"></div>
-        <span class="price-name">Standard</span>
-        <div class="price-amount">$349</div>
-        <span class="price-days">Delivered in 7 business days</span>
-        <p class="price-desc">A fully built, polished site with all your content written in, photos sourced, and everything ready to go live the moment it lands in your inbox.</p>
-        <ul class="price-feats">
-          <li>Industry-matched design</li>
-          <li>Your logo &amp; brand colors</li>
-          <li>Full site content written in</li>
-          <li>Contact form connected</li>
-          <li>Mobile responsive</li>
-          <li>Stock photo sourcing</li>
-          <li>Minor layout customizations</li>
-          <li class="dim">Hosting &amp; domain setup</li>
-        </ul>
-        <a href="#contact" class="price-btn pb-amber">Get Started</a>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>I design and build it</h3>
+        <p>You get a preview link, and we tweak it together until every detail feels right.</p>
       </div>
-
-      <div class="price-col">
-        <div class="price-bar"></div>
-        <span class="price-name">Premium</span>
-        <div class="price-amount">$599</div>
-        <span class="price-days">Delivered in 9 business days</span>
-        <p class="price-desc">The complete hands-off experience. I handle everything — design, content, photos, setup, hosting, and your custom domain — and hand it over live.</p>
-        <ul class="price-feats">
-          <li>Industry-matched design</li>
-          <li>Your logo &amp; brand colors</li>
-          <li>Full site content written in</li>
-          <li>Contact form connected</li>
-          <li>Mobile responsive</li>
-          <li>Stock photo sourcing &amp; editing</li>
-          <li>Custom layout changes</li>
-          <li>Hosting + domain setup</li>
-        </ul>
-        <a href="#contact" class="price-btn pb-purple">Get Started</a>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>You go live</h3>
+        <p>The finished site is yours to keep — clean files you own outright, with no lock-in.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -765,9 +812,9 @@ body{overflow-x:hidden;max-width:100vw;}
 <section id="contact">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:48px;">
-      <span class="sec-ey">Get a Quote</span>
-      <h2 class="sec-h" style="max-width:none;">Tell me about your business</h2>
-      <p class="sec-p" style="margin:0 auto;">I'll come back to you within one business day with a clear plan, a timeline, and a quote. No pressure, no commitment yet.</p>
+      <span class="sec-ey">Let's Talk</span>
+      <h2 class="sec-h" style="max-width:none;">Like what you see? Let's build yours.</h2>
+      <p class="sec-p" style="margin:0 auto;">Tell me a little about your business. I'll get back to you within one business day with ideas and next steps — no pressure, no commitment.</p>
     </div>
     <div class="form-shell">
       <div class="form-head">
@@ -775,7 +822,7 @@ body{overflow-x:hidden;max-width:100vw;}
         <p>Fill this out and I'll be in touch within 24 hours.</p>
       </div>
       <form action="https://formspree.io/f/xgojngea" method="POST">
-        <input type="hidden" name="_next" value="https://YOUR-DOMAIN/thank-you.html">
+        <input type="hidden" name="_next" value="https://patrioticwebsites.com/thank-you.html">
         <div class="form-grid">
           <div class="field"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required></div>
           <div class="field"><label for="c-email">Email Address</label><input type="email" id="c-email" name="email" placeholder="you@email.com" required></div>
@@ -793,15 +840,6 @@ body{overflow-x:hidden;max-width:100vw;}
             </select>
           </div>
           <div class="field" id="other-type-field" style="display:none;"><label for="c-type-other">Please describe your business</label><input type="text" id="c-type-other" name="business_type_other" placeholder="e.g. Photography studio, law firm, florist…"></div>
-          <div class="field"><label for="c-pkg">Package</label>
-            <select id="c-pkg" name="package">
-              <option value="">Which package interests you?</option>
-              <option>Starter — $199</option>
-              <option>Standard — $349</option>
-              <option>Premium — $599</option>
-              <option>Not sure yet</option>
-            </select>
-          </div>
           <div class="field"><label for="c-timeline">Timeline</label>
             <select id="c-timeline" name="timeline">
               <option value="">When do you need it?</option>
@@ -823,9 +861,9 @@ body{overflow-x:hidden;max-width:100vw;}
         <!-- Hidden fields — populated by JS on submit for legal record keeping -->
         <input type="hidden" id="agreedAt"       name="agreed_at"       value="">
         <input type="hidden" id="termsVersion"   name="terms_version"   value="v1.0 — January 2026">
-        <input type="hidden" name="agreement_text" value="Submitter confirmed: I have read and agree to the CyberPatriot Terms of Service and Privacy Policy at patriotwebsites.com">
+        <input type="hidden" name="agreement_text" value="Submitter confirmed: I have read and agree to the CyberPatriot Terms of Service and Privacy Policy at patrioticwebsites.com">
 
-        <button type="submit" class="btn btn-amber" onclick="stampAgreement()" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send My Project Brief</button>
+        <button type="submit" class="btn btn-amber" onclick="stampAgreement()" style="width:100%;text-align:center;padding:16px;font-size:15px;">Send It Over</button>
       </form>
     </div>
   </div>
@@ -837,16 +875,19 @@ body{overflow-x:hidden;max-width:100vw;}
     <a href="#" class="brand">Cyber<em style="color:var(--amber);">Patriot</em></a>
     <div class="foot-links">
       <a href="#work">Work</a>
-      <a href="#pricing">Pricing</a>
       <a href="#process">How It Works</a>
-      <a href="#contact">Get a Quote</a>
+      <a href="#contact">Contact</a>
     </div>
-    <p class="foot-c">© 2026 CyberPatriot. All rights reserved.</p>
   </div>
-  <div style="border-top:1px solid var(--line);padding:16px 0;margin-top:0;">
-    <div class="wrap" style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
-      <a href="privacy-policy.html" style="font-size:12.5px;color:var(--slate);transition:color .2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--slate)'">Privacy Policy</a>
-      <a href="terms-of-service.html" style="font-size:12.5px;color:var(--slate);transition:color .2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--slate)'">Terms of Service</a>
+  <div class="foot-legal">
+    <div class="wrap">
+      <h2 class="foot-legal-h">Legal</h2>
+      <nav class="foot-legal-links" aria-label="Legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+        <a href="accessibility.html">Accessibility</a>
+      </nav>
+      <p class="foot-c" style="margin-top:18px;">© 2026 CyberPatriot. All rights reserved.</p>
     </div>
   </div>
 </footer>
@@ -998,7 +1039,7 @@ async function sendAdminReset(){
   btn.disabled = true; btn.textContent = 'Sending…';
 
   const { error } = await adminSupa.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://patriotwebsites.com/reset.html'
+    redirectTo: 'https://patrioticwebsites.com/reset.html'
   });
 
   btn.disabled = false; btn.textContent = 'Send Reset Link';
@@ -1063,9 +1104,9 @@ function toggleOtherField(val){
 </script>
 
 <!-- ── FLOATING QUOTE BUTTON ── -->
-<button id="quote-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" aria-label="Get a Quote">
+<button id="quote-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" aria-label="Start a Project">
   <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  Get a Quote
+  <span>Let's Talk</span>
 </button>
 
 </body>
