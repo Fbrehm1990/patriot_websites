@@ -426,6 +426,9 @@ section .wrap > .sec-ey,section .wrap > .sec-h,section .wrap > .sec-p{text-align
 .foot .brand{gap:0;}
 footer{padding-bottom:0;}
 .foot{padding-bottom:26px;}
+
+/* real screenshots in the showcase */
+.sc-track .port-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
 </style>
 </head>
 <body>
@@ -491,12 +494,12 @@ footer{padding-bottom:0;}
       <div class="sc-chrome">
         <span class="sc-dot" style="background:#ef4444"></span><span class="sc-dot" style="background:#f59e0b"></span><span class="sc-dot" style="background:#10b981"></span>
         <div class="sc-url" id="scUrl">patrioticwebsites.com/tattoo_shop_website</div>
-        <span class="sc-count" id="scCount">1 / 5</span>
+        <span class="sc-count" id="scCount">1 / 7</span>
       </div>
       <div class="sc-track" id="scTrack" tabindex="0">
 
       <!-- TATTOO SHOP — real client work -->
-      <div class="port-card" style="border-color:rgba(139,26,26,0.4);">
+      <div class="port-card" data-url="patrioticwebsites.com/tattoo_shop_website" style="border-color:rgba(139,26,26,0.4);">
         <div class="port-img">
           <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
             <rect width="560" height="316" fill="#0e0d0d"/>
@@ -552,7 +555,30 @@ footer{padding-bottom:0;}
         </div>
       </div>
 
-      <div class="port-card">
+
+      <!-- THINKVISION — live client site -->
+      <div class="port-card" data-url="thinkvisionllc.com">
+        <div class="port-img"><img src="work-thinkvision.jpg" alt="ThinkVision Consulting home page: bold headline 'Fuel your pipeline. Accelerate your growth.' over a pink floral photo" loading="lazy"></div>
+        <div class="port-body">
+          <span class="port-industry">Business Consulting · Live Client Site</span>
+          <h3>ThinkVision Consulting</h3>
+          <p>A bold, editorial site for a Florida consulting and creative-media firm, with services, a client logo wall, a photography showcase, key metrics and one-click meeting booking.</p>
+          <a href="https://thinkvisionllc.com" target="_blank" rel="noopener" class="port-link">Visit live site →</a>
+        </div>
+      </div>
+
+      <!-- ELEVATED INK — live client site -->
+      <div class="port-card" data-url="elevatedinktattooshop.netlify.app">
+        <div class="port-img"><img src="work-elevated-ink.jpg" alt="Elevated Ink Tattoo Co. home page: ornate Elevated Ink logo and 'Rise Above' headline on a dark background" loading="lazy"></div>
+        <div class="port-body">
+          <span class="port-industry">Tattoo Studio · Live Client Site</span>
+          <h3>Elevated Ink Tattoo Co.</h3>
+          <p>A dark, vintage-inspired site for a Martinsburg tattoo shop, with artist profiles and portfolios, a filterable gallery, a spotlight carousel, an FAQ, and a staff sign-in with scheduler.</p>
+          <a href="https://elevatedinktattooshop.netlify.app" target="_blank" rel="noopener" class="port-link">Visit live site →</a>
+        </div>
+      </div>
+
+      <div class="port-card" data-url="patrioticwebsites.com/template_restaurant">
         <div class="port-img">
           <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
             <rect width="560" height="316" fill="#1b2a1b"/>
@@ -604,7 +630,7 @@ footer{padding-bottom:0;}
         </div>
       </div>
 
-      <div class="port-card">
+      <div class="port-card" data-url="patrioticwebsites.com/template_salon">
         <div class="port-img">
           <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
             <rect width="560" height="316" fill="#1a1616"/>
@@ -655,7 +681,7 @@ footer{padding-bottom:0;}
         </div>
       </div>
 
-      <div class="port-card">
+      <div class="port-card" data-url="patrioticwebsites.com/template_retail">
         <div class="port-img">
           <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
             <rect width="560" height="316" fill="#f8f5f2"/>
@@ -695,7 +721,7 @@ footer{padding-bottom:0;}
         </div>
       </div>
 
-      <div class="port-card">
+      <div class="port-card" data-url="patrioticwebsites.com/template_blank">
         <div class="port-img">
           <svg viewBox="0 0 560 316" xmlns="http://www.w3.org/2000/svg">
             <rect width="560" height="316" fill="#0d1526"/>
@@ -754,7 +780,6 @@ footer{padding-bottom:0;}
   var track=document.getElementById('scTrack'); if(!track) return;
   var slides=[].slice.call(track.querySelectorAll('.port-card'));
   var pips=document.getElementById('scPips'), url=document.getElementById('scUrl'), count=document.getElementById('scCount');
-  var paths=['tattoo_shop_website','template_restaurant','template_salon','template_retail','template_blank'];
   var cur=0;
   slides.forEach(function(sl){var g=sl.querySelector('.port-img svg'); if(g) g.setAttribute('preserveAspectRatio','xMidYMid slice');});
   slides.forEach(function(sl,i){
@@ -765,7 +790,7 @@ footer{padding-bottom:0;}
   function mark(i){
     cur=i;
     [].forEach.call(pips.children,function(p,j){p.classList.toggle('on',j===i);});
-    url.textContent='patrioticwebsites.com/'+(paths[i]||'');
+    url.textContent=slides[i].getAttribute('data-url')||'';
     count.textContent=(i+1)+' / '+slides.length;
   }
   function go(i){
