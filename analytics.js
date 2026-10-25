@@ -6,6 +6,7 @@
    - Honors Do Not Track / Global Privacy Control.
    - Skips the site owner's own browser once they've signed in to the dashboard. */
 (function () {
+  window.cpTrack = function () {}; // replaced below once tracking is allowed
   var SUPABASE_URL = 'https://ohkhdvcywwqgcxijdoig.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_zFSIWw_tffP44hh2_DvuzA_udNqeCKO';
   var ENDPOINT = SUPABASE_URL + '/rest/v1/page_events';
@@ -67,6 +68,8 @@
     } catch (e) {}
   }
 
+  window.cpTrack = send;
+
   // Page view
   send('pageview');
 
@@ -74,6 +77,7 @@
   document.addEventListener('click', function (e) {
     var el = e.target && e.target.closest ? e.target.closest('a, button') : null;
     if (!el) return;
+    if (el.closest('.cpc')) return; // chat answers are summarized when the chat is sent
     var label = (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 120);
     var target = el.tagName === 'A' ? (el.getAttribute('href') || '') : (el.id ? '#' + el.id : 'button');
     send('click', { label: label || null, target: target.slice(0, 500) });
@@ -99,6 +103,7 @@
   // Contact form submissions (no form contents are recorded here)
   document.addEventListener('submit', function (e) {
     var f = e.target;
+    if (!f || (f.closest && f.closest('.cpc'))) return; // chat steps aren't form submissions
     var type = f && f.querySelector ? f.querySelector('[name="business_type"]') : null;
     send('form_submit', { label: type && type.value ? type.value.slice(0, 120) : 'Contact form', target: f.getAttribute('action') ? 'contact' : 'form' });
   }, true);

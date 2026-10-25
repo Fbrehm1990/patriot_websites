@@ -893,7 +893,7 @@ function openLeadDetail(id){
       <div><div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;">Timeline</div>
       <div style="font-size:15px;color:var(--amber);font-weight:600;">${esc(l.timeline)||'Not specified'}</div></div>
       <div><div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;">Received</div>
-      <div style="font-size:14px;">${esc(when)}${l.source?` · ${esc(l.source==='website'?'Website form':l.source==='manual'?'Added by you':l.source)}`:''}</div></div>
+      <div style="font-size:14px;">${esc(when)}${l.source?` · ${esc(l.source==='website'?'Website form':l.source==='chat'?'Website chat':l.source==='manual'?'Added by you':l.source)}`:''}</div></div>
     </div>
     ${l.notes?`<div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:10px;font-size:14px;color:var(--slate);line-height:1.7;white-space:pre-wrap;">${esc(l.notes)}</div>`:''}
   `;
