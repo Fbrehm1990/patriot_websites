@@ -190,6 +190,38 @@ h1,h2,h3{font-family:'Fraunces',serif;}
 .panel.active{display:block;}
 .chat-panel{display:none;}
 .chat-panel.active{display:flex;flex-direction:column;}
+
+/* ── ANALYTICS ── */
+.an-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.an-range{display:inline-flex;border:1px solid var(--line);}
+.an-rbtn{background:transparent;border:none;border-right:1px solid var(--line);color:var(--slate);font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:700;padding:9px 16px;cursor:pointer;}
+.an-rbtn:last-child{border-right:none;}
+.an-rbtn:hover{color:var(--white);background:var(--bg3);}
+.an-rbtn.active{background:rgba(245,158,11,0.14);color:var(--amber);}
+.an-status{font-size:13px;color:var(--slate);margin:-6px 0 16px;min-height:18px;}
+.an-status.err{color:var(--red);}
+.an-kpis .value{font-size:32px;}
+.an-card{background:var(--bg2);border:1px solid var(--line);padding:20px 22px;min-width:0;}
+.an-wide{margin-bottom:18px;}
+.an-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.an-card-head h3{font-size:16px;font-weight:700;}
+.an-hint{font-size:11.5px;color:var(--slate);}
+.an-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:18px;}
+.an-list{display:flex;flex-direction:column;gap:6px;}
+.an-row{position:relative;display:flex;justify-content:space-between;gap:12px;padding:8px 10px;font-size:13px;overflow:hidden;}
+.an-row .bar{position:absolute;inset:0 auto 0 0;background:rgba(245,158,11,0.12);border-left:2px solid var(--amber);}
+.an-row .k{position:relative;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.an-row .k small{color:var(--slate);margin-left:6px;}
+.an-row .n{position:relative;font-weight:700;font-variant-numeric:tabular-nums;}
+.an-empty{font-size:13px;color:var(--slate);padding:8px 2px;}
+.an-chart svg{width:100%;height:220px;display:block;}
+.an-feed-wrap{overflow-x:auto;}
+.an-feed td{font-size:12.5px;padding:10px 12px;white-space:nowrap;}
+.an-vid{display:inline-flex;align-items:center;gap:7px;font-family:ui-monospace,Consolas,monospace;font-size:12px;}
+.an-vid i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+.an-ev{font-weight:600;}
+.an-sub{color:var(--slate);}
+@media(max-width:900px){.an-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -253,6 +285,10 @@ h1,h2,h3{font-family:'Fraunces',serif;}
         Leads
         <span id="newLeadCount" style="display:none;background:var(--amber);color:#060c18;font-size:10px;font-weight:800;padding:1px 7px;border-radius:100px;margin-left:auto;"></span>
       </div>
+      <div class="navitem" onclick="showTab('analytics')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+        Analytics
+      </div>
       <div class="navitem" onclick="showTab('projects')">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         Projects
@@ -267,7 +303,7 @@ h1,h2,h3{font-family:'Fraunces',serif;}
       </div>
     </nav>
     <div class="sidebar-foot">
-      <p>Leads sync from your<br>chat widget automatically.<br><a href="SiteForge_Storefront.html">← Back to storefront</a></p>
+      <p>Leads from your website's<br>contact form appear here<br>automatically.<br><a href="index.html">← Back to website</a></p>
       <button onclick="lockDashboard()" style="margin-top:12px;width:100%;background:transparent;border:1px solid var(--line);color:var(--slate);padding:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--slate)'">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Lock Dashboard
@@ -300,9 +336,9 @@ h1,h2,h3{font-family:'Fraunces',serif;}
             <div class="delta">In progress</div>
           </div>
           <div class="stat-card">
-            <div class="label">Revenue</div>
-            <div class="value" id="stat-revenue">$0</div>
-            <div class="delta">All projects</div>
+            <div class="label">Website Visitors</div>
+            <div class="value" id="stat-visitors">0</div>
+            <div class="delta">Last 7 days</div>
           </div>
           <div class="stat-card">
             <div class="label">New Leads</div>
@@ -316,7 +352,7 @@ h1,h2,h3{font-family:'Fraunces',serif;}
         </div>
         <table class="leads-table">
           <thead><tr>
-            <th>Name</th><th>Business</th><th>Package</th><th>Status</th><th>Date</th><th></th>
+            <th>Name</th><th>Business</th><th>Timeline</th><th>Status</th><th>Date</th><th></th>
           </tr></thead>
           <tbody id="recentLeadsBody"></tbody>
         </table>
@@ -330,13 +366,52 @@ h1,h2,h3{font-family:'Fraunces',serif;}
         </div>
         <table class="leads-table">
           <thead><tr>
-            <th>Name</th><th>Business</th><th>Package</th><th>Status</th><th>Date</th><th>Actions</th>
+            <th>Name</th><th>Business</th><th>Timeline</th><th>Status</th><th>Date</th><th>Actions</th>
           </tr></thead>
           <tbody id="leadsBody"></tbody>
         </table>
         <div class="empty-state" id="leadsEmpty" style="display:none;">
           <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto;opacity:0.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          <p>No leads yet. They'll appear here when customers use the chat widget.</p>
+          <p>No leads yet. They'll appear here automatically when someone sends your website's contact form.</p>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="panel" id="panel-analytics">
+        <div class="an-toolbar">
+          <div class="an-range" role="group" aria-label="Date range">
+            <button class="an-rbtn" data-days="1" onclick="setRange(1)">Today</button>
+            <button class="an-rbtn active" data-days="7" onclick="setRange(7)">7 days</button>
+            <button class="an-rbtn" data-days="30" onclick="setRange(30)">30 days</button>
+            <button class="an-rbtn" data-days="90" onclick="setRange(90)">90 days</button>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="loadAnalytics(true)">↻ Refresh</button>
+        </div>
+        <p class="an-status" id="anStatus"></p>
+        <div class="stat-grid an-kpis">
+          <div class="stat-card"><div class="label">Visitors</div><div class="value" id="an-visitors">–</div><div class="delta" id="an-visitors-sub">Unique people</div></div>
+          <div class="stat-card"><div class="label">Page Views</div><div class="value" id="an-views">–</div><div class="delta" id="an-views-sub">Across all pages</div></div>
+          <div class="stat-card"><div class="label">Avg. Time on Page</div><div class="value" id="an-time">–</div><div class="delta" id="an-time-sub">Per page view</div></div>
+          <div class="stat-card"><div class="label">Form Submissions</div><div class="value" id="an-forms">–</div><div class="delta" id="an-forms-sub">Contact form</div></div>
+        </div>
+        <div class="an-card an-wide">
+          <div class="an-card-head"><h3>Visitors per day</h3><span class="an-hint" id="an-chart-hint"></span></div>
+          <div class="an-chart" id="an-chart"></div>
+        </div>
+        <div class="an-grid">
+          <div class="an-card"><div class="an-card-head"><h3>Top pages</h3><span class="an-hint">views</span></div><div class="an-list" id="an-pages"></div></div>
+          <div class="an-card"><div class="an-card-head"><h3>Where visitors come from</h3><span class="an-hint">visitors</span></div><div class="an-list" id="an-sources"></div></div>
+          <div class="an-card"><div class="an-card-head"><h3>Most clicked</h3><span class="an-hint">clicks</span></div><div class="an-list" id="an-clicks"></div></div>
+          <div class="an-card"><div class="an-card-head"><h3>Work showcase views</h3><span class="an-hint">views</span></div><div class="an-list" id="an-showcase"></div></div>
+          <div class="an-card"><div class="an-card-head"><h3>Devices</h3><span class="an-hint">visitors</span></div><div class="an-list" id="an-devices"></div></div>
+          <div class="an-card"><div class="an-card-head"><h3>Browsers &amp; systems</h3><span class="an-hint">visitors</span></div><div class="an-list" id="an-browsers"></div></div>
+        </div>
+        <div class="an-card an-wide">
+          <div class="an-card-head"><h3>Recent visitor activity</h3><span class="an-hint">Newest first · each visitor is an anonymous ID, not a name</span></div>
+          <div class="an-feed-wrap"><table class="leads-table an-feed">
+            <thead><tr><th>When</th><th>Visitor</th><th>Activity</th><th>Page</th><th>Device</th><th>Came from</th></tr></thead>
+            <tbody id="an-feed"></tbody>
+          </table></div>
         </div>
       </div>
 
@@ -360,21 +435,21 @@ h1,h2,h3{font-family:'Fraunces',serif;}
 
       <!-- MARKETING -->
       <div class="panel" id="panel-marketing">
-        <p class="mktg-intro">Generate ready-to-use marketing content for CyberPatriot — one click produces polished copy you can post, send, or print right away. Everything is written specifically for your service, your location, and your packages.</p>
+        <p class="mktg-intro">Generate ready-to-use marketing content for CyberPatriot — one click produces polished copy you can post, send, or print right away. Everything is written specifically for your service, your location, and how you work.</p>
 
         <div class="section-head">
           <h2>Quick Generate</h2>
           <span style="font-size:12px;color:var(--slate);">Click any card to generate content instantly</span>
         </div>
         <div class="mktg-grid">
-          <button class="mktg-btn" onclick="quickGenerate('Facebook Post','Write a Facebook post for CyberPatriot, a done-for-you web design service in Martinsburg WV. Conversational and friendly, not corporate. Mention they handle everything for you, mention the fast turnaround (3-7 days), prices start at $199. CTA to visit patriot-websites.com. Under 150 words. Sound genuine, not like a marketing agency.')"><span class="mktg-icon">📱</span><span class="mktg-label">Facebook Post</span><span class="mktg-sub">Local announcement</span></button>
-          <button class="mktg-btn" onclick="quickGenerate('Cold Outreach Email','Write a cold outreach email from CyberPatriot to a local business owner in Martinsburg WV who has no website or an outdated one. Under 120 words. Warm but professional. Benefit-focused — more customers finding them. Mention Done For You (they do nothing, we handle everything). Prices from $199. No pressure CTA. Include a subject line at the top.')"><span class="mktg-icon">📧</span><span class="mktg-label">Cold Outreach Email</span><span class="mktg-sub">For businesses without sites</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Facebook Post','Write a Facebook post for CyberPatriot, a done-for-you web design service in Martinsburg WV. Conversational and friendly, not corporate. Mention they handle everything for you, mention the fast turnaround (about a week) and that every project gets a free custom quote. CTA to visit patrioticwebsites.com. Under 150 words. Sound genuine, not like a marketing agency.')"><span class="mktg-icon">📱</span><span class="mktg-label">Facebook Post</span><span class="mktg-sub">Local announcement</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Cold Outreach Email','Write a cold outreach email from CyberPatriot to a local business owner in Martinsburg WV who has no website or an outdated one. Under 120 words. Warm but professional. Benefit-focused — more customers finding them. Mention Done For You (they do nothing, we handle everything). Every project gets a free custom quote. No pressure CTA. Include a subject line at the top.')"><span class="mktg-icon">📧</span><span class="mktg-label">Cold Outreach Email</span><span class="mktg-sub">For businesses without sites</span></button>
           <button class="mktg-btn" onclick="quickGenerate('Google Ads Copy','Write Google Ads copy for CyberPatriot web design in Martinsburg WV. Give 3 headline options (each UNDER 30 characters — count carefully) and 2 description options (each under 90 characters). Keywords: local, fast delivery, done for you, professional, affordable. Label each clearly and show the character count.')"><span class="mktg-icon">🔍</span><span class="mktg-label">Google Ads</span><span class="mktg-sub">Headlines + descriptions</span></button>
           <button class="mktg-btn" onclick="quickGenerate('Instagram Caption','Write an Instagram caption for CyberPatriot web design in Martinsburg WV. Genuine and slightly behind-the-scenes — show the value of a real website, not just a promo. Under 100 words main caption. Then 12 relevant hashtags on a new line. Focus on helping local businesses get found online.')"><span class="mktg-icon">📸</span><span class="mktg-label">Instagram Caption</span><span class="mktg-sub">With hashtags</span></button>
-          <button class="mktg-btn" onclick="quickGenerate('SMS Pitch','Write an SMS text pitch for CyberPatriot web design in Martinsburg WV. MUST be under 160 characters total. Friendly, not spammy. Introduce the service and include patriot-websites.com. Count characters carefully.')"><span class="mktg-icon">💬</span><span class="mktg-label">SMS Pitch</span><span class="mktg-sub">160-character text</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('SMS Pitch','Write an SMS text pitch for CyberPatriot web design in Martinsburg WV. MUST be under 160 characters total. Friendly, not spammy. Introduce the service and include patrioticwebsites.com. Count characters carefully.')"><span class="mktg-icon">💬</span><span class="mktg-label">SMS Pitch</span><span class="mktg-sub">160-character text</span></button>
           <button class="mktg-btn" onclick="quickGenerate('Follow-Up Email','Write a follow-up email for CyberPatriot to send to a potential client who requested a quote but has not responded in a week. Under 80 words. Warm, friendly, zero pressure — just checking in and keeping the door open. One gentle CTA. Include a subject line.')"><span class="mktg-icon">🔁</span><span class="mktg-label">Follow-Up Email</span><span class="mktg-sub">For quiet leads</span></button>
-          <button class="mktg-btn" onclick="quickGenerate('Google Business Profile','Write a Google Business Profile description for CyberPatriot web design in Martinsburg WV. 200-250 words. Describe the Done For You approach, list types of businesses served (restaurants, salons, retail, contractors, fitness, professional services), highlight 3-7 day turnaround, mention prices from $199. Include local keywords naturally. End with a CTA.')"><span class="mktg-icon">📍</span><span class="mktg-label">Google Business Bio</span><span class="mktg-sub">Local search profile</span></button>
-          <button class="mktg-btn" onclick="quickGenerate('Flyer Copy','Write print flyer copy for CyberPatriot web design. One bold headline, short subheadline (1 sentence), 3 punchy bullet points (fast delivery, professional, done for you), price range ($199-$599), website URL (patriot-websites.com). Every line short — this is print. Punchy, scannable, easy to read at a glance.')"><span class="mktg-icon">📄</span><span class="mktg-label">Flyer Copy</span><span class="mktg-sub">Print marketing</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Google Business Profile','Write a Google Business Profile description for CyberPatriot web design in Martinsburg WV. 200-250 words. Describe the Done For You approach, list types of businesses served (restaurants, salons, retail, contractors, fitness, professional services), highlight the roughly one-week turnaround and free custom quotes. Include local keywords naturally. End with a CTA.')"><span class="mktg-icon">📍</span><span class="mktg-label">Google Business Bio</span><span class="mktg-sub">Local search profile</span></button>
+          <button class="mktg-btn" onclick="quickGenerate('Flyer Copy','Write print flyer copy for CyberPatriot web design. One bold headline, short subheadline (1 sentence), 3 punchy bullet points (fast delivery, professional, done for you), a "free custom quote" line, website URL (patrioticwebsites.com). Every line short — this is print. Punchy, scannable, easy to read at a glance.')"><span class="mktg-icon">📄</span><span class="mktg-label">Flyer Copy</span><span class="mktg-sub">Print marketing</span></button>
         </div>
 
         <div class="mktg-output" id="mktgOutput">
@@ -400,7 +475,7 @@ h1,h2,h3{font-family:'Fraunces',serif;}
 
         <div class="mktg-chat-head">
           <h2>Custom Marketing Request</h2>
-          <p>Need something specific? The marketing AI knows your business, your location, and your packages.</p>
+          <p>Need something specific? The marketing AI knows your business, your location, and how you work.</p>
         </div>
         <div class="chat-messages" id="mktgMessages" style="max-height:360px;overflow-y:auto;margin-bottom:16px;display:flex;flex-direction:column;gap:14px;"></div>
         <div class="chat-input-row">
@@ -432,11 +507,10 @@ h1,h2,h3{font-family:'Fraunces',serif;}
           <option>Fitness / Trainer</option><option>Professional Services</option><option>Other</option>
         </select>
       </div>
-      <div class="field"><label>Package Interest</label>
-        <select id="al-pkg">
-          <option>Free Template</option><option>Pro Template — $49</option>
-          <option>DFY Starter — $199</option><option>DFY Standard — $349</option>
-          <option>DFY Premium — $599</option><option>Not sure yet</option>
+      <div class="field"><label>Timeline</label>
+        <select id="al-timeline">
+          <option>As soon as possible</option><option>Within 2 weeks</option>
+          <option>Within a month</option><option>No rush</option><option>Not sure yet</option>
         </select>
       </div>
     </div>
@@ -476,9 +550,9 @@ h1,h2,h3{font-family:'Fraunces',serif;}
     <p>Track a new client project on the board.</p>
     <div class="field"><label>Client / Business Name</label><input id="ap-name" type="text" placeholder="Client name"></div>
     <div class="field-row">
-      <div class="field"><label>Package</label>
+      <div class="field"><label>Type</label>
         <select id="ap-pkg">
-          <option>DFY Starter — $199</option><option>DFY Standard — $349</option><option>DFY Premium — $599</option><option>Other</option>
+          <option>Custom website</option><option>Website + care plan</option><option>Care plan only</option><option>Other</option>
         </select>
       </div>
       <div class="field"><label>Due Date</label><input id="ap-due" type="date"></div>
@@ -667,33 +741,60 @@ window.addEventListener('load', async () => {
 });
 
 // ─── DATA ──────────────────────────────────────
+// Leads live in Supabase (table: leads) so every device shows the same list.
+// Projects and saved marketing content stay in this browser.
 function getData(key){ try{ return JSON.parse(localStorage.getItem('sf_'+key)||'null'); }catch(e){ return null; } }
-function setData(key,val){ localStorage.setItem('sf_'+key, JSON.stringify(val)); }
+function setData(key,val){ try{ localStorage.setItem('sf_'+key, JSON.stringify(val)); }catch(e){} }
 
-function getLeads(){ return getData('leads') || []; }
+let LEADS = [];
+let leadsError = '';
+function getLeads(){ return LEADS; }
 function getProjects(){ return getData('projects') || []; }
-function saveLeads(l){ setData('leads', l); }
 function saveProjects(p){ setData('projects', p); }
+
+function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function fetchLeads(){
+  leadsError = '';
+  if(!supabaseClient){ leadsError = 'Not connected to the database.'; LEADS = []; return; }
+  const { data, error } = await supabaseClient.from('leads').select('*').order('created_at', { ascending:false });
+  if(error){
+    leadsError = /relation|does not exist|schema cache/i.test(error.message)
+      ? 'The leads table isn’t set up yet. Run supabase/setup_leads_and_analytics.sql in your Supabase SQL Editor.'
+      : 'Couldn’t load leads: ' + error.message;
+    LEADS = []; return;
+  }
+  LEADS = (data||[]).map(r=>({
+    id: r.id, name: r.name, email: r.email, business: r.business,
+    type: r.business_type || r.type || '', timeline: r.timeline || '',
+    notes: r.message || r.notes || '', status: r.status || 'new',
+    source: r.source || '', date: r.created_at || r.date
+  }));
+}
+
+// Re-draw everything that depends on leads, whatever tab is open.
+async function refreshLeads(){
+  await fetchLeads();
+  renderOverview();
+  renderLeads();
+  updateNewLeadBadge();
+}
 
 let currentTab = "overview";
 
 // ─── INIT ──────────────────────────────────────
 function initApp(){
-  // Seed sample data if none exists
-  if(!getData('leads')){
-    saveLeads([
-      {id:'l1',name:'Maria Santos',email:'maria@grilledbistro.com',business:'The Grilled Bistro',type:'Restaurant / Café',package:'DFY Standard — $349',notes:'Wants a reservation system too. Prefers warm tones.',status:'new',date:new Date().toISOString()},
-      {id:'l2',name:'James Holloway',email:'james@cutandcraft.com',business:'Cut & Craft Barbers',type:'Salon / Spa / Barber',package:'DFY Starter — $199',notes:'Needs a simple site fast.',status:'contacted',date:new Date(Date.now()-86400000*2).toISOString()}
-    ]);
-  }
-  if(!getData('projects')){
-    saveProjects([
-      {id:'p1',name:'The Grilled Bistro',package:'DFY Standard — $349',due:'',notes:'Using Ember & Oak template. Waiting on logo.',stage:'contacted'},
-      {id:'p2',name:'Bella Moda Boutique',package:'DFY Premium — $599',due:'',notes:'Custom layout requested. Near completion.',stage:'review'}
-    ]);
-  }
+  // Remove the old built-in sample leads/projects from earlier versions of this dashboard.
+  try{
+    localStorage.removeItem('sf_leads');
+    const SAMPLE_PROJECTS = ['p1','p2'];
+    const projects = getData('projects');
+    if(Array.isArray(projects)) saveProjects(projects.filter(p=>!(SAMPLE_PROJECTS.includes(p.id) && /Grilled Bistro|Bella Moda/.test(p.name||''))));
+    localStorage.setItem('cp_owner','1'); // don't count the owner's visits in analytics
+  }catch(e){}
   renderOverview();
-  updateNewLeadBadge();
+  refreshLeads();
+  loadVisitorCount();
 }
 
 // ─── OVERVIEW ─────────────────────────────────
@@ -702,17 +803,24 @@ function renderOverview(){
   const projects = getProjects();
   const active = projects.filter(p=>p.stage!=='done').length;
   const newCount = leads.filter(l=>l.status==='new').length;
-  const pkgMap = {'DFY Starter — $199':199,'DFY Standard — $349':349,'DFY Premium — $599':599,'Pro Template — $49':49};
-  const rev = projects.reduce((s,p)=>s+(pkgMap[p.package]||0),0);
 
   document.getElementById('stat-leads').textContent = leads.length;
   document.getElementById('stat-projects').textContent = active;
-  document.getElementById('stat-revenue').textContent = '$'+rev.toLocaleString();
   document.getElementById('stat-new').textContent = newCount;
 
   const tbody = document.getElementById('recentLeadsBody');
-  const recent = [...leads].reverse().slice(0,5);
-  tbody.innerHTML = recent.length ? recent.map(l=>leadRow(l)).join('') : '<tr><td colspan="6" class="empty-state"><p>No leads yet.</p></td></tr>';
+  const recent = leads.slice(0,5);
+  tbody.innerHTML = leadsError
+    ? `<tr><td colspan="6" class="empty-state"><p>${esc(leadsError)}</p></td></tr>`
+    : recent.length ? recent.map(l=>leadRow(l)).join('') : '<tr><td colspan="6" class="empty-state"><p>No leads yet.</p></td></tr>';
+}
+
+async function loadVisitorCount(){
+  const el = document.getElementById('stat-visitors');
+  if(!supabaseClient || !el) return;
+  const since = new Date(Date.now() - 7*86400000).toISOString();
+  const { data, error } = await supabaseClient.from('page_events').select('visitor_id').eq('event','pageview').gte('created_at', since).limit(10000);
+  el.textContent = error ? '–' : new Set((data||[]).map(r=>r.visitor_id)).size;
 }
 
 function updateNewLeadBadge(){
@@ -724,15 +832,16 @@ function updateNewLeadBadge(){
 // ─── LEADS ─────────────────────────────────────
 function leadRow(l){
   const badges = {new:'status-new',contacted:'status-contacted',building:'status-building',done:'status-done'};
-  const date = new Date(l.date).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const d = l.date ? new Date(l.date) : null;
+  const date = d && !isNaN(d) ? d.toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '—';
   return `<tr>
-    <td><div class="lead-name">${l.name||'—'}</div><div class="lead-biz">${l.email||''}</div></td>
-    <td><div>${l.business||'—'}</div><div class="lead-biz">${l.type||''}</div></td>
-    <td>${l.package||'—'}</td>
-    <td><span class="status-badge ${badges[l.status]||'status-new'}">${l.status||'new'}</span></td>
+    <td><div class="lead-name">${esc(l.name)||'—'}</div><div class="lead-biz">${esc(l.email)}</div></td>
+    <td><div>${esc(l.business)||'—'}</div><div class="lead-biz">${esc(l.type)}</div></td>
+    <td>${esc(l.timeline)||'—'}</td>
+    <td><span class="status-badge ${badges[l.status]||'status-new'}">${esc(l.status||'new')}</span></td>
     <td style="color:var(--slate);">${date}</td>
     <td><div class="action-row">
-      <button class="btn btn-ghost btn-sm" onclick="openLeadDetail('${l.id}')">View</button>
+      <button class="btn btn-ghost btn-sm" onclick="openLeadDetail('${esc(l.id)}')">View</button>
     </div></td>
   </tr>`;
 }
@@ -741,79 +850,245 @@ function renderLeads(){
   const leads = getLeads();
   const tbody = document.getElementById('leadsBody');
   const empty = document.getElementById('leadsEmpty');
+  if(leadsError){ tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><p>${esc(leadsError)}</p></td></tr>`; empty.style.display='none'; return; }
   if(!leads.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
-  tbody.innerHTML = [...leads].reverse().map(l=>leadRow(l)).join('');
+  tbody.innerHTML = leads.map(l=>leadRow(l)).join('');
 }
 
 // ─── ADD LEAD ──────────────────────────────────
 function openAddLead(){ document.getElementById('addLeadModal').classList.add('open'); }
-function saveLead(){
-  const leads = getLeads();
-  leads.push({
-    id:'l'+Date.now(),
-    name:document.getElementById('al-name').value,
-    email:document.getElementById('al-email').value,
-    business:document.getElementById('al-biz').value,
-    type:document.getElementById('al-type').value,
-    package:document.getElementById('al-pkg').value,
-    notes:document.getElementById('al-notes').value,
-    status:'new', date:new Date().toISOString()
+async function saveLead(){
+  const name = document.getElementById('al-name').value.trim();
+  if(!name){ alertMsg('Please enter a name.'); return; }
+  const { error } = await supabaseClient.from('leads').insert({
+    name,
+    email: document.getElementById('al-email').value.trim(),
+    business: document.getElementById('al-biz').value.trim(),
+    business_type: document.getElementById('al-type').value,
+    timeline: document.getElementById('al-timeline').value,
+    message: document.getElementById('al-notes').value.trim(),
+    status: 'new', source: 'manual'
   });
-  saveLeads(leads);
+  if(error){ alertMsg('Couldn’t save the lead: ' + error.message); return; }
   closeModal('addLeadModal');
   ['al-name','al-email','al-biz','al-notes'].forEach(id=>document.getElementById(id).value='');
-  updateNewLeadBadge();
-  if(currentTab==='leads') renderLeads();
-  if(currentTab==='overview') renderOverview();
+  await refreshLeads();
 }
+
+function alertMsg(t){ window.alert(t); }
 
 // ─── LEAD DETAIL ───────────────────────────────
 let currentLeadId = null;
 function openLeadDetail(id){
-  const leads = getLeads();
-  const l = leads.find(x=>x.id===id);
+  const l = getLeads().find(x=>String(x.id)===String(id));
   if(!l) return;
-  currentLeadId = id;
+  currentLeadId = l.id;
   document.getElementById('ld-name').textContent = l.name || 'Lead';
-  document.getElementById('ld-meta').textContent = `${l.business||''} · ${l.type||''} · ${l.email||''}`;
+  document.getElementById('ld-meta').textContent = [l.business, l.type, l.email].filter(Boolean).join(' · ');
   document.getElementById('ld-status-sel').value = l.status||'new';
+  const when = l.date ? new Date(l.date).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}) : '';
   document.getElementById('ld-body').innerHTML = `
-    <div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:12px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;">Package Interest</div>
-      <div style="font-size:15px;color:var(--amber);font-weight:600;">${l.package||'Not specified'}</div>
+    <div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:12px;display:flex;gap:28px;flex-wrap:wrap;">
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;">Timeline</div>
+      <div style="font-size:15px;color:var(--amber);font-weight:600;">${esc(l.timeline)||'Not specified'}</div></div>
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;">Received</div>
+      <div style="font-size:14px;">${esc(when)}${l.source?` · ${esc(l.source==='website'?'Website form':l.source==='manual'?'Added by you':l.source)}`:''}</div></div>
     </div>
-    ${l.notes?`<div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:10px;font-size:14px;color:var(--slate);line-height:1.7;">${l.notes}</div>`:''}
+    ${l.notes?`<div style="background:var(--bg);border:1px solid var(--line);padding:16px;margin-top:10px;font-size:14px;color:var(--slate);line-height:1.7;white-space:pre-wrap;">${esc(l.notes)}</div>`:''}
   `;
   document.getElementById('leadDetailModal').classList.add('open');
 }
 
-function updateLeadStatus(){
-  const leads = getLeads();
-  const l = leads.find(x=>x.id===currentLeadId);
-  if(l){ l.status = document.getElementById('ld-status-sel').value; saveLeads(leads); updateNewLeadBadge(); }
+async function updateLeadStatus(){
+  const status = document.getElementById('ld-status-sel').value;
+  const { error } = await supabaseClient.from('leads').update({ status }).eq('id', currentLeadId);
+  if(error){ alertMsg('Couldn’t update the status: ' + error.message); return; }
+  await refreshLeads();
 }
 
-function deleteLead(){
-  if(!confirm('Delete this lead?')) return;
-  saveLeads(getLeads().filter(l=>l.id!==currentLeadId));
+async function deleteLead(){
+  if(!confirm('Delete this lead? This can’t be undone.')) return;
+  const { error } = await supabaseClient.from('leads').delete().eq('id', currentLeadId);
+  if(error){ alertMsg('Couldn’t delete the lead: ' + error.message); return; }
   closeModal('leadDetailModal');
-  updateNewLeadBadge();
-  if(currentTab==='leads') renderLeads();
-  if(currentTab==='overview') renderOverview();
+  await refreshLeads();
 }
 
 function draftEmail(){
-  const leads = getLeads();
-  const l = leads.find(x=>x.id===currentLeadId);
+  const l = getLeads().find(x=>String(x.id)===String(currentLeadId));
   if(!l) return;
   closeModal('leadDetailModal');
   showTab('ai');
   setTimeout(()=>{
-    const prompt = `Please draft a warm, professional follow-up email to this lead:\n\nName: ${l.name}\nBusiness: ${l.business} (${l.type})\nPackage interest: ${l.package}\nNotes: ${l.notes||'None'}\n\nKeep it short, friendly, and end with a clear next step.`;
+    const prompt = `Please draft a warm, professional follow-up email to this lead:\n\nName: ${l.name}\nBusiness: ${l.business} (${l.type})\nTimeline: ${l.timeline||'Not specified'}\nNotes: ${l.notes||'None'}\n\nKeep it short, friendly, and end with a clear next step.`;
     document.getElementById('aiInput').value = prompt;
     sendAiMessage();
   }, 400);
+}
+
+
+// ─── ANALYTICS ─────────────────────────────────
+let anDays = 7;
+let anCache = {};
+function setRange(d){
+  anDays = d;
+  document.querySelectorAll('.an-rbtn').forEach(b=>b.classList.toggle('active', +b.dataset.days===d));
+  loadAnalytics();
+}
+
+async function fetchEvents(sinceIso){
+  const cols = 'created_at,visitor_id,session_id,event,path,label,target,referrer,utm_source,device,browser,os,duration_ms,scroll_pct';
+  let all = [], from = 0, page = 1000;
+  while(from < 50000){
+    const { data, error } = await supabaseClient.from('page_events').select(cols)
+      .gte('created_at', sinceIso).order('created_at', { ascending:false }).range(from, from+page-1);
+    if(error) throw error;
+    all = all.concat(data||[]);
+    if(!data || data.length < page) break;
+    from += page;
+  }
+  return all;
+}
+
+function pageName(path){
+  let p = (path||'/').toLowerCase().replace(/\.html$/,'').replace(/\/+$/,'') || '/';
+  const names = {'/':'Home','/index':'Home','/privacy-policy':'Privacy Policy','/terms-of-service':'Terms of Service','/accessibility':'Accessibility','/thank-you':'Thank-you page (form sent)'};
+  return names[p] || p;
+}
+function sourceName(r){
+  if(r.utm_source) return r.utm_source.charAt(0).toUpperCase()+r.utm_source.slice(1) + ' (campaign)';
+  if(!r.referrer) return 'Direct / typed in';
+  let h=''; try{ h = new URL(r.referrer).hostname.replace(/^www\.|^m\.|^l\./,''); }catch(e){ return 'Other'; }
+  if(/google\./.test(h)) return 'Google';
+  if(/bing\.com/.test(h)) return 'Bing';
+  if(/duckduckgo/.test(h)) return 'DuckDuckGo';
+  if(/yahoo\./.test(h)) return 'Yahoo';
+  if(/facebook\.com|fb\.com|fb\.me/.test(h)) return 'Facebook';
+  if(/instagram\.com/.test(h)) return 'Instagram';
+  if(/linkedin\.com|lnkd\.in/.test(h)) return 'LinkedIn';
+  if(/t\.co$|twitter\.com|x\.com/.test(h)) return 'X / Twitter';
+  if(/tiktok\.com/.test(h)) return 'TikTok';
+  if(/reddit\.com/.test(h)) return 'Reddit';
+  return h;
+}
+function fmtDur(ms){
+  if(!ms || ms<0) return '0s';
+  const s = Math.round(ms/1000);
+  if(s<60) return s+'s';
+  const m = Math.floor(s/60), r = s%60;
+  return m<60 ? `${m}m ${String(r).padStart(2,'0')}s` : `${Math.floor(m/60)}h ${m%60}m`;
+}
+function countBy(rows, keyFn){
+  const m = new Map();
+  rows.forEach(r=>{ const k = keyFn(r); if(k==null||k==='') return; m.set(k,(m.get(k)||0)+1); });
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+function listHTML(entries, max, subFn){
+  if(!entries.length) return '<div class="an-empty">No data yet for this period.</div>';
+  const top = entries.slice(0, max||8), peak = top[0][1]||1;
+  return top.map(([k,n])=>`<div class="an-row"><span class="bar" style="width:${Math.max(4,Math.round(n/peak*100))}%"></span><span class="k" title="${esc(k)}">${esc(k)}${subFn?`<small>${esc(subFn(k)||'')}</small>`:''}</span><span class="n">${n.toLocaleString()}</span></div>`).join('');
+}
+function vidColor(v){ let h=0; for(const c of String(v)) h=(h*31+c.charCodeAt(0))>>>0; return `hsl(${h%360} 70% 60%)`; }
+
+function chartSVG(buckets){
+  const W=900,H=220,pl=34,pr=8,pt=12,pb=28;
+  const max = Math.max(1, ...buckets.map(b=>b.v));
+  const n = buckets.length, gw = (W-pl-pr)/n, bw = Math.max(2, Math.min(36, gw*0.68));
+  const y = v => pt + (H-pt-pb) * (1 - v/max);
+  const step = Math.max(1, Math.ceil(max/4));
+  let grid=''; for(let v=0; v<=max; v+=step){ grid += `<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="#1a2740"/><text x="${pl-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#8b9bb4">${v}</text>`; }
+  const every = Math.ceil(n/12);
+  const bars = buckets.map((b,i)=>{
+    const x = pl + i*gw + (gw-bw)/2, top = y(b.v);
+    return `<rect x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${(H-pb-top).toFixed(1)}" fill="#f59e0b" rx="2"><title>${b.label}: ${b.v} visitor${b.v===1?'':'s'}</title></rect>`
+      + (i%every===0 ? `<text x="${(pl+i*gw+gw/2).toFixed(1)}" y="${H-9}" text-anchor="middle" font-size="11" fill="#8b9bb4">${b.short}</text>` : '');
+  }).join('');
+  const total = buckets.reduce((s,b)=>s+b.v,0);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Visitors over time, ${total} total visitor-days">${grid}${bars}</svg>`;
+}
+
+async function loadAnalytics(force){
+  const status = document.getElementById('anStatus');
+  status.className = 'an-status'; status.textContent = 'Loading…';
+  if(!supabaseClient){ status.className='an-status err'; status.textContent='Not connected to the database.'; return; }
+  const since = new Date(); since.setHours(0,0,0,0); since.setDate(since.getDate() - (anDays-1));
+  let rows;
+  try{
+    if(!force && anCache[anDays] && Date.now()-anCache[anDays].t < 60000) rows = anCache[anDays].rows;
+    else { rows = await fetchEvents(since.toISOString()); anCache[anDays] = { t:Date.now(), rows }; }
+  }catch(err){
+    status.className = 'an-status err';
+    status.textContent = /relation|does not exist|schema cache/i.test(err.message||'')
+      ? 'Analytics isn’t set up yet. Run supabase/setup_leads_and_analytics.sql in your Supabase SQL Editor, then publish the site.'
+      : 'Couldn’t load analytics: ' + (err.message||err);
+    return;
+  }
+  const views = rows.filter(r=>r.event==='pageview');
+  const exits = rows.filter(r=>r.event==='page_exit' && r.duration_ms>0);
+  const forms = rows.filter(r=>r.event==='form_submit');
+  const clicks = rows.filter(r=>r.event==='click');
+  const shows = rows.filter(r=>r.event==='showcase_view');
+  const visitors = new Set(views.map(r=>r.visitor_id));
+  const sessions = new Set(views.map(r=>r.session_id));
+  const capped = exits.map(r=>Math.min(r.duration_ms, 30*60000));
+  const avg = capped.length ? capped.reduce((a,b)=>a+b,0)/capped.length : 0;
+
+  document.getElementById('an-visitors').textContent = visitors.size.toLocaleString();
+  document.getElementById('an-visitors-sub').textContent = `${sessions.size.toLocaleString()} visit${sessions.size===1?'':'s'}`;
+  document.getElementById('an-views').textContent = views.length.toLocaleString();
+  document.getElementById('an-views-sub').textContent = sessions.size ? `${(views.length/sessions.size).toFixed(1)} pages per visit` : 'Across all pages';
+  document.getElementById('an-time').textContent = fmtDur(avg);
+  const conv = visitors.size ? (new Set(forms.map(r=>r.visitor_id)).size/visitors.size*100) : 0;
+  document.getElementById('an-forms').textContent = forms.length.toLocaleString();
+  document.getElementById('an-forms-sub').textContent = `${conv.toFixed(conv && conv<10?1:0)}% of visitors`;
+
+  // Visitors per day (or per hour for Today)
+  const buckets = [];
+  if(anDays===1){
+    for(let h=0; h<24; h++){ const d=new Date(since); d.setHours(h); buckets.push({key:h, label:d.toLocaleTimeString('en-US',{hour:'numeric'}), short:d.toLocaleTimeString('en-US',{hour:'numeric'}).replace(' ',''), set:new Set()}); }
+    views.forEach(r=>{ const h=new Date(r.created_at).getHours(); buckets[h] && buckets[h].set.add(r.visitor_id); });
+    document.getElementById('an-chart-hint').textContent = 'Unique visitors per hour, today';
+  } else {
+    for(let i=0;i<anDays;i++){ const d=new Date(since); d.setDate(d.getDate()+i); buckets.push({key:d.toDateString(), label:d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}), short:d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'}), set:new Set()}); }
+    const idx = new Map(buckets.map((b,i)=>[b.key,i]));
+    views.forEach(r=>{ const i=idx.get(new Date(r.created_at).toDateString()); if(i!=null) buckets[i].set.add(r.visitor_id); });
+    document.getElementById('an-chart-hint').textContent = 'Unique visitors per day';
+  }
+  buckets.forEach(b=>b.v=b.set.size);
+  document.getElementById('an-chart').innerHTML = chartSVG(buckets);
+
+  // First page view per visitor decides their source, device and browser
+  const firstByVisitor = new Map();
+  [...views].reverse().forEach(r=>{ if(!firstByVisitor.has(r.visitor_id)) firstByVisitor.set(r.visitor_id, r); });
+  const firsts = [...firstByVisitor.values()];
+
+  document.getElementById('an-pages').innerHTML = listHTML(countBy(views, r=>pageName(r.path)));
+  document.getElementById('an-sources').innerHTML = listHTML(countBy(firsts, sourceName));
+  const clickKey = r => { if(!r.label) return null; let host=''; if(/^https?:/.test(r.target||'')){ try{ host = new URL(r.target).hostname.replace(/^www\./,''); }catch(e){} } return host ? `${r.label} (${host})` : r.label; };
+  document.getElementById('an-clicks').innerHTML = listHTML(countBy(clicks, clickKey), 10);
+  document.getElementById('an-showcase').innerHTML = listHTML(countBy(shows, r=>r.label));
+  document.getElementById('an-devices').innerHTML = listHTML(countBy(firsts, r=>r.device||'Unknown'));
+  document.getElementById('an-browsers').innerHTML = listHTML(countBy(firsts, r=>`${r.browser||'Other'} · ${r.os||'Other'}`));
+
+  // Recent activity
+  const describe = r => {
+    if(r.event==='pageview') return ['Viewed page', ''];
+    if(r.event==='click') return ['Clicked', r.label ? `“${r.label}”` : (r.target||'')];
+    if(r.event==='showcase_view') return ['Looked at example', r.label||''];
+    if(r.event==='form_submit') return ['Sent the contact form', r.label||''];
+    if(r.event==='page_exit') return ['Left page', `after ${fmtDur(r.duration_ms)}${r.scroll_pct!=null?`, scrolled ${r.scroll_pct}%`:''}`];
+    return [r.event,''];
+  };
+  const recent = rows.slice(0, 60);
+  document.getElementById('an-feed').innerHTML = recent.length ? recent.map(r=>{
+    const [what, extra] = describe(r);
+    const when = new Date(r.created_at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+    return `<tr><td class="an-sub">${esc(when)}</td><td><span class="an-vid"><i style="background:${vidColor(r.visitor_id)}"></i>${esc(String(r.visitor_id||'').slice(0,6))}</span></td><td><span class="an-ev">${esc(what)}</span> <span class="an-sub">${esc(extra)}</span></td><td>${esc(pageName(r.path))}</td><td class="an-sub">${esc([r.device,r.browser].filter(Boolean).join(' · '))}</td><td class="an-sub">${esc(r.event==='pageview'?sourceName(r):'')}</td></tr>`;
+  }).join('') : '<tr><td colspan="6" class="an-empty">No visitor activity yet for this period.</td></tr>';
+
+  const label = anDays===1 ? 'today' : `the last ${anDays} days`;
+  status.textContent = rows.length ? `Showing ${label} · updated ${new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}` : `No visits recorded for ${label} yet. New visits appear here within seconds.`;
 }
 
 // ─── PROJECTS / KANBAN ─────────────────────────
@@ -897,11 +1172,13 @@ const AI_SYSTEM = `You are a private AI business assistant for the owner of Cybe
 
 ABOUT CYBERPATRIOT:
 - Builds complete custom websites for local businesses — owner handles everything
-- Starter $199 (3 days): industry design, logo & colors, up to 3 sections, contact form
-- Standard $349 (5 days): full content written in, stock photos sourced
-- Premium $599 (7 days): everything + custom layout + hosting + domain setup
+- No fixed packages: every project gets a custom written quote based on time, effort and resources
+- Typical delivery is about a week (5–9 business days); the client owns the finished site
+- Optional monthly care plan for hosting and updates (cancel with 30 days' notice)
+- Payment: Zelle, Apple Pay, or check
 - Industries: Restaurant/Bar, Salon/Spa, Retail/Boutique, Contractors, Fitness, Professional Services
-- Website: patriot-websites.com — Formspree: https://formspree.io/f/xgojngea
+- Live client sites: Crow & Iron Tattoo Co., ThinkVision Consulting, Elevated Ink Tattoo Co.
+- Website: patrioticwebsites.com
 
 YOUR ROLE: Help the owner run their business efficiently.
 - Draft warm, professional emails to leads and clients
@@ -992,14 +1269,15 @@ function aiKeydown(e){
 function showTab(t){
   document.querySelectorAll('.panel,.chat-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
-  const tabs = ['overview','leads','projects','ai','marketing'];
+  const tabs = ['overview','leads','analytics','projects','ai','marketing'];
   document.getElementById('panel-'+t).classList.add('active');
   document.querySelectorAll('.navitem')[tabs.indexOf(t)].classList.add('active');
-  const titles = {overview:'Overview',leads:'Leads',projects:'Projects',ai:'AI Assistant',marketing:'Marketing'};
+  const titles = {overview:'Overview',leads:'Leads',analytics:'Analytics',projects:'Projects',ai:'AI Assistant',marketing:'Marketing'};
   document.getElementById('tabTitle').textContent = titles[t];
   currentTab = t;
-  if(t==='overview') renderOverview();
-  if(t==='leads') renderLeads();
+  if(t==='overview'){ renderOverview(); refreshLeads(); loadVisitorCount(); }
+  if(t==='leads') refreshLeads();
+  if(t==='analytics') loadAnalytics();
   if(t==='projects') renderKanban();
   if(t==='ai') initAiChat();
   if(t==='marketing') renderSaved();
@@ -1010,9 +1288,10 @@ const MKTG_SYSTEM = `You are a marketing AI for CyberPatriot, a done-for-you web
 
 ABOUT CYBERPATRIOT:
 - Builds complete websites for local businesses — client does nothing, we handle everything
-- Starter $199 (3 days), Standard $349 (5 days), Premium $599 (7 days + hosting/domain)
+- No fixed prices: every project gets a free custom quote; delivery in about a week; client owns the site
+- Optional monthly care plan for hosting and updates
 - Industries: Restaurant/Bar/Café, Salon/Spa/Barber, Retail/Boutique, Contractors, Fitness, Professional Services
-- Website: patriot-websites.com | Location: Martinsburg, WV
+- Website: patrioticwebsites.com | Location: Martinsburg, WV
 
 Generate persuasive, professional, ready-to-use marketing copy. No preamble — produce content immediately. Make social posts real and conversational, not corporate. Keep emails short. Always include a clear CTA.`;
 

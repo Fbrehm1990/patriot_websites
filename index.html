@@ -846,7 +846,9 @@ footer{padding-bottom:0;}
         <h3>Start your project</h3>
         <p>Fill this out and I'll be in touch within 24 hours.</p>
       </div>
-      <form action="https://formspree.io/f/xgojngea" method="POST">
+      <form id="contactForm" action="https://formspree.io/f/xgojngea" method="POST">
+        <!-- Spam trap: hidden from people, bots fill it in. Formspree also ignores submissions that fill it. -->
+        <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><label>Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="_next" value="https://patrioticwebsites.com/thank-you.html">
         <div class="form-grid">
           <div class="field"><label for="c-name">Your Name</label><input type="text" id="c-name" name="name" placeholder="Full name" required></div>
@@ -1048,6 +1050,9 @@ async function doAdminLogin(){
     localStorage.removeItem('cp_remembered_email');
   }
 
+  // Don't count the owner's own visits in website analytics
+  localStorage.setItem('cp_owner', '1');
+
   // Stamp session so SiteForge_Dashboard.html auto-unlocks
   sessionStorage.setItem('cp_auth_ts', Date.now().toString());
   window.location.href = 'SiteForge_Dashboard.html';
@@ -1086,6 +1091,39 @@ document.addEventListener('keydown', e => {
 });
 
 /* Stamp agreement timestamp on form submit */
+
+/* ── CONTACT FORM → dashboard leads ──
+   Saves each inquiry to Supabase (shows up in the dashboard), then continues
+   the normal Formspree submission (email notification + thank-you page). */
+(function(){
+  const form = document.getElementById('contactForm');
+  if(!form) return;
+  let sending = false;
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(sending) return;
+    sending = true;
+    stampAgreement();
+    const v = n => (form.elements[n] && form.elements[n].value || '').trim();
+    // Bots fill in the hidden field: skip saving and sending.
+    if(v('_gotcha')){ window.location.href = 'thank-you.html'; return; }
+    const btn = form.querySelector('button[type="submit"]');
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    const type = v('business_type') === 'Other' && v('business_type_other') ? 'Other: ' + v('business_type_other') : v('business_type');
+    try{
+      await Promise.race([
+        adminSupa.from('leads').insert({
+          name: v('name').slice(0,200), email: v('email').slice(0,200), business: v('business').slice(0,200),
+          business_type: type.slice(0,200), timeline: v('timeline').slice(0,100), message: v('message').slice(0,5000),
+          status: 'new', source: 'website'
+        }),
+        new Promise(r => setTimeout(r, 4000))
+      ]);
+    }catch(err){ /* never block the inquiry if the database is unreachable */ }
+    HTMLFormElement.prototype.submit.call(form);
+  });
+})();
+
 function stampAgreement(){
   const now = new Date();
   const stamp = now.getFullYear() + '-' +
@@ -1134,5 +1172,6 @@ function toggleOtherField(val){
   <span>Let's Talk</span>
 </button>
 
+<script src="analytics.js" defer></script>
 </body>
 </html>

@@ -199,9 +199,10 @@ nav.foot-links{flex-direction:row;flex-wrap:wrap;}
       </ul>
       <h3>Information collected automatically</h3>
       <ul>
-        <li>IP address and approximate location</li>
-        <li>Browser type and device information</li>
-        <li>Pages visited and time spent on site</li>
+        <li>Browser type, operating system, device type, screen size, language, and time zone</li>
+        <li>Pages visited, links and buttons clicked, how far you scroll, and time spent on each page</li>
+        <li>The website or campaign that referred you to our site</li>
+        <li>Our hosting provider may also log your IP address for security and to keep the site running</li>
       </ul>
     </div>
 
@@ -224,7 +225,7 @@ nav.foot-links{flex-direction:row;flex-wrap:wrap;}
       <p>The following third-party services may process your data as part of our operations:</p>
       <ul>
         <li><strong>Formspree</strong> — processes contact form submissions (formspree.io/legal/privacy-policy)</li>
-        <li><strong>Supabase</strong> — provides authentication and database services (supabase.com/privacy)</li>
+        <li><strong>Supabase</strong> — stores contact form submissions and our website analytics, and provides authentication and database services (supabase.com/privacy)</li>
         <li><strong>Netlify</strong> — hosts this website and collects server logs (netlify.com/privacy)</li>
       </ul>
     </div>
@@ -232,7 +233,10 @@ nav.foot-links{flex-direction:row;flex-wrap:wrap;}
     <div class="doc-section" id="s5">
       <span class="section-num">05</span>
       <h2>Cookies</h2>
-      <p>Our website uses only cookies necessary for the site to function. We do not use advertising or tracking cookies. If you use our owner dashboard, a session cookie keeps you logged in during your session.</p>
+      <p>Our website does not use advertising cookies or third-party tracking. If you use our owner dashboard, a session cookie keeps you logged in during your session.</p>
+      <h3>Website analytics</h3>
+      <p>To understand how visitors use our site, we run our own privacy-friendly analytics. When you visit, your browser stores a random, anonymous visitor ID in local storage, and we record the page activity listed in Section 2 along with that ID. This information is stored in our own database, is used only to improve our website, and is never sold or shared for advertising. It does not include anything you type into our contact form.</p>
+      <p>If your browser sends a <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, we do not record any analytics for your visit. You can also clear the visitor ID at any time by clearing your browser's site data.</p>
     </div>
 
     <div class="doc-section" id="s6">
@@ -319,5 +323,6 @@ const observer = new IntersectionObserver(entries => {
 }, {threshold:0.3, rootMargin:'-80px 0px -60% 0px'});
 sections.forEach(s => observer.observe(s));
 </script>
+<script src="analytics.js" defer></script>
 </body>
 </html>
